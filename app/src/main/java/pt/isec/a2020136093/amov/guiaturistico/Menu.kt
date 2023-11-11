@@ -10,13 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,51 +33,50 @@ fun Menu(
     navController: NavHostController?,
     vararg options: String
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(0.dp, 40.dp, 0.dp, 0.dp),
     ) {
         Text(
-            text= title,
-            fontSize = 48.sp,
-            //fontFamily = SketchesFont,
+            text = title,
+            textAlign = TextAlign.Center,
+            lineHeight = 45.sp,
+            fontSize = 50.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Serif,
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxHeight()
-                .wrapContentWidth()
-                .background(Color.DarkGray)
-                .padding(4.dp)
-                .background(Color.LightGray)
-                .padding(24.dp)
-                .widthIn(200.dp)
+                .fillMaxWidth()
+                .padding(0.dp, 50.dp, 0.dp, 0.dp)   // BOX DO TEXTO
+                .padding(16.dp) // TEXTO
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .align(Alignment.BottomCenter)
+                .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(0.6f)
                 .fillMaxHeight(0.75f)
         ) {
-            for(btnName in options)
+            for (btnName in options)
                 Button(
                     onClick = { navController?.navigate(btnName) },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(160,160,160)
+                        containerColor = Color(10, 10, 150)
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(0.dp, 25.dp, 0.dp, 10.dp)
                 ) {
                     Text(
                         text = btnName,
                         //fontFamily = SketchesFont,
                         fontSize = 24.sp,
                         modifier = Modifier
-                            .padding(16.dp)
+                            .padding(15.dp)
                     )
                 }
-
         }
     }
 }
