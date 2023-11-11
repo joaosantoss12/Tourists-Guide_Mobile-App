@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Trabalho Prático - Guia Turistico</string>
-    <string name="welcome">Bem-Vindo ao Guia Turístico!</string>
+    <string name="welcome">Guia Turístico</string>
     <string name="email_title" translatable="false">Email</string>
     <string name="email_label">Escreve o teu email</string>
     <string name="password_title" translatable="false">Password</string>
