@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
@@ -25,9 +26,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
@@ -44,10 +50,17 @@ fun LoginScreen(
     ) {
 
         Text(
-            text = "LOGIN SCREEN",
+            text = stringResource(R.string.login),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            style = TextStyle(
+                color = Color(10, 10, 150),
+                fontFamily = FontFamily.Serif,
+                fontSize = 30.sp, // Tamanho do texto
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center // Centraliza o texto
+            )
         )
 
         OutlinedTextField(
@@ -78,7 +91,12 @@ fun LoginScreen(
         Button(
             onClick = { navController.navigate("Home") },
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                contentColor = Color.White // Cor do texto do botão
+            ),
+            shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
         )
         {
             Text(text = stringResource(R.string.login_button))
