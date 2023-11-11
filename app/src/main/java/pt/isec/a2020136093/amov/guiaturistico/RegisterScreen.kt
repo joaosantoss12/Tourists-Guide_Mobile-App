@@ -51,6 +51,7 @@ fun RegisterScreen(
                 modifier = modifier
                         .padding(16.dp)
                         .verticalScroll(rememberScrollState())
+                        .background(Color.White)
         ) {
 
                 Image(

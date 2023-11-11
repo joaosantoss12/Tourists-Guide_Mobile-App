@@ -77,6 +77,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .background(Color.White)
     ){
         Text(
             text = stringResource(R.string.locations),

@@ -50,6 +50,7 @@ fun LoginScreen(
     Column(
         modifier = modifier
             .padding(16.dp)
+            .background(Color.White)
     ) {
 
         Image(
