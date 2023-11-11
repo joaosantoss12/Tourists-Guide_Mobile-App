@@ -32,6 +32,7 @@ import pt.isec.a2020136093.amov.guiaturistico.HomeScreen
 import pt.isec.a2020136093.amov.guiaturistico.LoginScreen
 import pt.isec.a2020136093.amov.guiaturistico.Menu
 import pt.isec.a2020136093.amov.guiaturistico.R
+import pt.isec.a2020136093.amov.guiaturistico.RegisterScreen
 
 const val MENU_SCREEN = "Menu"
 const val LOGIN_SCREEN = "Login"
@@ -125,7 +126,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
             }
 
             composable(REGISTER_SCREEN) {
-                //RegisterScreen()
+                RegisterScreen(navController)
             }
         }
     }
