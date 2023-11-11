@@ -125,7 +125,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                 RegisterScreen(navController)
             }
             composable(HOME_SCREEN) {
-                HomeScreen()
+                HomeScreen(navController)
             }
         }
     }

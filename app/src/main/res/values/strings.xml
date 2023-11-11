@@ -11,4 +11,8 @@
     <string name="createAccount">Criar uma Conta</string>
     <string name="already_have_account">Já tem uma conta?</string>
     <string name="login">Login</string>
+    <string name="filters_title">Filtros:</string>
+    <string name="distance_close_to_far">Distância ▲</string>
+    <string name="distance_far_to_close">Distância ▼</string>
+    <string name="none">Nenhum</string>
 </resources>
