@@ -109,7 +109,7 @@ fun LoginScreen(
             shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
         )
         {
-            Text(text = stringResource(R.string.login_button))
+            Text(text = stringResource(R.string.login))
         }
     }
 }

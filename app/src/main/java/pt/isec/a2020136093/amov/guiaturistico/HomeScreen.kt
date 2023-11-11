@@ -79,7 +79,7 @@ fun HomeScreen(
             .padding(16.dp)
     ){
         Text(
-            text = "HOME SCREEN",
+            text = stringResource(R.string.locations),
             textAlign = TextAlign.Center,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold,
@@ -141,7 +141,7 @@ fun HomeScreen(
 
             Column(
                 modifier = Modifier
-                    .padding(0.dp,20.dp, 0.dp, 0.dp)
+                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
                     .verticalScroll(rememberScrollState())
             ) {
                 Column(

@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import pt.isec.a2020136093.amov.guiaturistico.CreditsScreen
 import pt.isec.a2020136093.amov.guiaturistico.HomeScreen
 import pt.isec.a2020136093.amov.guiaturistico.LoginScreen
 import pt.isec.a2020136093.amov.guiaturistico.Menu
@@ -39,6 +40,8 @@ const val LOGIN_SCREEN = "Login"
 const val REGISTER_SCREEN = "Register"
 
 const val HOME_SCREEN = "Home"
+
+const val CREDITS_SCREEN = "Credits"
 
 
 @Composable
@@ -114,8 +117,6 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                 Menu(
                     stringResource(R.string.welcome),
                     navController,
-                    LOGIN_SCREEN,
-                    REGISTER_SCREEN
                 )
             }
             composable(LOGIN_SCREEN) {
@@ -126,6 +127,10 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
             }
             composable(HOME_SCREEN) {
                 HomeScreen(navController)
+            }
+
+            composable(CREDITS_SCREEN){
+                CreditsScreen(navController)
             }
         }
     }

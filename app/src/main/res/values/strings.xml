@@ -5,9 +5,8 @@
     <string name="email_label">Escreve o teu email</string>
     <string name="password_title" translatable="false">Password</string>
     <string name="password_label">Escreve a tua password</string>
-    <string name="login_button" translatable="false">Login</string>
     <string name="name_title" translatable="false">Nome</string>
-    <string name="register_button" translatable="false">Login</string>
+    <string name="register">Registar</string>
     <string name="createAccount">Criar uma Conta</string>
     <string name="already_have_account">Já tem uma conta?</string>
     <string name="login">Login</string>
@@ -15,4 +14,6 @@
     <string name="distance_close_to_far">Distância ▲</string>
     <string name="distance_far_to_close">Distância ▼</string>
     <string name="none">Nenhum</string>
+    <string name="locations">LOCALIZAÇÕES</string>
+    <string name="credits">Créditos</string>
 </resources>

@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,7 +37,6 @@ import androidx.navigation.NavHostController
 fun Menu(
     title: String,
     navController: NavHostController?,
-    vararg options: String
 ) {
     GradientBackground()
     Column(
@@ -72,26 +72,66 @@ fun Menu(
                 .fillMaxWidth(0.6f)
                 .fillMaxHeight(0.75f)
         ) {
-            for (btnName in options)
+            Column(
+
+            ) {
                 Button(
-                    onClick = { navController?.navigate(btnName) },
+                    onClick = { navController?.navigate("Register") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color(10, 10, 150) // Cor do texto do botão
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(0.dp, 25.dp, 0.dp, 10.dp)
-
+                        .padding(0.dp, 10.dp, 0.dp, 10.dp)
                 ) {
                     Text(
-                        text = btnName,
+                        text = stringResource(R.string.register),
                         //fontFamily = SketchesFont,
-                        fontSize = 15.sp,
+                        fontSize = 20.sp,
                         modifier = Modifier
-                            .padding(15.dp)
+                            .padding(0.dp, 3.dp, 0.dp, 3.dp)
                     )
                 }
+
+                Button(
+                    onClick = { navController?.navigate("Login") },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color(10, 10, 150) // Cor do texto do botão
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.login),
+                        //fontFamily = SketchesFont,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .padding(0.dp, 3.dp, 0.dp, 3.dp)
+                    )
+                }
+
+                Button(
+                    onClick = { navController?.navigate("Credits") },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color(10, 10, 150) // Cor do texto do botão
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.credits),
+                        //fontFamily = SketchesFont,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .padding(0.dp, 3.dp, 0.dp, 3.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -117,5 +157,5 @@ fun GradientBackground() {
 @Preview
 @Composable
 fun MenuPreview() {
-    Menu("Sketches", null, "Solid", "Gallery", "Camera", "List")
+    //Menu("Sketches", null, "Solid", "Gallery", "Camera", "List")
 }
