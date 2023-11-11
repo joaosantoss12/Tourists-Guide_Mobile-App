@@ -3,6 +3,7 @@ package pt.isec.a2020136093.amov.guiaturistico
 import android.R.attr.fontWeight
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
