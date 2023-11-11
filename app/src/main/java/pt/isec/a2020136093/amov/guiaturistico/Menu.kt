@@ -1,6 +1,9 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,17 +38,25 @@ fun Menu(
     navController: NavHostController?,
     vararg options: String
 ) {
+    GradientBackground()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(0.dp, 40.dp, 0.dp, 0.dp),
     ) {
+        Image(
+            painter = painterResource(R.drawable.imagem3png), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
+            contentDescription = null, // Descrição da imagem (opcional)
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+
         Text(
             text = title,
             textAlign = TextAlign.Center,
             lineHeight = 45.sp,
             fontSize = 50.sp,
-            color = Color.Black,
+            color = Color.White,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Serif,
             modifier = Modifier
@@ -63,20 +76,40 @@ fun Menu(
                 Button(
                     onClick = { navController?.navigate(btnName) },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(10, 10, 150)
+                        containerColor = Color.White,
+                        contentColor = Color(10, 10, 150) // Cor do texto do botão
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(0.dp, 25.dp, 0.dp, 10.dp)
+
                 ) {
                     Text(
                         text = btnName,
                         //fontFamily = SketchesFont,
-                        fontSize = 24.sp,
+                        fontSize = 15.sp,
                         modifier = Modifier
                             .padding(15.dp)
                     )
                 }
+        }
+    }
+}
+
+@Composable
+fun GradientBackground() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawRect(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.White, Color(10, 10, 150)), // Cores para o degradê
+                    startY = 0f,
+                    endY = size.height * 0.99f
+                )
+            )
         }
     }
 }
