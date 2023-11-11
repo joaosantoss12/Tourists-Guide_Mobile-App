@@ -1,9 +1,12 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,9 +15,13 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,8 +39,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -50,7 +59,14 @@ fun HomeScreen(
     modifier : Modifier = Modifier
 ) {
 
-    val filtersList = listOf("A-Z", "Z-A", stringResource(R.string.distance_close_to_far), stringResource(R.string.distance_far_to_close))
+    val filtersListAlfabeto = listOf(
+        "A-Z",
+        "Z-A",
+    )
+    val filtersListDistancia = listOf(
+        stringResource(R.string.distance_close_to_far),
+        stringResource(R.string.distance_far_to_close)
+    )
     var expanded by remember { mutableStateOf(false) }
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
@@ -74,49 +90,129 @@ fun HomeScreen(
                 .padding(16.dp)
         )
 
-        // box
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            },
-            modifier = Modifier
-                .padding(0.dp,20.dp,0.dp,0.dp)
+        Column(
+
         ) {
-            // text field
-            TextField(
-                value = selectedItem,
-                onValueChange = {},
-                readOnly = true,
-                label = {
-                    Text(text = stringResource(R.string.filters_title))
-                },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded
-                    )
-                },
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
 
-            // menu
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+
+            Column(
+
             ) {
-
-                filtersList.forEach { selectedOption ->
-
-                    DropdownMenuItem(
-                        text = { Text(text = selectedOption) },
-                        onClick = {
-                            selectedItem = selectedOption
-                            expanded = false
+                Row(
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                ) {
+                    filtersListAlfabeto.forEach { filter ->
+                        Button(
+                            onClick = { selectedItem = filter },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                                contentColor = Color.White // Cor do texto do botão
+                            ),
+                        ) {
+                            Text(
+                                text = filter
+                            )
                         }
-                    )
+                    }
                 }
+                Row(
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    filtersListDistancia.forEach { filter ->
+                        Button(
+                            onClick = { selectedItem = filter },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                                contentColor = Color.White // Cor do texto do botão
+                            ),
+                        ) {
+                            Text(
+                                text = filter
+                            )
+                        }
+                    }
+                }
+            }       // END OF FILTERS COLUMN
+
+            Column(
+                modifier = Modifier
+                    .padding(0.dp,20.dp, 0.dp, 0.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "•┈••✦ Coimbra ✦••┈•",
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.coimbra),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }       // COIMBRA COLUMN
+
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "•┈••✦ Lisboa ✦••┈•",
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.lisboa),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }       // LISBON COLUMN
+
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "•┈••✦ Porto ✦••┈•",
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.porto),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }       // PORTO COLUMN
+
+
             }
-        }
+
+        }           // END OF HOME SCREEN COLUMN
+
+
     }
 }
 
