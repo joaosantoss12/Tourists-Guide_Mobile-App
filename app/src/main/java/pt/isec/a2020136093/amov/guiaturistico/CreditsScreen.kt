@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -58,7 +59,71 @@ fun CreditsScreen(
     modifier : Modifier = Modifier
 ) {
 
-    Text(text = "CREDITS SCREEN")
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Text(
+            text = "CRÉDITOS",
+            textAlign = TextAlign.Center,
+            fontSize = 50.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Serif,
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Text(
+            text = "Beatriz Isabel Inácio Maia",
+            textAlign = TextAlign.Center,
+            fontSize = 23.sp,
+            fontFamily = FontFamily.Serif,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            text = "2020128841",
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            fontFamily = FontFamily.Serif,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "João Miguel Duarte dos Santos",
+            textAlign = TextAlign.Center,
+            fontSize = 23.sp,
+            fontFamily = FontFamily.Serif,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            text = "2020136093",
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            fontFamily = FontFamily.Serif,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(50.dp))
+        Text(
+            text = "APLICAÇÕES MÓVEIS", // Replace with the subject name
+            fontSize = 30.sp,
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
 }
 
 

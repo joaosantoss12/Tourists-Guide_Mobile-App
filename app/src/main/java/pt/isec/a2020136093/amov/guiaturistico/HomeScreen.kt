@@ -164,8 +164,7 @@ fun HomeScreen(
 
 
                 Card(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxWidth(),
                     elevation= CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(
                         containerColor= Color.White
@@ -195,7 +194,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { /*TODO*/ }) {
                                 Text(text ="Ver localizacões")
@@ -205,11 +204,10 @@ fun HomeScreen(
                     }
                 } //LISBOA CARD
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Card(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxWidth(),
                     elevation= CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(
                         containerColor= Color.White
@@ -239,7 +237,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { /*TODO*/ }) {
                                 Text(text ="Ver localizacões")
@@ -249,11 +247,10 @@ fun HomeScreen(
                     }
                 } //PORTO CARD
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Card(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxWidth(),
                     elevation= CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(
                         containerColor= Color.White
@@ -283,7 +280,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { /*TODO*/ }) {
                                 Text(text ="Ver localizacões")
@@ -292,11 +289,10 @@ fun HomeScreen(
                     }
                 } //COIMBRA CARD
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Card(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxWidth(),
                     elevation= CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(
                         containerColor= Color.White
@@ -326,7 +322,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { /*TODO*/ }) {
                                 Text(text ="Ver localizacões")
@@ -336,13 +332,10 @@ fun HomeScreen(
                     }
                 } //FARO CARD
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Card(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxWidth(),
                     elevation= CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(
                         containerColor= Color.White
@@ -372,7 +365,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { /*TODO*/ }) {
                                 Text(text ="Ver localizacões")
@@ -380,6 +373,11 @@ fun HomeScreen(
                         }
                     }
                 } //AVEIRO CARD
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+
+                // MAIS CARDS
 
 
 
