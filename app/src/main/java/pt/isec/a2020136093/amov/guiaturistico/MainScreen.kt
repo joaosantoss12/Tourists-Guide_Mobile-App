@@ -1,6 +1,7 @@
 package pt.isec.a2020136093.amov
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 import androidx.navigation.compose.NavHost
@@ -30,6 +33,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import pt.isec.a2020136093.amov.guiaturistico.CreditsScreen
 import pt.isec.a2020136093.amov.guiaturistico.HomeScreen
+import pt.isec.a2020136093.amov.guiaturistico.InterestsScreen
 import pt.isec.a2020136093.amov.guiaturistico.LoginScreen
 import pt.isec.a2020136093.amov.guiaturistico.Menu
 import pt.isec.a2020136093.amov.guiaturistico.R
@@ -40,18 +44,23 @@ const val LOGIN_SCREEN = "Login"
 const val REGISTER_SCREEN = "Register"
 
 const val HOME_SCREEN = "Home"
+const val INTERESTS_SCREEN = "Interests"
 
 const val CREDITS_SCREEN = "Credits"
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()) {
 
+    var showAppBar by remember { mutableStateOf(false) }
     var navigateAfterRegister by remember { mutableStateOf(false) }
     var navigateAfterLogin by remember { mutableStateOf(false) }
 
 
     navController.addOnDestinationChangedListener{ controller, destination, arguments ->
+        //showAppBar = (destination.route != MENU_SCREEN)
+
         navigateAfterRegister = destination.route in arrayOf(
             REGISTER_SCREEN
         )
@@ -61,10 +70,10 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
     }
 
     Scaffold (
-        /*topBar = {
+        topBar = {
             if(showAppBar)
                 TopAppBar(
-                    title = { Text(text = stringResource()) },
+                    title = { Text(text = "") },
                     navigationIcon = {
                         IconButton(onClick = { navController.navigateUp() }) {
                             Icon(
@@ -74,7 +83,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                         }
                     },
                     actions = {
-                        if(showAddAction)
+                       /* if(showAddAction)
                             IconButton(onClick = {
                                 navController.popBackStack()    // VOLTA PARA O MENU INICIAL
                                 navController.navigate(DRAWING_SCREEN)
@@ -94,17 +103,20 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                                     Icons.Filled.Done,
                                     contentDescription = "Done",
                                 )
-                            }
+                            }*/
                     },
                     colors = topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
+                        containerColor = Color(10,10,150),
                         titleContentColor = Color.White,
                         navigationIconContentColor = Color.White,
                         actionIconContentColor = MaterialTheme.colorScheme.inversePrimary,
                     ),
+                    modifier = Modifier
+                        .height(50.dp)
                 )
-        },*/
-        modifier = Modifier.fillMaxSize()
+        },
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         NavHost(
             navController = navController,
@@ -127,6 +139,9 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
             }
             composable(HOME_SCREEN) {
                 HomeScreen(navController)
+            }
+            composable(INTERESTS_SCREEN) {
+                InterestsScreen(navController)
             }
 
             composable(CREDITS_SCREEN){

@@ -1,82 +1,51 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
-import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MenuDefaults
-import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderColors
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
-import kotlinx.coroutines.selects.select
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun InterestsScreen(
     navController: NavController,
-    modifier : Modifier = Modifier
 ) {
-
     val filtersList = listOf(
+        "CATEGORIA A",
+        "CATEGORIA B",
+        "CATEGORIA C",
         "A-Z",
         "Z-A",
         stringResource(R.string.distance_close_to_far),
@@ -96,7 +65,8 @@ fun HomeScreen(
             .background(Color.White)
     ){
         Text(
-            text = stringResource(R.string.locations),
+            text = stringResource(R.string.points_of_interest),
+            lineHeight = 30.sp,
             textAlign = TextAlign.Center,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold,
@@ -169,7 +139,7 @@ fun HomeScreen(
                 ) {
                     Column (modifier= Modifier.fillMaxSize()){
                         Image(painter= painterResource(R.drawable.lisboa),contentDescription = null)
-                        Text(text = "Lisboa",
+                        Text(text = "Museu do Fado",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -194,7 +164,7 @@ fun HomeScreen(
                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Ver locais de interesse")
+                                Text(text ="Selecionar")
                             }
                         }
 
@@ -212,7 +182,7 @@ fun HomeScreen(
                 ) {
                     Column (modifier= Modifier.fillMaxSize()){
                         Image(painter= painterResource(R.drawable.porto),contentDescription = null)
-                        Text(text = "Porto",
+                        Text(text = "Museu do Vinho do Porto",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -237,7 +207,7 @@ fun HomeScreen(
                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Ver locais de interesse")
+                                Text(text ="Selecionar")
                             }
                         }
 
@@ -255,7 +225,7 @@ fun HomeScreen(
                 ) {
                     Column (modifier= Modifier.fillMaxSize()){
                         Image(painter= painterResource(R.drawable.coimbra),contentDescription = null)
-                        Text(text = "Coimbra",
+                        Text(text = "Universidade de Coimbra",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -280,7 +250,7 @@ fun HomeScreen(
                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Ver locais de interesse")
+                                Text(text ="Selecionar")
                             }
                         }
                     }
@@ -297,7 +267,7 @@ fun HomeScreen(
                 ) {
                     Column (modifier= Modifier.fillMaxSize()){
                         Image(painter= painterResource(R.drawable.faro),contentDescription = null)
-                        Text(text = "Faro",
+                        Text(text = "Campo Desportivo de Faro",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -322,7 +292,7 @@ fun HomeScreen(
                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Ver locais de interesse")
+                                Text(text ="Selecionar")
                             }
                         }
 
@@ -340,7 +310,7 @@ fun HomeScreen(
                 ) {
                     Column (modifier= Modifier.fillMaxSize()){
                         Image(painter= painterResource(R.drawable.aveiro),contentDescription = null)
-                        Text(text = "Aveiro",
+                        Text(text = "Castelo de Aveiro",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -365,7 +335,7 @@ fun HomeScreen(
                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                             horizontalArrangement = Arrangement.Center){
                             OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Ver locais de interesse")
+                                Text(text ="Selecionar")
                             }
                         }
                     }
@@ -380,71 +350,6 @@ fun HomeScreen(
 
 
 
-                /* Column(
-                     modifier = Modifier
-                         .padding(0.dp, 10.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Coimbra ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.coimbra),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // COIMBRA COLUMN
-
-                 Column(
-                     modifier = Modifier
-                         .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Lisboa ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.lisboa),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // LISBON COLUMN
-
-                 Column(
-                     modifier = Modifier
-                         .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Porto ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.porto),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // PORTO COLUMN*/
-
-
-
             }
 
 
@@ -453,11 +358,4 @@ fun HomeScreen(
 
 
     }
-}
-
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    //LoginScreen()
 }
