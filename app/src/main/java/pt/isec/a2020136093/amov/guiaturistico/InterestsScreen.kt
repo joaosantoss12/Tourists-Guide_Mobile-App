@@ -41,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -143,7 +142,6 @@ fun InterestsScreen(
                     .verticalScroll(rememberScrollState())
             ) {
 
-
                 @Composable
                 fun AddCategoryButton(onClick: () -> Unit) {
                     Box(
@@ -192,7 +190,6 @@ fun InterestsScreen(
                             modifier = Modifier
                                 .align(Alignment.BottomStart)
                                 .padding(8.dp)
-
                         )
                     }
                 }
@@ -222,7 +219,6 @@ fun InterestsScreen(
                         })
                     }
                 }
-
 
 
                 Card(modifier= Modifier
