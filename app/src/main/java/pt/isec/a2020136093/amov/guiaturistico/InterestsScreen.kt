@@ -2,22 +2,34 @@ package pt.isec.a2020136093.amov.guiaturistico
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -26,8 +38,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -43,9 +59,6 @@ fun InterestsScreen(
     navController: NavController,
 ) {
     val filtersList = listOf(
-        "CATEGORIA A",
-        "CATEGORIA B",
-        "CATEGORIA C",
         "A-Z",
         "Z-A",
         stringResource(R.string.distance_close_to_far),
@@ -123,11 +136,93 @@ fun InterestsScreen(
 
 
 
+
             Column(
                 modifier = Modifier
                     .padding(0.dp, 20.dp, 0.dp, 0.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+
+
+                @Composable
+                fun AddCategoryButton(onClick: () -> Unit) {
+                    Box(
+                        modifier = Modifier
+                            .clickable(onClick = onClick)
+                            .padding(8.dp)
+                            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp))
+                            .height(120.dp)
+                            .width(120.dp)
+                            .clip(shape = RoundedCornerShape(8.dp))
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+                }
+
+
+                @Composable
+                fun CategoryItem(category: String, imageResId: Int, onClick: () -> Unit) {
+                    Box(
+                        modifier = Modifier
+                            .clickable(onClick = onClick)
+                            .padding(8.dp)
+                    ) {
+                        // Add an Image with the category text overlay
+                        Image(
+                            painter = painterResource(id = imageResId),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(120.dp)
+                                .width(120.dp)
+                                .clip(shape = RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                        Text(
+                            text = category,
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(8.dp)
+
+                        )
+                    }
+                }
+
+
+                LazyRow(
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val categories = listOf(
+                        "Museus" to R.drawable.museu1,
+                        "Monumentos" to R.drawable.igrejap,
+                        "Jardins" to R.drawable.jardim,
+                        "Miradouros" to R.drawable.miradouro,
+                        "Restaurantes" to R.drawable.restaurante,
+                        "Alojamentos" to R.drawable.hotel,
+                    )
+
+                    items(categories) { (category, imageResId) ->
+                        CategoryItem(category, imageResId) {
+                            // Handle click on category, you can navigate or perform an action
+                        }
+                    }
+                    item {
+                        AddCategoryButton(onClick = {
+                            // Handle click on the button, you can add logic to add a new category
+                        })
+                    }
+                }
+
 
 
                 Card(modifier= Modifier

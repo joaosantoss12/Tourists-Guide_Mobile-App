@@ -17,4 +17,5 @@
     <string name="locations">LOCALIZAÇÕES</string>
     <string name="credits">Créditos</string>
     <string name="points_of_interest">LOCAIS DE INTERESSE</string>
+    <string name="adicionaLocal">Adicionar Localização</string>
 </resources>

@@ -150,7 +150,21 @@ fun HomeScreen(
                 }
             }
 
+            Button(
+                onClick = {  },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
 
+                    containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                    contentColor = Color.White // Cor do texto do botão
+                ),
+                shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+            )
+            {
+                Text(text = stringResource(R.string.adicionaLocal))
+            }
 
 
             Column(
