@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 
 @Composable
 fun Menu(
@@ -45,8 +46,8 @@ fun Menu(
             .padding(0.dp, 40.dp, 0.dp, 0.dp),
     ) {
         Image(
-            painter = painterResource(R.drawable.imagem3png), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
-            contentDescription = null, // Descrição da imagem (opcional)
+            painter = painterResource(R.drawable.imagem3png),
+            contentDescription = null, // Descrição da imagem
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -55,10 +56,10 @@ fun Menu(
             text = title,
             textAlign = TextAlign.Center,
             lineHeight = 45.sp,
-            fontSize = 50.sp,
+            fontSize = 40.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Serif,
+            fontFamily = RegularFont,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 50.dp, 0.dp, 0.dp)   // BOX DO TEXTO

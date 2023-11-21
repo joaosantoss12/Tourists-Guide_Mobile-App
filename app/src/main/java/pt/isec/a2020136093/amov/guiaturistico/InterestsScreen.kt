@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,9 +81,9 @@ fun InterestsScreen(
             text = stringResource(R.string.points_of_interest),
             lineHeight = 30.sp,
             textAlign = TextAlign.Center,
-            fontSize = 35.sp,
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Serif,
+            fontFamily = RegularFont,
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
@@ -131,7 +132,6 @@ fun InterestsScreen(
 
                 }
             }
-
 
 
 

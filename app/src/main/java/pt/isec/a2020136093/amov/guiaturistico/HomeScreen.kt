@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import kotlinx.coroutines.selects.select
+import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +101,7 @@ fun HomeScreen(
             textAlign = TextAlign.Center,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Serif,
+            fontFamily = RegularFont,
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,21 +151,6 @@ fun HomeScreen(
                 }
             }
 
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-
-                    containerColor = Color(10, 10, 150), // Cor de fundo do botão
-                    contentColor = Color.White // Cor do texto do botão
-                ),
-                shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
-            )
-            {
-                Text(text = stringResource(R.string.adicionaLocal))
-            }
 
 
             Column(
@@ -172,6 +158,22 @@ fun HomeScreen(
                     .padding(0.dp, 20.dp, 0.dp, 0.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+
+                Button(
+                    onClick = {  },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+
+                        containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                        contentColor = Color.White // Cor do texto do botão
+                    ),
+                    shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+                )
+                {
+                    Text(text = stringResource(R.string.adicionaLocal))
+                }
 
 
                 Card(modifier= Modifier

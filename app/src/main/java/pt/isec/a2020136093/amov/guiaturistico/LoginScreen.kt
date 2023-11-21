@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 
 @Composable
 fun LoginScreen(
@@ -67,7 +68,7 @@ fun LoginScreen(
                 .padding(16.dp),
             style = TextStyle(
                 color = Color(10, 10, 150),
-                fontFamily = FontFamily.Serif,
+                fontFamily = RegularFont,
                 fontSize = 30.sp, // Tamanho do texto
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center // Centraliza o texto

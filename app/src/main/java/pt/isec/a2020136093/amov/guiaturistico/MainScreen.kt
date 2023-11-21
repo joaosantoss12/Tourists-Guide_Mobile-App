@@ -127,7 +127,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
         ) {
             composable("Menu") {
                 Menu(
-                    stringResource(R.string.welcome),
+                    stringResource(R.string.nameApp),
                     navController,
                 )
             }
