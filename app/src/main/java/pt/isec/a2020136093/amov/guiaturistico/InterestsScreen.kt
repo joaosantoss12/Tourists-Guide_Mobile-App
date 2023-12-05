@@ -22,6 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -70,383 +72,449 @@ fun InterestsScreen(
     var selectedItem by remember { mutableStateOf(none) }
 
 
-    Column(
-
+    Column(     // EM TELEMOVEIS DARK MODE FICAVA UMA MARGEM PRETA
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
             .background(Color.White)
-    ){
-        Text(
-            text = stringResource(R.string.points_of_interest),
-            lineHeight = 30.sp,
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = RegularFont,
-            color = Color.Black,
+    ) {
+        Column(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-        )
-
-        Column(
-
+                .background(Color.White)
         ) {
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = {expanded = !expanded},
-            ) {
-                TextField(
-                    value = selectedItem,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-
-                    filtersList.forEach { filter ->
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    text = filter,
-                                    fontSize = 17.sp,
-                                )
-                            },
-                            onClick = {
-                                selectedItem = filter
-                                expanded = false
-                            },
-                        )
-                    }
-
-                }
-            }
-
-
-
+            Text(
+                text = stringResource(R.string.points_of_interest),
+                lineHeight = 30.sp,
+                textAlign = TextAlign.Center,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = RegularFont,
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 10.dp, 16.dp, 20.dp)
+            )
 
             Column(
-                modifier = Modifier
-                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
-                    .verticalScroll(rememberScrollState())
+
             ) {
-
-                @Composable
-                fun AddCategoryButton(onClick: () -> Unit) {
-                    Box(
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                ) {
+                    TextField(
+                        value = selectedItem,
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
                         modifier = Modifier
-                            .clickable(onClick = onClick)
-                            .padding(8.dp)
-                            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp))
-                            .height(120.dp)
-                            .width(120.dp)
-                            .clip(shape = RoundedCornerShape(8.dp))
+                            .fillMaxWidth()
+                            .menuAnchor()
+                    )
+
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .align(Alignment.Center)
-                        )
+
+                        filtersList.forEach { filter ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = filter,
+                                        fontSize = 17.sp,
+                                    )
+                                },
+                                onClick = {
+                                    selectedItem = filter
+                                    expanded = false
+                                },
+                            )
+                        }
+
                     }
                 }
 
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
 
-                @Composable
-                fun CategoryItem(category: String, imageResId: Int, onClick: () -> Unit) {
-                    Box(
+                    LazyRow(
+
+                    ) {
+                        val categories = listOf(
+                            "Museus" to R.drawable.museu1,
+                            "Monumentos" to R.drawable.igrejap,
+                            "Jardins" to R.drawable.jardim,
+                            "Miradouros" to R.drawable.miradouro,
+                            "Restaurantes" to R.drawable.restaurante,
+                            "Alojamentos" to R.drawable.hotel,
+                        )
+
+                        items(categories) { (category, imageResId) ->
+                            CategoryItem(category, imageResId) {
+                                // Handle click on category, you can navigate or perform an action
+                            }
+                        }
+                        item {
+                            AddCategoryButton(onClick = {
+                                // Handle click on the button, you can add logic to add a new category
+                            })
+                        }
+                    }
+
+
+                    Button(
+                        onClick = { },
                         modifier = Modifier
-                            .clickable(onClick = onClick)
-                            .padding(8.dp)
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+
+                            containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                            contentColor = Color.White // Cor do texto do botão
+                        ),
+                        shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+                    )
+                    {
+                        Text(text = stringResource(R.string.adicionaLocalInteresse))
+                    }
+
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
                     ) {
-                        // Add an Image with the category text overlay
-                        Image(
-                            painter = painterResource(id = imageResId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(120.dp)
-                                .width(120.dp)
-                                .clip(shape = RoundedCornerShape(8.dp)),
-                            contentScale = ContentScale.Crop
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(R.drawable.lisboa),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = "Museu do Fado",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = "Descrição",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    Text(text = "Selecionar")
+                                }
+                            }
+
+                        }
+                    } //LISBOA CARD
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
                         )
-                        Text(
-                            text = category,
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .align(Alignment.BottomStart)
-                                .padding(8.dp)
+                    ) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(R.drawable.porto),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = "Museu do Vinho do Porto",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = "Descrição",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    Text(text = "Selecionar")
+                                }
+                            }
+
+                        }
+                    } //PORTO CARD
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
                         )
-                    }
+                    ) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(R.drawable.coimbra),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = "Universidade de Coimbra",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = "Descrição",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    Text(text = "Selecionar")
+                                }
+                            }
+                        }
+                    } //COIMBRA CARD
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(R.drawable.faro),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = "Campo Desportivo de Faro",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = "Descrição",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    Text(text = "Selecionar")
+                                }
+                            }
+
+                        }
+                    } //FARO CARD
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(R.drawable.aveiro),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = "Castelo de Aveiro",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = "Descrição",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    Text(text = "Selecionar")
+                                }
+                            }
+                        }
+                    } //AVEIRO CARD
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+
+                    // MAIS CARDS
+
+
                 }
 
 
-                LazyRow(
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val categories = listOf(
-                        "Museus" to R.drawable.museu1,
-                        "Monumentos" to R.drawable.igrejap,
-                        "Jardins" to R.drawable.jardim,
-                        "Miradouros" to R.drawable.miradouro,
-                        "Restaurantes" to R.drawable.restaurante,
-                        "Alojamentos" to R.drawable.hotel,
-                    )
-
-                    items(categories) { (category, imageResId) ->
-                        CategoryItem(category, imageResId) {
-                            // Handle click on category, you can navigate or perform an action
-                        }
-                    }
-                    item {
-                        AddCategoryButton(onClick = {
-                            // Handle click on the button, you can add logic to add a new category
-                        })
-                    }
-                }
+            }           // END OF HOME SCREEN COLUMN
 
 
-                Card(modifier= Modifier
-                    .fillMaxWidth(),
-                    elevation= CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor= Color.White
-                    )
-                ) {
-                    Column (modifier= Modifier.fillMaxSize()){
-                        Image(painter= painterResource(R.drawable.lisboa),contentDescription = null)
-                        Text(text = "Museu do Fado",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black)
-
-                        Text(text = "Descrição",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            maxLines=3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray)
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                            horizontalArrangement = Arrangement.Center){
-                            OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Selecionar")
-                            }
-                        }
-
-                    }
-                } //LISBOA CARD
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Card(modifier= Modifier
-                    .fillMaxWidth(),
-                    elevation= CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor= Color.White
-                    )
-                ) {
-                    Column (modifier= Modifier.fillMaxSize()){
-                        Image(painter= painterResource(R.drawable.porto),contentDescription = null)
-                        Text(text = "Museu do Vinho do Porto",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black)
-
-                        Text(text = "Descrição",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            maxLines=3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray)
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                            horizontalArrangement = Arrangement.Center){
-                            OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Selecionar")
-                            }
-                        }
-
-                    }
-                } //PORTO CARD
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Card(modifier= Modifier
-                    .fillMaxWidth(),
-                    elevation= CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor= Color.White
-                    )
-                ) {
-                    Column (modifier= Modifier.fillMaxSize()){
-                        Image(painter= painterResource(R.drawable.coimbra),contentDescription = null)
-                        Text(text = "Universidade de Coimbra",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black)
-
-                        Text(text = "Descrição",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            maxLines=3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray)
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                            horizontalArrangement = Arrangement.Center){
-                            OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Selecionar")
-                            }
-                        }
-                    }
-                } //COIMBRA CARD
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Card(modifier= Modifier
-                    .fillMaxWidth(),
-                    elevation= CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor= Color.White
-                    )
-                ) {
-                    Column (modifier= Modifier.fillMaxSize()){
-                        Image(painter= painterResource(R.drawable.faro),contentDescription = null)
-                        Text(text = "Campo Desportivo de Faro",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black)
-
-                        Text(text = "Descrição",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            maxLines=3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray)
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                            horizontalArrangement = Arrangement.Center){
-                            OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Selecionar")
-                            }
-                        }
-
-                    }
-                } //FARO CARD
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Card(modifier= Modifier
-                    .fillMaxWidth(),
-                    elevation= CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor= Color.White
-                    )
-                ) {
-                    Column (modifier= Modifier.fillMaxSize()){
-                        Image(painter= painterResource(R.drawable.aveiro),contentDescription = null)
-                        Text(text = "Castelo de Aveiro",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black)
-
-                        Text(text = "Descrição",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            maxLines=3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray)
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                            horizontalArrangement = Arrangement.Center){
-                            OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                Text(text ="Selecionar")
-                            }
-                        }
-                    }
-                } //AVEIRO CARD
-
-                Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+}
 
 
-                // MAIS CARDS
+@Composable
+fun CategoryItem(category: String, imageResId: Int, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(8.dp)
+    ) {
+        // Add an Image with the category text overlay
+        Image(
+            painter = painterResource(id = imageResId),
+            contentDescription = null,
+            modifier = Modifier
+                .height(120.dp)
+                .width(120.dp)
+                .clip(shape = RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text = category,
+            color = Color.White,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(8.dp)
+        )
+    }
+}
 
-
-
-
-
-            }
-
-
-        }           // END OF HOME SCREEN COLUMN
-
-
-
+@Composable
+fun AddCategoryButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(8.dp)
+            .background(
+                Color(10, 10, 150),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .height(120.dp)
+            .width(120.dp)
+            .clip(shape = RoundedCornerShape(8.dp))
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier
+                .size(40.dp)
+                .align(Alignment.Center)
+        )
     }
 }

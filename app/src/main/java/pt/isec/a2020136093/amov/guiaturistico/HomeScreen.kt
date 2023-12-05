@@ -78,7 +78,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp,0.dp,16.dp,16.dp)
                 .background(Color.White)
         ) {
             Button(
@@ -105,7 +105,7 @@ fun HomeScreen(
                 color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 0.dp, 16.dp, 16.dp)
+                    .padding(16.dp, 10.dp, 16.dp, 20.dp)
             )
 
             Column(
@@ -156,7 +156,7 @@ fun HomeScreen(
 
                 Column(
                     modifier = Modifier
-                        .padding(0.dp, 20.dp, 0.dp, 0.dp)
+                        .padding(0.dp, 18.dp, 0.dp, 0.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
 
