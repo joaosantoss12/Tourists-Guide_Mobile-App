@@ -18,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -37,16 +39,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 
 @Composable
 fun RegisterScreen(
+        viewModel : FirebaseViewModel,
         navController: NavController,
-        modifier : Modifier = Modifier
+        modifier : Modifier = Modifier,
+        onSuccess : () -> Unit
 ) {
         val userName = remember { mutableStateOf("") }
         val userEmail = remember { mutableStateOf("") }
         val userPassword = remember { mutableStateOf("") }
+
+        val error by remember { viewModel.error }
+        val user by remember { viewModel.user }
+        LaunchedEffect(key1 = user){
+                if(user != null && error == null)
+                        onSuccess()
+        }
 
         Column(
                 modifier = modifier
@@ -117,8 +129,15 @@ fun RegisterScreen(
 
                 Spacer(Modifier.height(16.dp))
 
+                if(error != null){
+                        Text("Error: $error", Modifier.background(Color(255,0,0)))
+                        Spacer(Modifier.height(16.dp))
+                }
+
+                Spacer(Modifier.height(16.dp))
+
                 Button(
-                        onClick = { navController.navigate("Home") },
+                        onClick = { viewModel.createUserWithEmail(userEmail.value, userPassword.value) },
                         modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 16.dp),

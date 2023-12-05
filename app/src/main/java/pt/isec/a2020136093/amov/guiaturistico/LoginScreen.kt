@@ -21,7 +21,9 @@ import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,14 +41,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 @Composable
 fun LoginScreen(
+    viewModel : FirebaseViewModel,
     navController: NavController,
-    modifier : Modifier = Modifier
+    modifier : Modifier = Modifier,
+    onSuccess : () -> Unit
 ) {
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
+
+    val error by remember { viewModel.error }
+    val user by remember { viewModel.user }
+    LaunchedEffect(key1 = user){
+        if(user != null && error == null)
+            onSuccess()
+    }
 
     Column(
         modifier = modifier
@@ -101,7 +113,7 @@ fun LoginScreen(
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { navController.navigate("Home") },
+            onClick = { viewModel.signInWithEmail(userEmail.value, userPassword.value) },
             modifier = Modifier
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(

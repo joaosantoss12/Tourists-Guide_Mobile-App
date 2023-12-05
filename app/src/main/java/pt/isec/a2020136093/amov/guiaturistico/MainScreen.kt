@@ -38,6 +38,9 @@ import pt.isec.a2020136093.amov.guiaturistico.LoginScreen
 import pt.isec.a2020136093.amov.guiaturistico.Menu
 import pt.isec.a2020136093.amov.guiaturistico.R
 import pt.isec.a2020136093.amov.guiaturistico.RegisterScreen
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
 
 const val MENU_SCREEN = "Menu"
 const val LOGIN_SCREEN = "Login"
@@ -51,7 +54,8 @@ const val CREDITS_SCREEN = "Credits"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController = rememberNavController()) {
+fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController = rememberNavController()) {
+
 
     var showAppBar by remember { mutableStateOf(false) }
     var navigateAfterRegister by remember { mutableStateOf(false) }
@@ -132,13 +136,19 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                 )
             }
             composable(LOGIN_SCREEN) {
-                LoginScreen(navController)
+                LoginScreen(viewModel, navController){
+                    navController.navigate(HOME_SCREEN)
+                }
             }
             composable(REGISTER_SCREEN) {
-                RegisterScreen(navController)
+                RegisterScreen(viewModel, navController){
+                    navController.navigate(HOME_SCREEN)
+                }
             }
             composable(HOME_SCREEN) {
-                HomeScreen(navController)
+                HomeScreen(viewModel, navController){
+                    navController.navigate("Menu")
+                }
             }
             composable(INTERESTS_SCREEN) {
                 InterestsScreen(navController)
@@ -155,5 +165,5 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    //MainScreen()
 }
