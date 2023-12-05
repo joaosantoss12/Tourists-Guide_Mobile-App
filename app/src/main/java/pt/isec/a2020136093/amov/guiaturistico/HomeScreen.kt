@@ -54,6 +54,15 @@ fun HomeScreen(
     onLogout : () -> Unit
 ) {
 
+    val localidades = listOf(
+        Pair("Lisboa", "Descrição Lisboa"),
+        Pair("Porto", "Descrição Porto"),
+        Pair("Coimbra", "Descrição Coimbra"),
+        Pair("Faro", "Descrição Faro"),
+        Pair("Aveiro", "Descrição Aveiro")
+    )
+
+
     val filtersList = listOf(
         "A-Z",
         "Z-A",
@@ -177,343 +186,64 @@ fun HomeScreen(
                     }
 
 
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.lisboa),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Lisboa",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
 
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
+                    localidades.forEach{ (nome, descricao) ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(10.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White
                             )
+                        ) {
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                Image(
+                                    painter = painterResource(R.drawable.lisboa),
+                                    contentDescription = null
+                                )
+                                Text(
+                                    text = nome,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.Serif,
+                                    fontSize = 18.sp,
+                                    color = Color.Black
+                                )
 
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Ver locais de interesse")
+                                Text(
+                                    text = descricao,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(6.dp),
+                                    maxLines = 3,
+                                    fontFamily = FontFamily.Serif,
+                                    fontSize = 13.sp,
+                                    color = Color.Gray
+                                )
+
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                        Text(text = "Ver locais de interesse")
+                                    }
                                 }
-                            }
 
-                        }
-                    } //LISBOA CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.porto),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Porto",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Ver locais de interesse")
-                                }
-                            }
-
-                        }
-                    } //PORTO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.coimbra),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Coimbra",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Ver locais de interesse")
-                                }
                             }
                         }
-                    } //COIMBRA CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.faro),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Faro",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Ver locais de interesse")
-                                }
-                            }
-
-                        }
-                    } //FARO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.aveiro),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Aveiro",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Ver locais de interesse")
-                                }
-                            }
-                        }
-                    } //AVEIRO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-
-                    // MAIS CARDS
-
-
-                    /* Column(
-                     modifier = Modifier
-                         .padding(0.dp, 10.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Coimbra ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.coimbra),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // COIMBRA COLUMN
-
-                 Column(
-                     modifier = Modifier
-                         .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Lisboa ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.lisboa),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // LISBON COLUMN
-
-                 Column(
-                     modifier = Modifier
-                         .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                 ) {
-                     Text(
-                         textAlign = TextAlign.Center,
-                         text = "•┈••✦ Porto ✦••┈•",
-                         fontWeight = FontWeight.Bold,
-                         fontFamily = FontFamily.Serif,
-                         fontSize = 20.sp,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                     Image(
-                         painter = painterResource(R.drawable.porto),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .fillMaxWidth()
-                     )
-                 }       // PORTO COLUMN*/
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
 
 
                 }
-
-
             }           // END OF HOME SCREEN COLUMN
-
-
         }
     }
 }
