@@ -80,7 +80,7 @@ fun InterestsScreen(
 
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp,16.dp,16.dp,0.dp)
                 .background(Color.White)
         ) {
             Text(
@@ -93,7 +93,7 @@ fun InterestsScreen(
                 color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 10.dp, 16.dp, 20.dp)
+                    .padding(16.dp, 14.dp, 16.dp, 24.dp)
             )
 
             Column(

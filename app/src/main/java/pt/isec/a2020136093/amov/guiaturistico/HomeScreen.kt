@@ -78,7 +78,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp,0.dp,16.dp,16.dp)
+                .padding(16.dp,0.dp,16.dp,0.dp)
                 .background(Color.White)
         ) {
             Button(
