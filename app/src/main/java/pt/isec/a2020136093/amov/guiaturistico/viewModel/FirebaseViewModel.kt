@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import pt.isec.a2020136093.amov.guiaturistico.utils.FirebaseAuthUtil
@@ -32,6 +33,10 @@ class FirebaseViewModel : ViewModel() {
         val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()
         val locations: LiveData<MutableList<Triple<String, String, String>>>
             get() = _locations
+
+        val _locaisInteresse = MutableLiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>()
+        val locaisInteresse: LiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>
+            get() = _locaisInteresse
     }
 
     private val _user = mutableStateOf(FirebaseAuthUtil.currentUser?.toUser())
@@ -85,6 +90,9 @@ class FirebaseViewModel : ViewModel() {
 
     fun getLocations(){
         FirebaseStorageUtil.getLocations()
+    }
+    fun getLocaisInteresse(){
+        FirebaseStorageUtil.getLocaisInteresse()
     }
     /*
     fun addDataToFirestore(){

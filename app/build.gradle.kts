@@ -62,6 +62,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
 
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation ("io.coil-kt:coil-compose:2.5.0")
 
 
     implementation("androidx.core:core-ktx:1.9.0")

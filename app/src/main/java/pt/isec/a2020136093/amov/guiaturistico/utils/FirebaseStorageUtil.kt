@@ -3,6 +3,7 @@ package pt.isec.a2020136093.amov.guiaturistico.utils
 import android.content.res.AssetManager
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
@@ -160,6 +161,35 @@ class FirebaseStorageUtil {
                         )
                     }
                     FirebaseViewModel._locations.value = localidades
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("TAG", "Error getting documents.", exception)
+                }
+        }
+
+        fun getLocaisInteresse() {
+            val db = Firebase.firestore
+
+            db.collection("Localidades").document("Coimbra").collection("Locais de Interesse").get()
+                .addOnSuccessListener { result ->
+                    val locaisInteresse = mutableListOf<Pair<Triple<String, String, String>, Triple<String, Any?, Any?>>>()
+                    for (document in result) {
+                        locaisInteresse.add(
+                            Pair(
+                                Triple(
+                                    document.data["nome"].toString(),
+                                    document.data["descrição"].toString(),
+                                    document.data["imagemURL"].toString()
+                                ),
+                                Triple(
+                                    document.data["categoria"].toString(),
+                                    document.data["classificação"],
+                                    document.data["coordenadas"]
+                                )
+                            ),
+                        )
+                    }
+                    FirebaseViewModel._locaisInteresse.value = locaisInteresse
                 }
                 .addOnFailureListener { exception ->
                     Log.w("TAG", "Error getting documents.", exception)

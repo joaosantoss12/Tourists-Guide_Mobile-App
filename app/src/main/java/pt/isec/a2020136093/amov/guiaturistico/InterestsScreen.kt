@@ -36,7 +36,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,13 +55,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InterestsScreen(
+    viewModel: FirebaseViewModel,
     navController: NavController,
+    cidade : String,
 ) {
+
+    val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState(initial = emptyList())
+    LaunchedEffect(viewModel) {
+        viewModel.getLocaisInteresse()
+    }
+
+
     val filtersList = listOf(
         "A-Z",
         "Z-A",
@@ -187,279 +200,70 @@ fun InterestsScreen(
                     }
 
 
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.lisboa),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Museu do Fado",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
+                    locaisInteresse.forEach { (firstInfo, secondInfo) ->
 
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
+                        val (nome, descricao, imagemURL) = firstInfo
+                        val (categoria, classificacao, coordenadas) = secondInfo
 
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Selecionar")
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(10.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White
+                            )
+                        ) {
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                /*Image(
+                                    painter = painterResource(R.drawable.hotel),
+                                    contentDescription = null
+                                )*/
+                                AsyncImage(
+                                    model = imagemURL,
+                                    error = painterResource(id = R.drawable.error),
+                                    contentDescription = "local image",
+                                )
+                                Text(
+                                    text = nome,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.Serif,
+                                    fontSize = 18.sp,
+                                    color = Color.Black
+                                )
+
+                                Text(
+                                    text = descricao,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(6.dp),
+                                    maxLines = 3,
+                                    fontFamily = FontFamily.Serif,
+                                    fontSize = 13.sp,
+                                    color = Color.Gray
+                                )
+
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                        Text(text = "Selecionar")
+                                    }
                                 }
+
                             }
-
-                        }
-                    } //LISBOA CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.porto),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Museu do Vinho do Porto",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Selecionar")
-                                }
-                            }
-
-                        }
-                    } //PORTO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.coimbra),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Universidade de Coimbra",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Selecionar")
-                                }
-                            }
-                        }
-                    } //COIMBRA CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.faro),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Campo Desportivo de Faro",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Selecionar")
-                                }
-                            }
-
-                        }
-                    } //FARO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(R.drawable.aveiro),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Castelo de Aveiro",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = "Descrição",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(6.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                    Text(text = "Selecionar")
-                                }
-                            }
-                        }
-                    } //AVEIRO CARD
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-
-                    // MAIS CARDS
-
-
+                        } //CARD
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
                 }
-
-
             }           // END OF HOME SCREEN COLUMN
-
-
         }
     }
 }

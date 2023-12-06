@@ -46,6 +46,7 @@ import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 import androidx.compose.runtime.livedata.observeAsState
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -186,7 +187,7 @@ fun HomeScreen(
 
 
 
-                    localidades.forEach { (nome, descricao) ->
+                    localidades.forEach { (nome, descricao, imagemURL) ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -196,9 +197,14 @@ fun HomeScreen(
                             )
                         ) {
                             Column(modifier = Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(R.drawable.lisboa),
+                                /*Image(
+                                    painter = painterResource(imagemURL),
                                     contentDescription = null
+                                )*/
+                                AsyncImage(
+                                    model = imagemURL,
+                                    error = painterResource(id = R.drawable.error),
+                                    contentDescription = "city image",
                                 )
                                 Text(
                                     text = nome,
@@ -234,13 +240,10 @@ fun HomeScreen(
                                         Text(text = "Ver locais de interesse")
                                     }
                                 }
-
                             }
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                     }
-
-
                 }
             }           // END OF HOME SCREEN COLUMN
         }

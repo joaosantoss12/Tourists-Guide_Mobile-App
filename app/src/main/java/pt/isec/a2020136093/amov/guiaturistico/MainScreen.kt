@@ -151,7 +151,7 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
                 }
             }
             composable(INTERESTS_SCREEN) {
-                InterestsScreen(navController)
+                InterestsScreen(viewModel,navController, "")
             }
 
             composable(CREDITS_SCREEN){
