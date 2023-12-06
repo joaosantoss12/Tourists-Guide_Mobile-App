@@ -3,11 +3,17 @@ package pt.isec.a2020136093.amov.guiaturistico.viewModel
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pt.isec.a2020136093.amov.guiaturistico.utils.FirebaseAuthUtil
+import pt.isec.a2020136093.amov.guiaturistico.utils.FirebaseStorageUtil
+import kotlinx.coroutines.tasks.await
+
 //import pt.isec.a2020136093.amov.guiaturistico.utils.FStorageUtil
 
 data class User(val name : String, val email : String, val picture : String?)
@@ -21,6 +27,13 @@ fun FirebaseUser.toUser() : User {
 }
 
 class FirebaseViewModel : ViewModel() {
+
+    companion object {
+        val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()
+        val locations: LiveData<MutableList<Triple<String, String, String>>>
+            get() = _locations
+    }
+
     private val _user = mutableStateOf(FirebaseAuthUtil.currentUser?.toUser())
     val user : MutableState<User?>
         get() = _user
@@ -69,6 +82,10 @@ class FirebaseViewModel : ViewModel() {
         FirebaseAuthUtil.signOut()
         _user.value = null
     }
+
+    fun getLocations(){
+        FirebaseStorageUtil.getLocations()
+    }
     /*
     fun addDataToFirestore(){
         viewModelScope.launch{
@@ -93,4 +110,6 @@ class FirebaseViewModel : ViewModel() {
             }
         }
     }*/
+
+
 }

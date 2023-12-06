@@ -45,22 +45,21 @@ import androidx.navigation.NavController
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
+import androidx.compose.runtime.livedata.observeAsState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel : FirebaseViewModel,
+    viewModel: FirebaseViewModel,
     navController: NavController,
-    modifier : Modifier = Modifier,
-    onLogout : () -> Unit
+    modifier: Modifier = Modifier,
+    onLogout: () -> Unit
 ) {
 
-    val localidades = listOf(
-        Pair("Lisboa", "Descrição Lisboa"),
-        Pair("Porto", "Descrição Porto"),
-        Pair("Coimbra", "Descrição Coimbra"),
-        Pair("Faro", "Descrição Faro"),
-        Pair("Aveiro", "Descrição Aveiro")
-    )
+    val localidades by FirebaseViewModel.locations.observeAsState(initial = emptyList())
+    LaunchedEffect(viewModel) {
+        viewModel.getLocations()
+    }
 
 
     val filtersList = listOf(
@@ -75,8 +74,8 @@ fun HomeScreen(
     var selectedItem by remember { mutableStateOf(none) }
 
     val user by remember { viewModel.user }
-    LaunchedEffect(key1 = user){
-        if(user == null)
+    LaunchedEffect(key1 = user) {
+        if (user == null)
             onLogout()
     }
 
@@ -87,7 +86,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp,0.dp,16.dp,0.dp)
+                .padding(16.dp, 0.dp, 16.dp, 0.dp)
                 .background(Color.White)
         ) {
             Button(
@@ -187,7 +186,7 @@ fun HomeScreen(
 
 
 
-                    localidades.forEach{ (nome, descricao) ->
+                    localidades.forEach { (nome, descricao) ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -217,7 +216,7 @@ fun HomeScreen(
                                     text = descricao,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(6.dp),
+                                        .padding(15.dp),
                                     maxLines = 3,
                                     fontFamily = FontFamily.Serif,
                                     fontSize = 13.sp,

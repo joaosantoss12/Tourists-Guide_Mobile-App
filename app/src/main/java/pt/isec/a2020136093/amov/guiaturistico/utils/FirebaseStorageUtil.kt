@@ -8,6 +8,8 @@ import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.tasks.await
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import java.io.IOException
 import java.io.InputStream
 
@@ -100,6 +102,7 @@ class FirebaseStorageUtil {
             listenerRegistration?.remove()
         }
 
+
 // Storage
 
         fun getFileFromAsset(assetManager: AssetManager, strName: String): InputStream? {
@@ -141,5 +144,26 @@ class FirebaseStorageUtil {
 
         }
 
+        fun getLocations() {
+            val db = Firebase.firestore
+
+            db.collection("Localidades").get()
+                .addOnSuccessListener { result ->
+                    val localidades = mutableListOf<Triple<String, String, String>>()
+                    for (document in result) {
+                        localidades.add(
+                            Triple(
+                                document.data["nome"].toString(),
+                                document.data["descrição"].toString(),
+                                document.data["imagemURL"].toString()
+                            )
+                        )
+                    }
+                    FirebaseViewModel._locations.value = localidades
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("TAG", "Error getting documents.", exception)
+                }
+        }
     }
 }
