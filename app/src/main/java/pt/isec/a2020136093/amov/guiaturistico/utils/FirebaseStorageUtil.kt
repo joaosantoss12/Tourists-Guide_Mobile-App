@@ -170,7 +170,9 @@ class FirebaseStorageUtil {
         fun getLocaisInteresse() {
             val db = Firebase.firestore
 
-            db.collection("Localidades").document("Coimbra").collection("Locais de Interesse").get()
+            Log.i("OAIJGIA", "CIDADE: " + FirebaseViewModel.currentLocation.value)
+
+            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").get()
                 .addOnSuccessListener { result ->
                     val locaisInteresse = mutableListOf<Pair<Triple<String, String, String>, Triple<String, Any?, Any?>>>()
                     for (document in result) {

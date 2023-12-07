@@ -37,6 +37,10 @@ class FirebaseViewModel : ViewModel() {
         val _locaisInteresse = MutableLiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>()
         val locaisInteresse: LiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>
             get() = _locaisInteresse
+
+        val _currentLocation = MutableLiveData<String>()
+        val currentLocation: LiveData<String>
+            get() = _currentLocation
     }
 
     private val _user = mutableStateOf(FirebaseAuthUtil.currentUser?.toUser())

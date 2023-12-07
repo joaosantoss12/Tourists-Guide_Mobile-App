@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -64,7 +65,6 @@ import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 fun InterestsScreen(
     viewModel: FirebaseViewModel,
     navController: NavController,
-    cidade : String,
 ) {
 
     val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState(initial = emptyList())
@@ -93,9 +93,24 @@ fun InterestsScreen(
 
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp,16.dp,16.dp,0.dp)
+                .padding(16.dp, 0.dp, 16.dp, 0.dp)
                 .background(Color.White)
         ) {
+            Button(
+                onClick = { viewModel.signOut() },
+                modifier = Modifier
+                    .padding(14.dp)
+                    .align(Alignment.End),
+                colors = ButtonDefaults.buttonColors(
+
+                    containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                    contentColor = Color.White // Cor do texto do botão
+                ),
+                shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+            ) {
+                Text(text = "Mapa")
+            }
+
             Text(
                 text = stringResource(R.string.points_of_interest),
                 lineHeight = 30.sp,
@@ -106,7 +121,7 @@ fun InterestsScreen(
                 color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 14.dp, 16.dp, 24.dp)
+                    .padding(16.dp, 0.dp, 16.dp, 20.dp)
             )
 
             Column(
@@ -222,6 +237,10 @@ fun InterestsScreen(
                                     model = imagemURL,
                                     error = painterResource(id = R.drawable.error),
                                     contentDescription = "local image",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .heightIn(0.dp, 200.dp)
                                 )
                                 Text(
                                     text = nome,
@@ -239,7 +258,7 @@ fun InterestsScreen(
                                     text = descricao,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(6.dp),
+                                        .padding(15.dp),
                                     maxLines = 3,
                                     fontFamily = FontFamily.Serif,
                                     fontSize = 13.sp,

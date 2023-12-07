@@ -114,7 +114,7 @@ fun HomeScreen(
                 color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 10.dp, 16.dp, 20.dp)
+                    .padding(16.dp, 0.dp, 16.dp, 20.dp)
             )
 
             Column(
@@ -236,7 +236,10 @@ fun HomeScreen(
                                         .padding(0.dp, 10.dp, 0.dp, 20.dp),
                                     horizontalArrangement = Arrangement.Center
                                 ) {
-                                    OutlinedButton(onClick = { navController.navigate("Interests") }) {
+                                    OutlinedButton(onClick = {
+                                        FirebaseViewModel._currentLocation.value = nome
+                                        navController.navigate("Interests")
+                                    }) {
                                         Text(text = "Ver locais de interesse")
                                     }
                                 }
