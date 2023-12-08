@@ -59,43 +59,23 @@ fun AddForm(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        when (tipo) {
-            "Localização" -> {
-                Text(
-                    text = "Adicionar Localização",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = RegularFont,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-            "Categoria" -> {
-                Text(
-                    text = "Adicionar Categoria",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = RegularFont,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-            "Local_Interesse" -> {
-                Text(
-                    text = "Adicionar Local de Interesse",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = RegularFont,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
+        Text(
+            text = "Adicionar $tipo",   // Localização, Categoria, Local de Interesse
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = RegularFont,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        when(tipo){
+            "Localização" -> {}
+            "Categoria" -> {}
+            "Local_Interesse" -> {}
         }
 
         Spacer(modifier = Modifier.height(16.dp))
