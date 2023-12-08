@@ -41,6 +41,7 @@ import pt.isec.a2020136093.amov.guiaturistico.RegisterScreen
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
+import pt.isec.a2020136093.amov.guiaturistico.AddFormScreen
 
 const val MENU_SCREEN = "Menu"
 const val LOGIN_SCREEN = "Login"
@@ -48,6 +49,8 @@ const val REGISTER_SCREEN = "Register"
 
 const val HOME_SCREEN = "Home"
 const val INTERESTS_SCREEN = "Interests"
+
+const val ADDFORM_SCREEN = "AddForm"
 
 const val CREDITS_SCREEN = "Credits"
 
@@ -152,6 +155,10 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
             }
             composable(INTERESTS_SCREEN) {
                 InterestsScreen(viewModel,navController)
+            }
+
+            composable(ADDFORM_SCREEN){
+                AddFormScreen(viewModel,navController)
             }
 
             composable(CREDITS_SCREEN){

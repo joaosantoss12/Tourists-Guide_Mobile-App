@@ -28,7 +28,9 @@ fun FirebaseUser.toUser() : User {
 }
 
 class FirebaseViewModel : ViewModel() {
-    var internetPermission = false
+    val imagePath : MutableState<String?> = mutableStateOf(null)
+    val tipoAddForm : MutableState<String?> = mutableStateOf(null)
+    val _tipoAddForm : MutableLiveData<String> = MutableLiveData<String>()
 
     companion object {
         val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()

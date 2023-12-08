@@ -177,7 +177,8 @@ fun HomeScreen(
                 ) {
 
                     Button(
-                        onClick = {  },
+                        onClick = { navController.navigate("AddForm")
+                            viewModel.tipoAddForm.value = "Localização" },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
