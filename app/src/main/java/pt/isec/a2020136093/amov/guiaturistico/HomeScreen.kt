@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -46,6 +48,7 @@ import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.window.Popup
 import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,14 +60,8 @@ fun HomeScreen(
     onLogout: () -> Unit
 ) {
 
-
-    val localidades by FirebaseViewModel.locations.observeAsState(initial = emptyList())
-    var local by remember { mutableStateOf(localidades) }
-    local= localidades
-    LaunchedEffect(viewModel) {
-        viewModel.getLocations()
-    }
-
+    viewModel.getLocations()
+    val localidades = FirebaseViewModel.locations
 
     val filtersList = listOf(
         "A-Z",
@@ -159,18 +156,15 @@ fun HomeScreen(
                                     expanded = false
                                    when(filter){
                                        "A-Z" -> {
-                                           localidades.sortedBy { it.first }
+                                           localidades.value?.sortedBy { it.first }
                                        }
                                        "Z-A" -> {
-                                           localidades.sortedByDescending { it.first }
+                                           localidades.value?.sortedByDescending { it.first }
                                        }
-
                                    }
-
                                 },
                             )
                         }
-
                     }
                 }
 
@@ -183,7 +177,7 @@ fun HomeScreen(
                 ) {
 
                     Button(
-                        onClick = { },
+                        onClick = {  },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
@@ -200,7 +194,7 @@ fun HomeScreen(
 
 
 
-                    local.forEach { (nome, descricao, imagemURL) ->
+                    localidades.value?.forEach { (nome, descricao, imagemURL) ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth(),

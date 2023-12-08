@@ -28,6 +28,7 @@ fun FirebaseUser.toUser() : User {
 }
 
 class FirebaseViewModel : ViewModel() {
+    var internetPermission = false
 
     companion object {
         val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()

@@ -1,5 +1,8 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import pt.isec.a2020136093.amov.MainScreen
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.TrabalhoPráticoGuiaTuristicoTheme
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
@@ -22,31 +27,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TrabalhoPráticoGuiaTuristicoTheme {
-                // A surface container using the 'background' color from the theme
-                /*Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting(getString(R.string.app_name))
-                }*/
                 MainScreen(viewModel)
             }
         }
+        //verifyPermissions()
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TrabalhoPráticoGuiaTuristicoTheme {
-        Greeting("Android")
-    }
 }
