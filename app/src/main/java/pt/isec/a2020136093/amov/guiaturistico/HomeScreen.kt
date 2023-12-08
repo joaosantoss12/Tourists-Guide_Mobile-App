@@ -57,7 +57,10 @@ fun HomeScreen(
     onLogout: () -> Unit
 ) {
 
+
     val localidades by FirebaseViewModel.locations.observeAsState(initial = emptyList())
+    var local by remember { mutableStateOf(localidades) }
+    local= localidades
     LaunchedEffect(viewModel) {
         viewModel.getLocations()
     }
@@ -154,6 +157,16 @@ fun HomeScreen(
                                 onClick = {
                                     selectedItem = filter
                                     expanded = false
+                                   when(filter){
+                                       "A-Z" -> {
+                                           localidades.sortedBy { it.first }
+                                       }
+                                       "Z-A" -> {
+                                           localidades.sortedByDescending { it.first }
+                                       }
+
+                                   }
+
                                 },
                             )
                         }
@@ -187,7 +200,7 @@ fun HomeScreen(
 
 
 
-                    localidades.forEach { (nome, descricao, imagemURL) ->
+                    local.forEach { (nome, descricao, imagemURL) ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth(),
