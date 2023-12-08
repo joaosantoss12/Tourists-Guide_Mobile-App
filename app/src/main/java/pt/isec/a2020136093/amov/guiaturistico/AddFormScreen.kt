@@ -72,11 +72,48 @@ fun AddForm(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        when(tipo){
-            "Localização" -> {}
-            "Categoria" -> {}
-            "Local_Interesse" -> {}
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text(text = "Nome") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text(text = "Descrição") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        //cria um quadrado para o preview da imagem de galeria ou camera
+        Card(
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Preview da imagem")
+            }
         }
+
+
+
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
