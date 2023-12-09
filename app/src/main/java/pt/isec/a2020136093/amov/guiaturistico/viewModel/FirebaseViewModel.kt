@@ -37,6 +37,10 @@ class FirebaseViewModel : ViewModel() {
         val locations: LiveData<MutableList<Triple<String, String, String>>>
             get() = _locations
 
+        val _categorias = MutableLiveData<MutableList<Triple<String, String, String>>>()
+        val categorias: LiveData<MutableList<Triple<String, String, String>>>
+            get() = _categorias
+
         val _locaisInteresse = MutableLiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>()
         val locaisInteresse: LiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>
             get() = _locaisInteresse
@@ -98,9 +102,21 @@ class FirebaseViewModel : ViewModel() {
     fun getLocations(){
         FirebaseStorageUtil.getLocations()
     }
+    fun getCategorias(){
+        FirebaseStorageUtil.getCategorias()
+    }
     fun getLocaisInteresse(){
         FirebaseStorageUtil.getLocaisInteresse()
     }
+
+    fun addLocation_firebase(nome : String, descricao : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.addLocation(nome,descricao,imagePath){ exception ->
+                _error.value = exception?.message
+            }
+        }
+    }
+
     /*
     fun addDataToFirestore(){
         viewModelScope.launch{

@@ -1,9 +1,12 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,13 +17,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pt.isec.a2020136093.amov.guiaturistico.ui.composables.SelectGalleryImage
+import pt.isec.a2020136093.amov.guiaturistico.ui.composables.SelectImage
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
@@ -30,9 +38,13 @@ fun AddFormScreen(
     navController: NavController,
 ){
 
+    var nome by remember { mutableStateOf("") }
+    var descricao by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(color = Color.White)
             .padding(16.dp)
     ) {
         Text(
@@ -41,31 +53,33 @@ fun AddFormScreen(
             fontWeight = FontWeight.Bold,
             fontFamily = RegularFont,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
+                .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = nome,
+            onValueChange = {
+                nome = it
+            },
             label = { Text(text = "Nome") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = descricao,
+            onValueChange = {
+                descricao = it
+            },
             label = { Text(text = "Descrição") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -74,17 +88,25 @@ fun AddFormScreen(
         Card(
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight(0.85f)
         ) {
-            SelectGalleryImage(viewModel.imagePath)
+            SelectImage(viewModel)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.Center
+        ) {
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
-                    "Localização" -> {}
+                    "Localização" -> {
+                        viewModel.addLocation_firebase(nome,descricao)
+                        navController.navigate("Home")
+                    }
                     "Categoria" -> {}
                     "Local_Interesse" -> {}
                 }

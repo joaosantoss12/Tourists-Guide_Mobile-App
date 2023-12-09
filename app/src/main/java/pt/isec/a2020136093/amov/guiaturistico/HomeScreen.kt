@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -204,11 +205,11 @@ fun HomeScreen(
                                 containerColor = Color.White
                             )
                         ) {
-                            Column(modifier = Modifier.fillMaxSize()) {
-                                /*Image(
-                                    painter = painterResource(imagemURL),
-                                    contentDescription = null
-                                )*/
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+
                                 AsyncImage(
                                     model = imagemURL,
                                     error = painterResource(id = R.drawable.error),

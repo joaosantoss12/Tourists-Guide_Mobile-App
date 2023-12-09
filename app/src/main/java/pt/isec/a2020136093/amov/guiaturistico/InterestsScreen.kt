@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -57,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
@@ -66,6 +68,9 @@ fun InterestsScreen(
     viewModel: FirebaseViewModel,
     navController: NavController,
 ) {
+
+    viewModel.getCategorias()
+    val categorias = FirebaseViewModel.categorias
 
     val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState(initial = emptyList())
     LaunchedEffect(viewModel) {
@@ -176,24 +181,44 @@ fun InterestsScreen(
                     LazyRow(
 
                     ) {
-                        val categories = listOf(
-                            "Museus" to R.drawable.museu1,
-                            "Monumentos" to R.drawable.igrejap,
-                            "Jardins" to R.drawable.jardim,
-                            "Miradouros" to R.drawable.miradouro,
-                            "Restaurantes" to R.drawable.restaurante,
-                            "Alojamentos" to R.drawable.hotel,
-                        )
+                        categorias.value?.forEach { (nome, descricao, imagemURL) ->
+                            item {
+                                Card(
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .background(color = Color.White)
+                                        .size(120.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                    ) {
+                                        AsyncImage(
+                                            model = imagemURL,
+                                            error = painterResource(id = R.drawable.error),
+                                            contentDescription = "category image",
+                                            contentScale = ContentScale.FillHeight,
+                                        )
 
-                        items(categories) { (category, imageResId) ->
-                            CategoryItem(category, imageResId) {
-                                // Handle click on category, you can navigate or perform an action
+                                        Text(
+                                            text = nome,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 14.sp,
+                                            modifier = Modifier
+                                                .align(Alignment.BottomStart)
+                                                .padding(8.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
                         item {
-                            AddCategoryButton(onClick = {
-                                // Handle click on the button, you can add logic to add a new category
-                            })
+                            AddCategoryButton(
+                                onClick = {
+                                    navController.navigate("AddForm")
+                                },
+                            )
                         }
                     }
 
