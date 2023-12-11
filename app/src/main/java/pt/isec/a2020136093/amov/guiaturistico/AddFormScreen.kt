@@ -41,6 +41,7 @@ fun AddFormScreen(
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
+    var coordanadas by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -96,6 +97,17 @@ fun AddFormScreen(
                     .fillMaxWidth()
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = coordanadas,
+                onValueChange = {
+                    coordanadas = it
+                },
+                label = { Text(text = "Coordenadas") },
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(16.dp))
         }
 
