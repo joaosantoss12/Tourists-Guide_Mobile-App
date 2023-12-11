@@ -223,13 +223,13 @@ class FirebaseStorageUtil {
         fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, function: (Throwable?) -> Unit) {
             val db = Firebase.firestore
 
-            uploadFile(imagePath.value.toString()).wait()
+            uploadFile(imagePath.value.toString())
             //val imgURL = getImageURL(imagePath.value.toString())
 
             val data = hashMapOf(
                 "nome" to nome,
                 "descrição" to descricao,
-                "imagemURL" to imagePath//imgURL
+                "imagemURL" to ""//imgURL / imagePath.value.toString()
             )
 
             db.collection("Localidades").document(nome).set(data)
@@ -238,6 +238,28 @@ class FirebaseStorageUtil {
 
 
 
+        }
+
+        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, function: (Throwable?) -> Unit) {
+            val db = Firebase.firestore
+
+            uploadFile(imagePath.value.toString())
+            //val imgURL = getImageURL(imagePath.value.toString())
+
+            val data = hashMapOf(
+                "nome" to nome,
+                "descrição" to descricao,
+                "categoria" to categoria,
+                "classificação" to 0,
+                "coordenadas" to GeoPoint(0.0,0.0),
+                "imagemURL" to ""//imgURL / imagePath.value.toString()
+            )
+
+            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).set(data)
+                .addOnSuccessListener { getLocaisInteresse() }
+                .addOnFailureListener {  }
+
+            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).collection("Comentários").document("0").set(hashMapOf("texto" to ""))
         }
     }
 }

@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico
 
+import android.graphics.Color.rgb
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,9 +52,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -224,7 +229,8 @@ fun InterestsScreen(
 
 
                     Button(
-                        onClick = { },
+                        onClick = { navController.navigate("AddForm")
+                            viewModel.tipoAddForm.value = "Local de Interesse" },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
@@ -254,10 +260,6 @@ fun InterestsScreen(
                             )
                         ) {
                             Column(modifier = Modifier.fillMaxSize()) {
-                                /*Image(
-                                    painter = painterResource(R.drawable.hotel),
-                                    contentDescription = null
-                                )*/
                                 AsyncImage(
                                     model = imagemURL,
                                     error = painterResource(id = R.drawable.error),
@@ -290,7 +292,18 @@ fun InterestsScreen(
                                     color = Color.Gray
                                 )
 
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = classificacao.toString() + " ★",
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.Serif,
+                                    fontSize = 15.sp,
+                                    color = Color.Black
+                                )
+
+
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -299,6 +312,15 @@ fun InterestsScreen(
                                 ) {
                                     OutlinedButton(onClick = { navController.navigate("Interests") }) {
                                         Text(text = "Selecionar")
+                                    }
+
+                                    Spacer(modifier = Modifier.width(10.dp))
+
+                                    OutlinedButton(onClick = {
+                                        FirebaseViewModel._currentLocation.value = nome
+                                        //navController.navigate("Comentários")
+                                    }) {
+                                        Text(text = "Comentários")
                                     }
                                 }
 

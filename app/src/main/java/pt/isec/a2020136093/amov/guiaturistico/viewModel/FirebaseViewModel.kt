@@ -30,7 +30,6 @@ fun FirebaseUser.toUser() : User {
 class FirebaseViewModel : ViewModel() {
     val imagePath : MutableState<String?> = mutableStateOf(null)
     val tipoAddForm : MutableState<String?> = mutableStateOf(null)
-    val _tipoAddForm : MutableLiveData<String> = MutableLiveData<String>()
 
     companion object {
         val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()
@@ -42,7 +41,7 @@ class FirebaseViewModel : ViewModel() {
             get() = _categorias
 
         val _locaisInteresse = MutableLiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>()
-        val locaisInteresse: LiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>
+        val locaisInteresse: LiveData<MutableList<Pair<Triple<String,String,String>, Triple<String,Any?,Any?> >>>
             get() = _locaisInteresse
 
         val _currentLocation = MutableLiveData<String>()
@@ -112,6 +111,13 @@ class FirebaseViewModel : ViewModel() {
     fun addLocation_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
             FirebaseStorageUtil.addLocation(nome,descricao,imagePath){ exception ->
+                _error.value = exception?.message
+            }
+        }
+    }
+    fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath){ exception ->
                 _error.value = exception?.message
             }
         }

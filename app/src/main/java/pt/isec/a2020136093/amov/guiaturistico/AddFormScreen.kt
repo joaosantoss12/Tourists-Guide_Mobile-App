@@ -40,6 +40,7 @@ fun AddFormScreen(
 
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -84,6 +85,20 @@ fun AddFormScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        if(viewModel.tipoAddForm.value == "Local de Interesse"){
+            OutlinedTextField(
+                value = categoria,
+                onValueChange = {
+                    categoria = it
+                },
+                label = { Text(text = "Categoria") },
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         //cria um quadrado para o preview da imagem de galeria ou camera
         Card(
             shape = RoundedCornerShape(8.dp),
@@ -108,7 +123,10 @@ fun AddFormScreen(
                         navController.navigate("Home")
                     }
                     "Categoria" -> {}
-                    "Local_Interesse" -> {}
+                    "Local de Interesse" -> {
+                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria)
+                        navController.navigate("Interests")
+                    }
                 }
             }) {
                 Text(text = "Confirmar")
@@ -120,7 +138,7 @@ fun AddFormScreen(
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> navController.navigate("HomeScreen")
                     "Categoria" -> navController.navigate("InterestsScreen")
-                    "Local_Interesse" -> navController.navigate("InterestsScreen")
+                    "Local de Interesse" -> navController.navigate("InterestsScreen")
                 }
             }) {
                 Text(text = "Cancelar")
