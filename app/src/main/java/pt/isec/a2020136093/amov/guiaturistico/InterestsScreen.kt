@@ -222,6 +222,7 @@ fun InterestsScreen(
                             AddCategoryButton(
                                 onClick = {
                                     navController.navigate("AddForm")
+                                    viewModel.tipoAddForm.value = "Categoria"
                                 },
                             )
                         }
