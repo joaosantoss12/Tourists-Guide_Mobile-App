@@ -69,7 +69,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .padding(16.dp),
             style = TextStyle(
-                color = Color(10, 10, 150),
+                color = Color(0, 80, 150, 255),
                 fontFamily = RegularFont,
                 fontSize = 30.sp, // Tamanho do texto
                 fontWeight = FontWeight.Bold,
@@ -107,7 +107,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                containerColor = Color(0, 80, 150, 255), // Cor de fundo do botão
                 contentColor = Color.White // Cor do texto do botão
             ),
             shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
