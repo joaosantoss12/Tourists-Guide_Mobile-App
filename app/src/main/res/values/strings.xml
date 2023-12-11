@@ -20,4 +20,6 @@
     <string name="points_of_interest">LOCAIS DE INTERESSE</string>
     <string name="adicionaLocal">Adicionar Localização</string>
     <string name="adicionaLocalInteresse">Adicionar local de interesse</string>
+    <string name="localizacoes_pendentes">Localizações Pendentes</string>
+    <string name="locais_interesse_pendentes">Locais Interesse Pendentes</string>
 </resources>

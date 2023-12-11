@@ -1,12 +1,10 @@
-package pt.isec.a2020136093.amov
+package pt.isec.a2020136093.amov.guiaturistico.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,17 +29,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pt.isec.a2020136093.amov.guiaturistico.CreditsScreen
-import pt.isec.a2020136093.amov.guiaturistico.HomeScreen
-import pt.isec.a2020136093.amov.guiaturistico.InterestsScreen
-import pt.isec.a2020136093.amov.guiaturistico.LoginScreen
 import pt.isec.a2020136093.amov.guiaturistico.Menu
 import pt.isec.a2020136093.amov.guiaturistico.R
-import pt.isec.a2020136093.amov.guiaturistico.RegisterScreen
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import pt.isec.a2020136093.amov.guiaturistico.AddFormScreen
 
 const val MENU_SCREEN = "Menu"
 const val LOGIN_SCREEN = "Login"

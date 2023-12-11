@@ -110,14 +110,14 @@ class FirebaseViewModel : ViewModel() {
 
     fun addLocation_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocation(nome,descricao,imagePath){ exception ->
+            FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!){ exception ->
                 _error.value = exception?.message
             }
         }
     }
     fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath){ exception ->
+            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!){ exception ->
                 _error.value = exception?.message
             }
         }

@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico
+package pt.isec.a2020136093.amov.guiaturistico.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -56,7 +56,8 @@ fun AddFormScreen(
             fontFamily = RegularFont,
             modifier = Modifier
                 .fillMaxWidth(),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = Color.Black
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -148,9 +149,9 @@ fun AddFormScreen(
 
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
-                    "Localização" -> navController.navigate("HomeScreen")
-                    "Categoria" -> navController.navigate("InterestsScreen")
-                    "Local de Interesse" -> navController.navigate("InterestsScreen")
+                    "Localização" -> navController.navigate("Home")
+                    "Categoria" -> navController.navigate("Interests")
+                    "Local de Interesse" -> navController.navigate("Interests")
                 }
             }) {
                 Text(text = "Cancelar")

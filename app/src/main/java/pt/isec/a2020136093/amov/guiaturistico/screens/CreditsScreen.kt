@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico
+package pt.isec.a2020136093.amov.guiaturistico.screens
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
