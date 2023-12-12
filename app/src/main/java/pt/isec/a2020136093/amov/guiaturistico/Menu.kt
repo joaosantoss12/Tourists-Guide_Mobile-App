@@ -47,10 +47,13 @@ fun Menu(
             .padding(0.dp, 40.dp, 0.dp, 0.dp),
     ) {
         Image(
-            painter = painterResource(R.drawable.imagem3png),
+            painter = painterResource(R.drawable.mainimagem),
+            //aumenta a imagem
             contentDescription = null, // Descrição da imagem
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(0.35f)
+                .padding(0.dp, 0.dp, 0.dp, 0.dp),
         )
 
         Text(
@@ -63,7 +66,7 @@ fun Menu(
             fontFamily = FontFamily(Font(R.font.font)),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp, 50.dp, 0.dp, 0.dp)   // BOX DO TEXTO
+                .padding(0.dp, 20.dp, 0.dp, 0.dp)   // BOX DO TEXTO
                 .padding(16.dp) // TEXTO
         )
         Column(
