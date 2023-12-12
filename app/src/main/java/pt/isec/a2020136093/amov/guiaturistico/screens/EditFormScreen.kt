@@ -33,9 +33,10 @@ import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 @Composable
-fun AddFormScreen(
+fun EditFormScreen(
     viewModel : FirebaseViewModel,
     navController: NavController,
+    nome : String,
 ){
 
     var nome by remember { mutableStateOf("") }
@@ -50,7 +51,7 @@ fun AddFormScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "Adicionar ${viewModel.tipoAddForm.value}",   // Localização, Categoria, Local de Interesse
+            text = "Editar ${viewModel.tipoEditForm.value}",   // Localização, Categoria, Local de Interesse
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = RegularFont,
@@ -87,7 +88,7 @@ fun AddFormScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if(viewModel.tipoAddForm.value == "Local de Interesse"){
+        if(viewModel.tipoEditForm.value == "Local de Interesse"){
             OutlinedTextField(
                 value = categoria,
                 onValueChange = {
@@ -130,17 +131,17 @@ fun AddFormScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             OutlinedButton(onClick = {
-                when(viewModel.tipoAddForm.value){
+                when(viewModel.tipoEditForm.value){
                     "Localização" -> {
-                        viewModel.addLocation_firebase(nome,descricao)
+                        viewModel.updateLocation_firebase(nome,descricao)
                         navController.navigate("Home")
                     }
-                    "Categoria" -> {
-                        viewModel.addCategoria_firebase(nome,descricao)
-                        navController.navigate("Interests")
-                    }
+                    //"Categoria" -> {
+                        //viewModel.addCategoria_firebase(nome,descricao)
+                        //navController.navigate("Interests")
+                    //}
                     "Local de Interesse" -> {
-                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria)
+                        viewModel.updateLocalInteresse_firebase(nome,descricao,categoria)
                         navController.navigate("Interests")
                     }
                 }
@@ -153,7 +154,7 @@ fun AddFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> navController.navigate("Home")
-                    "Categoria" -> navController.navigate("Interests")
+                    //"Categoria" -> navController.navigate("Interests")
                     "Local de Interesse" -> navController.navigate("Interests")
                 }
             }) {

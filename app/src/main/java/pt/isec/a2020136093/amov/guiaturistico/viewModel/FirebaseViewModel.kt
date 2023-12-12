@@ -30,18 +30,20 @@ fun FirebaseUser.toUser() : User {
 class FirebaseViewModel : ViewModel() {
     val imagePath : MutableState<String?> = mutableStateOf(null)
     val tipoAddForm : MutableState<String?> = mutableStateOf(null)
+    val tipoEditForm : MutableState<String?> = mutableStateOf(null)
+    var editName = ""
 
     companion object {
-        val _locations = MutableLiveData<MutableList<Triple<String, String, String>>>()
-        val locations: LiveData<MutableList<Triple<String, String, String>>>
+        val _locations = MutableLiveData<MutableList<Pair<Triple<String, String, String>, Pair<String, String>>>>()
+        val locations: LiveData<MutableList<Pair<Triple<String, String, String>, Pair<String, String>>>>
             get() = _locations
 
         val _categorias = MutableLiveData<MutableList<Triple<String, String, String>>>()
         val categorias: LiveData<MutableList<Triple<String, String, String>>>
             get() = _categorias
 
-        val _locaisInteresse = MutableLiveData<MutableList<Pair< Triple<String,String,String>, Triple<String,Any?,Any?> >>>()
-        val locaisInteresse: LiveData<MutableList<Pair<Triple<String,String,String>, Triple<String,Any?,Any?> >>>
+        val _locaisInteresse = MutableLiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,Any?,Any?>, String >>>()
+        val locaisInteresse: LiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,Any?,Any?>, String >>>
             get() = _locaisInteresse
 
         val _currentLocation = MutableLiveData<String>()
@@ -125,6 +127,21 @@ class FirebaseViewModel : ViewModel() {
     fun addCategoria_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
             FirebaseStorageUtil.addCategoria(nome,descricao,imagePath,user.value?.email!!){ exception ->
+                _error.value = exception?.message
+            }
+        }
+    }
+
+    fun updateLocation_firebase(nome : String, descricao : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.updateLocation(nome,descricao,imagePath,user.value?.email!!,editName){ exception ->
+                _error.value = exception?.message
+            }
+        }
+    }
+    fun updateLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.updateLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,editName){ exception ->
                 _error.value = exception?.message
             }
         }

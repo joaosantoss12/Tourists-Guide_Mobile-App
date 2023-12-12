@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -273,7 +274,7 @@ fun InterestsScreen(
 
 
 
-                    locaisInteresse.forEach { (firstInfo, secondInfo) ->
+                    locaisInteresse.forEach { (firstInfo, secondInfo, email) ->
 
                         val (nome, descricao, imagemURL) = firstInfo
                         val (categoria, classificacao, coordenadas) = secondInfo
@@ -337,17 +338,26 @@ fun InterestsScreen(
                                         .padding(0.dp, 10.dp, 0.dp, 20.dp),
                                     horizontalArrangement = Arrangement.Center
                                 ) {
-                                    OutlinedButton(onClick = { navController.navigate("Interests") }) {
-                                        Text(text = "Selecionar")
-                                    }
-
-                                    Spacer(modifier = Modifier.width(10.dp))
-
                                     OutlinedButton(onClick = {
-                                        FirebaseViewModel._currentLocation.value = nome
+                                        //FirebaseViewModel._currentLocation.value = nome
                                         //navController.navigate("Comentários")
                                     }) {
                                         Text(text = "Comentários")
+                                    }
+
+
+                                    if(viewModel.user.value?.email == email){
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Button(onClick = {
+                                            viewModel.tipoEditForm.value = "Local de Interesse"
+                                            viewModel.editName = nome
+                                            navController.navigate("EditForm")
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Edit,
+                                                "edit"
+                                            )
+                                        }
                                     }
                                 }
 

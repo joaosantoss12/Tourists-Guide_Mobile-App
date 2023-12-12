@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -21,6 +24,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -154,10 +158,10 @@ fun HomeScreen(
                                     expanded = false
                                    when(filter){
                                        "A-Z" -> {
-                                           localidades.value?.sortedBy { it.first }
+                                           //localidades.value?.sortedBy { it.first }
                                        }
                                        "Z-A" -> {
-                                           localidades.value?.sortedByDescending { it.first }
+                                           //localidades.value?.sortedByDescending { it.first }
                                        }
                                    }
                                 },
@@ -194,7 +198,10 @@ fun HomeScreen(
                     }
 
 
-                    localidades.value?.forEach { (nome,descricao,imagemURL) ->
+                    localidades.value?.forEach { (firstInfo, secondInfo) ->
+
+                        val (nome, descricao, imagemURL) = firstInfo
+                        val (coordenadas, email) = secondInfo
 
                         Card(
                             modifier = Modifier
@@ -251,11 +258,28 @@ fun HomeScreen(
                                     }) {
                                         Text(text = "Locais de interesse")
                                     }
+
+                                    if(viewModel.user.value?.email == email){
+                                        Spacer(modifier = Modifier.width(10.dp))
+
+                                        Button(onClick = {
+                                            viewModel.tipoEditForm.value = "Localização"
+                                            viewModel.editName = nome
+                                            navController.navigate("EditForm")
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Edit,
+                                                "edit"
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                     }
+
+
                     Button(
                         onClick = {
                             navController.navigate("AddForm")
