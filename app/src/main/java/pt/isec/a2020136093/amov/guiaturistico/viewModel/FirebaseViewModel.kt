@@ -122,7 +122,13 @@ class FirebaseViewModel : ViewModel() {
             }
         }
     }
-
+    fun addCategoria_firebase(nome : String, descricao : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.addCategoria(nome,descricao,imagePath,user.value?.email!!){ exception ->
+                _error.value = exception?.message
+            }
+        }
+    }
     /*
     fun addDataToFirestore(){
         viewModelScope.launch{

@@ -135,7 +135,10 @@ fun AddFormScreen(
                         viewModel.addLocation_firebase(nome,descricao)
                         navController.navigate("Home")
                     }
-                    "Categoria" -> {}
+                    "Categoria" -> {
+                        viewModel.addCategoria_firebase(nome,descricao)
+                        navController.navigate("Interests")
+                    }
                     "Local de Interesse" -> {
                         viewModel.addLocalInteresse_firebase(nome,descricao,categoria)
                         navController.navigate("Interests")

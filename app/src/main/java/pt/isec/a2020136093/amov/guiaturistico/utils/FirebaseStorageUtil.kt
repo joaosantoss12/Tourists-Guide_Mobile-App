@@ -179,13 +179,15 @@ class FirebaseStorageUtil {
                 .addOnSuccessListener { result ->
                     val categorias = mutableListOf<Triple<String, String, String>>()
                     for (document in result) {
-                        categorias.add(
-                            Triple(
-                                document.data["nome"].toString(),
-                                document.data["descrição"].toString(),
-                                document.data["imagemURL"].toString()
+                        if(document.data["estado"].toString() == "aprovado") {
+                            categorias.add(
+                                Triple(
+                                    document.data["nome"].toString(),
+                                    document.data["descrição"].toString(),
+                                    document.data["imagemURL"].toString()
+                                )
                             )
-                        )
+                        }
                     }
                     FirebaseViewModel._categorias.value = categorias
                 }
@@ -270,6 +272,25 @@ class FirebaseStorageUtil {
                 .addOnFailureListener {  }
 
             db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).collection("Comentários").document("0").set(hashMapOf("texto" to ""))
+        }
+
+        fun addCategoria(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
+            val db = Firebase.firestore
+
+            uploadFile(imagePath.value.toString())
+            //val imgURL = getImageURL(imagePath.value.toString())
+
+            val data = hashMapOf(
+                "nome" to nome,
+                "descrição" to descricao,
+                "imagemURL" to "", //imgURL / imagePath.value.toString()
+                "estado" to "pendente",
+                "email" to owner_email
+            )
+
+            db.collection("Categorias").document(nome).set(data)
+                .addOnSuccessListener { getCategorias() }
+                .addOnFailureListener {  }
         }
     }
 }
