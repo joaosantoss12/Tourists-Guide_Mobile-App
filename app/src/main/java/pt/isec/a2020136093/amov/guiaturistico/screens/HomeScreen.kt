@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -94,7 +95,7 @@ fun HomeScreen(
                     .align(Alignment.End),
                 colors = ButtonDefaults.buttonColors(
 
-                    containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                    containerColor = Color(185, 41, 41, 255), // Cor de fundo do botão
                     contentColor = Color.White // Cor do texto do botão
                 ),
                 shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
@@ -107,8 +108,8 @@ fun HomeScreen(
                 textAlign = TextAlign.Center,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = RegularFont,
-                color = Color.Black,
+                fontFamily = FontFamily(Font(R.font.font)),
+                color = Color(42, 54, 66, 255),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp, 16.dp, 20.dp)
@@ -183,7 +184,7 @@ fun HomeScreen(
                             .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
 
-                            containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                            containerColor = Color(0, 80, 150, 255), // Cor de fundo do botão
                             contentColor = Color.White // Cor do texto do botão
                         ),
                         shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
@@ -265,7 +266,7 @@ fun HomeScreen(
                             .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
 
-                            containerColor = Color(10, 10, 150), // Cor de fundo do botão
+                            containerColor = Color(76, 175, 80, 255), // Cor de fundo do botão
                             contentColor = Color.White // Cor do texto do botão
                         ),
                         shape = RoundedCornerShape(15.dp) // Borda arredondada do botão

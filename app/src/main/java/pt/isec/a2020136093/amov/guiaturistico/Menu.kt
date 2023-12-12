@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +60,7 @@ fun Menu(
             fontSize = 40.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontFamily = RegularFont,
+            fontFamily = FontFamily(Font(R.font.font)),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 50.dp, 0.dp, 0.dp)   // BOX DO TEXTO
@@ -80,7 +81,7 @@ fun Menu(
                     onClick = { navController?.navigate("Register") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
-                        contentColor = Color(10, 10, 150) // Cor do texto do botão
+                        contentColor = Color(0, 80, 150, 255) // Cor do texto do botão
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -99,7 +100,7 @@ fun Menu(
                     onClick = { navController?.navigate("Login") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
-                        contentColor = Color(10, 10, 150) // Cor do texto do botão
+                        contentColor = Color(0, 80, 150, 255) // Cor do texto do botão
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -118,7 +119,7 @@ fun Menu(
                     onClick = { navController?.navigate("Credits") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
-                        contentColor = Color(10, 10, 150) // Cor do texto do botão
+                        contentColor = Color(0, 80, 150, 255) // Cor do texto do botão
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -146,7 +147,7 @@ fun GradientBackground() {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawRect(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color.White, Color(10, 10, 150)), // Cores para o degradê
+                    colors = listOf(Color.White, Color(0, 80, 150, 255)), // Cores para o degradê
                     startY = 0f,
                     endY = size.height * 0.99f
                 )

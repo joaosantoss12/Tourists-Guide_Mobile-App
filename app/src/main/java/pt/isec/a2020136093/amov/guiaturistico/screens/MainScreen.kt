@@ -103,7 +103,7 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
                             }*/
                     },
                     colors = topAppBarColors(
-                        containerColor = Color(10,10,150),
+                        containerColor = Color(0, 80, 150, 255),
                         titleContentColor = Color.White,
                         navigationIconContentColor = Color.White,
                         actionIconContentColor = MaterialTheme.colorScheme.inversePrimary,
