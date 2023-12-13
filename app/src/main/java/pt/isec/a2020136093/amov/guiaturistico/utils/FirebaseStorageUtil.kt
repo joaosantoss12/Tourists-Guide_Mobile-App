@@ -480,7 +480,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("emailVotosEliminar", votos)
 
-                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnSuccessListener {  }
                             .addOnFailureListener {}
                     }
                     else {
@@ -492,7 +492,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("emailVotosEliminar", votos)
 
-                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnSuccessListener {  }
                             .addOnFailureListener {}
                     }
 
@@ -505,7 +505,7 @@ class FirebaseStorageUtil {
                                 .collection("Locais de Interesse").document(nome)
                                 .delete()
 
-                                .addOnSuccessListener { getLocaisInteresse() }
+                                .addOnSuccessListener {  }
                                 .addOnFailureListener {}
                         }
 
@@ -514,7 +514,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("nVotosEliminar", nVotos)
 
-                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnSuccessListener {  }
                             .addOnFailureListener {}
                     }
                     else{
@@ -523,7 +523,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("nVotosEliminar", 1)
 
-                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnSuccessListener {  }
                             .addOnFailureListener {}
 
                     }
