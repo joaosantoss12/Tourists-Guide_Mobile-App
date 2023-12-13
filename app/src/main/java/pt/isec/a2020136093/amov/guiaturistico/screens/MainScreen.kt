@@ -135,6 +135,7 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
                 }
             }
             composable(REGISTER_SCREEN) {
+                viewModel.signOut();
                 RegisterScreen(viewModel, navController){
                     navController.navigate(HOME_SCREEN)
                 }

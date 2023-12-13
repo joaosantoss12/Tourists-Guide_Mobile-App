@@ -31,6 +31,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -63,7 +64,7 @@ fun HomeScreen(
 ) {
 
     viewModel.getLocations()
-    val localidades = FirebaseViewModel.locations
+    val localidades = FirebaseViewModel.locations.observeAsState()
 
     val filtersList = listOf(
         "A-Z",
@@ -158,10 +159,10 @@ fun HomeScreen(
                                     expanded = false
                                    when(filter){
                                        "A-Z" -> {
-                                           //localidades.value?.sortedBy { it.first }
+                                           FirebaseViewModel._locations.value?.sortWith(compareBy { it.first.first })
                                        }
                                        "Z-A" -> {
-                                           //localidades.value?.sortedByDescending { it.first }
+                                           FirebaseViewModel._locations.value?.sortWith(compareByDescending { it.first.first })
                                        }
                                    }
                                 },

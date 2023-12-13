@@ -426,7 +426,7 @@ class FirebaseStorageUtil {
                 .document(FirebaseViewModel.currentLocation.value.toString())
                 .collection("Locais de Interesse").document(nome).collection("Classificação")
                 .document(email).set(data)
-                .addOnSuccessListener { }
+                .addOnSuccessListener { getLocaisInteresse() }
                 .addOnFailureListener { }
         }
 
