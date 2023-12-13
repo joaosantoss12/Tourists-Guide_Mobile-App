@@ -21,6 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -274,10 +277,11 @@ fun InterestsScreen(
 
 
 
-                    locaisInteresse.forEach { (firstInfo, secondInfo, email) ->
+                    locaisInteresse.forEach { (firstInfo, secondInfo, thirdInfo) ->
 
                         val (nome, descricao, imagemURL) = firstInfo
                         val (categoria, classificacao, coordenadas) = secondInfo
+                        val (email, estado, emailsVotados) = thirdInfo
 
                         Card(
                             modifier = Modifier
@@ -363,6 +367,19 @@ fun InterestsScreen(
                                         Text(text = "Comentários")
                                     }
 
+                                    if(estado == "pendente:apagar" && viewModel.user.value?.email != email && emailsVotados?.contains(viewModel.user.value?.email) == false){
+                                        Spacer(modifier = Modifier.width(10.dp))
+
+                                        Button(onClick = {
+                                            viewModel.voteToDelete(nome)
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Close,
+                                                "voteDelete"
+                                            )
+                                        }
+                                    }
+
 
                                     if(viewModel.user.value?.email == email){
                                         Spacer(modifier = Modifier.width(10.dp))
@@ -374,6 +391,16 @@ fun InterestsScreen(
                                             Icon(
                                                 Icons.Filled.Edit,
                                                 "edit"
+                                            )
+                                        }
+
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Button(onClick = {
+                                            viewModel.deleteLocalInteresse(nome)
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Delete,
+                                                "delete"
                                             )
                                         }
                                     }

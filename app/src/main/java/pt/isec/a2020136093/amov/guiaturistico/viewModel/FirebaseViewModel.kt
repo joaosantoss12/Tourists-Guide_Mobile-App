@@ -42,8 +42,8 @@ class FirebaseViewModel : ViewModel() {
         val categorias: LiveData<MutableList<Triple<String, String, String>>>
             get() = _categorias
 
-        val _locaisInteresse = MutableLiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, String >>>()
-        val locaisInteresse: LiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, String >>>
+        val _locaisInteresse = MutableLiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, Triple<String,String,List<String>?>>>>()
+        val locaisInteresse: LiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, Triple<String,String,List<String>?>>>>
             get() = _locaisInteresse
 
         val _currentLocation = MutableLiveData<String>()
@@ -152,6 +152,19 @@ class FirebaseViewModel : ViewModel() {
             FirebaseStorageUtil.updateClassificacao(nome,addClassificacao,user.value?.email!!)
         }
     }
+
+    fun deleteLocalInteresse(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.deleteLocalInteresse(nome)
+        }
+    }
+
+    fun voteToDelete(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.voteToDelete(nome,user.value?.email!!)
+        }
+    }
+
     /*
     fun addDataToFirestore(){
         viewModelScope.launch{

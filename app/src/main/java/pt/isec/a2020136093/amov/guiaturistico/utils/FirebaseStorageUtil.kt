@@ -123,7 +123,7 @@ class FirebaseStorageUtil {
 
 //https://firebase.google.com/docs/storage/android/upload-files
 
-        fun uploadFile(imagePath : String){
+        fun uploadFile(imagePath: String) {
             val storage = Firebase.storage
             val storageRef = storage.reference
             val file = Uri.fromFile(File(imagePath))
@@ -136,7 +136,8 @@ class FirebaseStorageUtil {
 
             }
         }
-        fun getImageURL(imagePath: String) : String{
+
+        fun getImageURL(imagePath: String): String {
             val storage = Firebase.storage
 
             val storageRef = storage.reference
@@ -153,9 +154,10 @@ class FirebaseStorageUtil {
 
             db.collection("Localidades").get()
                 .addOnSuccessListener { result ->
-                    val localidades = mutableListOf<Pair<Triple<String, String, String>, Pair<String, String>>>()
+                    val localidades =
+                        mutableListOf<Pair<Triple<String, String, String>, Pair<String, String>>>()
                     for (document in result) {
-                        if(document.data["estado"].toString() == "aprovado") {
+                        if (document.data["estado"].toString() == "aprovado") {
                             localidades.add(
                                 Pair(
                                     Triple(
@@ -178,14 +180,14 @@ class FirebaseStorageUtil {
                 }
         }
 
-        fun getCategorias(){
+        fun getCategorias() {
             val db = Firebase.firestore
 
             db.collection("Categorias").get()
                 .addOnSuccessListener { result ->
                     val categorias = mutableListOf<Triple<String, String, String>>()
                     for (document in result) {
-                        if(document.data["estado"].toString() == "aprovado") {
+                        if (document.data["estado"].toString() == "aprovado") {
                             categorias.add(
                                 Triple(
                                     document.data["nome"].toString(),
@@ -210,10 +212,11 @@ class FirebaseStorageUtil {
                 .collection("Locais de Interesse")
                 .get()
                 .addOnSuccessListener { result ->
-                    val locaisInteresse = mutableListOf<Triple<Triple<String, String, String>, Triple<String, String, String>, String>>()
+                    val locaisInteresse =
+                        mutableListOf<Triple<Triple<String, String, String>, Triple<String, String, String>, Triple<String, String, List<String>?>>>()
 
                     for (document in result) {
-                        if (document.data["estado"].toString() == "aprovado") {
+                        if (document.data["estado"].toString() == "aprovado" || document.data["estado"].toString() == "pendente:apagar") {
 
                             var media = 0.0
                             var nClassificacoes = 0
@@ -244,7 +247,11 @@ class FirebaseStorageUtil {
                                                 media.toString(),
                                                 document.data["coordenadas"].toString(),
                                             ),
-                                            document.data["email"].toString()
+                                            Triple(
+                                                document.data["email"].toString(),
+                                                document.data["estado"].toString(),
+                                                document.data["emailVotosEliminar"] as? List<String>
+                                            )
                                         ),
                                     )
 
@@ -263,7 +270,13 @@ class FirebaseStorageUtil {
         }
 
 
-        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
+        fun addLocation(
+            nome: String,
+            descricao: String,
+            imagePath: MutableState<String?>,
+            owner_email: String,
+            function: (Throwable?) -> Unit
+        ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -279,11 +292,18 @@ class FirebaseStorageUtil {
 
             db.collection("Localidades").document(nome).set(data)
                 .addOnSuccessListener { getLocations() }
-                .addOnFailureListener {  }
+                .addOnFailureListener { }
 
         }
 
-        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
+        fun addLocalInteresse(
+            nome: String,
+            descricao: String,
+            categoria: String,
+            imagePath: MutableState<String?>,
+            owner_email: String,
+            function: (Throwable?) -> Unit
+        ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -294,18 +314,26 @@ class FirebaseStorageUtil {
                 "descrição" to descricao,
                 "categoria" to categoria,
                 "classificação" to 0,
-                "coordenadas" to GeoPoint(0.0,0.0),
+                "coordenadas" to GeoPoint(0.0, 0.0),
                 "imagemURL" to "", //imgURL / imagePath.value.toString()
                 "estado" to "pendente",
                 "email" to owner_email
             )
 
-            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).set(data)
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(nome).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
-                .addOnFailureListener {  }
+                .addOnFailureListener { }
         }
 
-        fun addCategoria(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
+        fun addCategoria(
+            nome: String,
+            descricao: String,
+            imagePath: MutableState<String?>,
+            owner_email: String,
+            function: (Throwable?) -> Unit
+        ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -321,11 +349,18 @@ class FirebaseStorageUtil {
 
             db.collection("Categorias").document(nome).set(data)
                 .addOnSuccessListener { getCategorias() }
-                .addOnFailureListener {  }
+                .addOnFailureListener { }
         }
 
 
-        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, oldName : String,function: (Throwable?) -> Unit) {
+        fun updateLocation(
+            nome: String,
+            descricao: String,
+            imagePath: MutableState<String?>,
+            owner_email: String,
+            oldName: String,
+            function: (Throwable?) -> Unit
+        ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -338,37 +373,23 @@ class FirebaseStorageUtil {
                 "estado" to "pendente",
                 "email" to owner_email
             )
-            if(nome.isBlank() || nome.isEmpty())
-                data = hashMapOf(
-                    "descrição" to descricao,
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            else if(descricao.isBlank() || descricao.isEmpty())
-                data = hashMapOf(
-                    "nome" to nome,
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            else if(imagePath.value.toString().isBlank() || imagePath.value.toString().isEmpty() || imagePath.value.toString() == "null")
-                data = hashMapOf(
-                    "nome" to nome,
-                    "descrição" to descricao,
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-
 
 
             db.collection("Localidades").document(oldName).set(data)
                 .addOnSuccessListener { getLocations() }
-                .addOnFailureListener {  }
+                .addOnFailureListener { }
 
         }
 
-        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email : String, oldName : String, function: (Throwable?) -> Unit) {
+        fun updateLocalInteresse(
+            nome: String,
+            descricao: String,
+            categoria: String,
+            imagePath: MutableState<String?>,
+            owner_email: String,
+            oldName: String,
+            function: (Throwable?) -> Unit
+        ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -379,57 +400,18 @@ class FirebaseStorageUtil {
                 "descrição" to descricao,
                 "categoria" to categoria,
                 "classificação" to 0,
-                "coordenadas" to GeoPoint(0.0,0.0),
+                "coordenadas" to GeoPoint(0.0, 0.0),
                 "imagemURL" to "", //imgURL / imagePath.value.toString()
                 "estado" to "pendente",
                 "email" to owner_email
             )
 
-            if(nome.isEmpty() || nome.isBlank())
-                data = hashMapOf(
-                    "descrição" to descricao,
-                    "categoria" to categoria,
-                    "classificação" to 0,
-                    "coordenadas" to GeoPoint(0.0,0.0),
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            else if(descricao.isEmpty() || descricao.isBlank())
-                data = hashMapOf(
-                    "nome" to nome,
-                    "categoria" to categoria,
-                    "classificação" to 0,
-                    "coordenadas" to GeoPoint(0.0,0.0),
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            else if(categoria.isEmpty() || categoria.isBlank())
-                data = hashMapOf(
-                    "nome" to nome,
-                    "descrição" to descricao,
-                    "classificação" to 0,
-                    "coordenadas" to GeoPoint(0.0,0.0),
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            else if(imagePath.value.toString().isBlank() || imagePath.value.toString().isEmpty() || imagePath.value.toString() == "null")
-                data = hashMapOf(
-                    "nome" to nome,
-                    "descrição" to descricao,
-                    "categoria" to categoria,
-                    "classificação" to 0,
-                    "coordenadas" to GeoPoint(0.0,0.0),
-                    "estado" to "pendente",
-                    "email" to owner_email
-                )
-            //else if ()
 
-            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(oldName).set(data)
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(oldName).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
-                .addOnFailureListener {  }
+                .addOnFailureListener { }
 
         }
 
@@ -440,9 +422,106 @@ class FirebaseStorageUtil {
                 "valor" to addClassificacao.toInt(),
             )
 
-            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).collection("Classificação").document(email).set(data)
-                .addOnSuccessListener { getLocaisInteresse() }
-                .addOnFailureListener {  }
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(nome).collection("Classificação")
+                .document(email).set(data)
+                .addOnSuccessListener { }
+                .addOnFailureListener { }
         }
+
+        fun deleteLocalInteresse(nome: String) {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(nome).collection("Classificação")
+                .get()
+                .addOnSuccessListener { resultados ->
+                    if (!resultados.isEmpty) {
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("estado","pendente:apagar")
+
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+                    } else {
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .delete()
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
+        }
+
+        fun voteToDelete(nome: String, email: String) {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(nome)
+                .get()
+                .addOnSuccessListener { resultados ->
+                    if (resultados.data?.get("emailVotosEliminar") != null) {
+                        val votos = resultados.data?.get("emailVotosEliminar") as MutableList<String>
+                        votos.add(email)
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("emailVotosEliminar", votos)
+
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+                    }
+                    else {
+                        val votos = mutableListOf<String>()
+                        votos.add(email)
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("emailVotosEliminar", votos)
+
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+                    }
+
+                    if(resultados.data?.get("nVotosEliminar") != null){
+                        val nVotos = resultados.data?.get("nVotosEliminar").toString().toInt() + 1
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("nVotosEliminar", nVotos)
+
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+                    }
+                    else{
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("nVotosEliminar", 1)
+
+                            .addOnSuccessListener { getLocaisInteresse() }
+                            .addOnFailureListener {}
+
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
+
+        }
+
     }
 }
