@@ -470,6 +470,7 @@ class FirebaseStorageUtil {
                 .collection("Locais de Interesse").document(nome)
                 .get()
                 .addOnSuccessListener { resultados ->
+
                     if (resultados.data?.get("emailVotosEliminar") != null) {
                         val votos = resultados.data?.get("emailVotosEliminar") as MutableList<String>
                         votos.add(email)
@@ -497,6 +498,16 @@ class FirebaseStorageUtil {
 
                     if(resultados.data?.get("nVotosEliminar") != null){
                         val nVotos = resultados.data?.get("nVotosEliminar").toString().toInt() + 1
+
+                        if(nVotos == 3){
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .delete()
+
+                                .addOnSuccessListener { getLocaisInteresse() }
+                                .addOnFailureListener {}
+                        }
 
                         db.collection("Localidades")
                             .document(FirebaseViewModel.currentLocation.value.toString())
