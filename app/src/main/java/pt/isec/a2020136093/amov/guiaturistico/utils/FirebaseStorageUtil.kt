@@ -205,35 +205,63 @@ class FirebaseStorageUtil {
         fun getLocaisInteresse() {
             val db = Firebase.firestore
 
-            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").get()
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse")
+                .get()
                 .addOnSuccessListener { result ->
-                    val locaisInteresse = mutableListOf<Triple<Triple<String, String, String>, Triple<String, Any?, Any?>,String>>()
+                    val locaisInteresse = mutableListOf<Triple<Triple<String, String, String>, Triple<String, String, String>, String>>()
 
                     for (document in result) {
-                        if(document.data["estado"].toString() == "aprovado") {
-                            locaisInteresse.add(
-                                Triple(
-                                    Triple(
-                                        document.data["nome"].toString(),
-                                        document.data["descrição"].toString(),
-                                        document.data["imagemURL"].toString()
-                                    ),
-                                    Triple(
-                                        document.data["categoria"].toString(),
-                                        document.data["classificação"],
-                                        document.data["coordenadas"]
-                                    ),
-                                    document.data["email"].toString()
-                                ),
-                            )
+                        if (document.data["estado"].toString() == "aprovado") {
+
+                            var media = 0.0
+                            var nClassificacoes = 0
+
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse")
+                                .document(document.data["nome"].toString())
+                                .collection("Classificação")
+                                .get()
+                                .addOnSuccessListener { resultados ->
+                                    for (documento in resultados) {
+                                        media += documento.data["valor"].toString().toDouble()
+                                        ++nClassificacoes
+                                    }
+
+                                    media /= nClassificacoes
+
+                                    locaisInteresse.add(
+                                        Triple(
+                                            Triple(
+                                                document.data["nome"].toString(),
+                                                document.data["descrição"].toString(),
+                                                document.data["imagemURL"].toString()
+                                            ),
+                                            Triple(
+                                                document.data["categoria"].toString(),
+                                                media.toString(),
+                                                document.data["coordenadas"].toString(),
+                                            ),
+                                            document.data["email"].toString()
+                                        ),
+                                    )
+
+                                    // Update UI or perform any other action here
+                                    FirebaseViewModel._locaisInteresse.value = locaisInteresse
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.w("TAG", "Error getting classifications.", exception)
+                                }
                         }
                     }
-                    FirebaseViewModel._locaisInteresse.value = locaisInteresse
                 }
                 .addOnFailureListener { exception ->
                     Log.w("TAG", "Error getting documents.", exception)
                 }
         }
+
 
         fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
             val db = Firebase.firestore
@@ -275,8 +303,6 @@ class FirebaseStorageUtil {
             db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
                 .addOnFailureListener {  }
-
-            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).collection("Comentários").document("0").set(hashMapOf("texto" to ""))
         }
 
         fun addCategoria(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email : String, function: (Throwable?) -> Unit) {
@@ -305,13 +331,36 @@ class FirebaseStorageUtil {
             uploadFile(imagePath.value.toString())
             //val imgURL = getImageURL(imagePath.value.toString())
 
-            val data = hashMapOf(
+            var data = hashMapOf(
                 "nome" to nome,
                 "descrição" to descricao,
                 "imagemURL" to "", //imgURL / imagePath.value.toString()
                 "estado" to "pendente",
                 "email" to owner_email
             )
+            if(nome.isBlank() || nome.isEmpty())
+                data = hashMapOf(
+                    "descrição" to descricao,
+                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            else if(descricao.isBlank() || descricao.isEmpty())
+                data = hashMapOf(
+                    "nome" to nome,
+                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            else if(imagePath.value.toString().isBlank() || imagePath.value.toString().isEmpty() || imagePath.value.toString() == "null")
+                data = hashMapOf(
+                    "nome" to nome,
+                    "descrição" to descricao,
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+
+
 
             db.collection("Localidades").document(oldName).set(data)
                 .addOnSuccessListener { getLocations() }
@@ -325,7 +374,7 @@ class FirebaseStorageUtil {
             uploadFile(imagePath.value.toString())
             //val imgURL = getImageURL(imagePath.value.toString())
 
-            val data = hashMapOf(
+            var data = hashMapOf(
                 "nome" to nome,
                 "descrição" to descricao,
                 "categoria" to categoria,
@@ -336,10 +385,64 @@ class FirebaseStorageUtil {
                 "email" to owner_email
             )
 
+            if(nome.isEmpty() || nome.isBlank())
+                data = hashMapOf(
+                    "descrição" to descricao,
+                    "categoria" to categoria,
+                    "classificação" to 0,
+                    "coordenadas" to GeoPoint(0.0,0.0),
+                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            else if(descricao.isEmpty() || descricao.isBlank())
+                data = hashMapOf(
+                    "nome" to nome,
+                    "categoria" to categoria,
+                    "classificação" to 0,
+                    "coordenadas" to GeoPoint(0.0,0.0),
+                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            else if(categoria.isEmpty() || categoria.isBlank())
+                data = hashMapOf(
+                    "nome" to nome,
+                    "descrição" to descricao,
+                    "classificação" to 0,
+                    "coordenadas" to GeoPoint(0.0,0.0),
+                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            else if(imagePath.value.toString().isBlank() || imagePath.value.toString().isEmpty() || imagePath.value.toString() == "null")
+                data = hashMapOf(
+                    "nome" to nome,
+                    "descrição" to descricao,
+                    "categoria" to categoria,
+                    "classificação" to 0,
+                    "coordenadas" to GeoPoint(0.0,0.0),
+                    "estado" to "pendente",
+                    "email" to owner_email
+                )
+            //else if ()
+
             db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(oldName).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
                 .addOnFailureListener {  }
 
+        }
+
+        fun updateClassificacao(nome: String, addClassificacao: String, email: String) {
+            val db = Firebase.firestore
+
+            val data = hashMapOf(
+                "valor" to addClassificacao.toInt(),
+            )
+
+            db.collection("Localidades").document(FirebaseViewModel.currentLocation.value.toString()).collection("Locais de Interesse").document(nome).collection("Classificação").document(email).set(data)
+                .addOnSuccessListener { getLocaisInteresse() }
+                .addOnFailureListener {  }
         }
     }
 }

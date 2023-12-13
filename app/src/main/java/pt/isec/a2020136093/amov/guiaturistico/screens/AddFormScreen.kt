@@ -109,7 +109,9 @@ fun AddFormScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(16.dp))
+
         }
 
         //cria um quadrado para o preview da imagem de galeria ou camera

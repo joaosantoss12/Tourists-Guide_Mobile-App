@@ -321,7 +321,7 @@ fun InterestsScreen(
                                 )
 
                                 Text(
-                                    text = classificacao.toString() + " ★",
+                                    text = classificacao + " ★",
                                     modifier = Modifier
                                         .fillMaxWidth(),
                                     textAlign = TextAlign.Center,
@@ -330,6 +330,24 @@ fun InterestsScreen(
                                     fontSize = 15.sp,
                                     color = Color.Black
                                 )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+
+                                ){
+                                    for(i in 1 .. 4){
+                                        OutlinedButton(
+                                            onClick = {
+                                                viewModel.updateClassificacao_firebase(nome, (i-1).toString())
+                                            },
+                                            modifier = Modifier
+                                                .padding(horizontal = 5.dp),
+                                        ) {
+                                            Text(text = (i-1).toString())
+                                        }
+                                    }
+                                }
 
 
                                 Row(
