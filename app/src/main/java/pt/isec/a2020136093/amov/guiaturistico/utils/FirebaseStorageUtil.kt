@@ -15,6 +15,7 @@ import kotlinx.coroutines.tasks.await
 import okhttp3.internal.wait
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocalInteresse
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.Localizacao
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -155,21 +156,19 @@ class FirebaseStorageUtil {
 
             db.collection("Localidades").get()
                 .addOnSuccessListener { result ->
-                    val localidades =
-                        mutableListOf<Pair<Triple<String, String, String>, Pair<String, String>>>()
+                    val localidades = mutableListOf<Localizacao>()
                     for (document in result) {
                         if (document.data["estado"].toString() == "aprovado") {
                             localidades.add(
-                                Pair(
-                                    Triple(
-                                        document.data["nome"].toString(),
-                                        document.data["descrição"].toString(),
-                                        document.data["imagemURL"].toString()
-                                    ),
-                                    Pair(
-                                        document.data["coordenadas"].toString(),
-                                        document.data["email"].toString()
-                                    )
+                                Localizacao(
+                                    document.data["nome"].toString(),
+                                    document.data["descrição"].toString(),
+                                    document.data["imagemURL"].toString(),
+                                    document.data["coordenadas"].toString(),
+                                    document.data["email"].toString(),
+                                    document.data["estado"].toString(),
+                                    document.data["emailVotosAprovar"] as? List<String>,
+                                    document.data["emailVotosEliminar"] as? List<String>
                                 )
                             )
                         }
@@ -269,8 +268,7 @@ class FirebaseStorageUtil {
             nome: String,
             descricao: String,
             imagePath: MutableState<String?>,
-            owner_email: String,
-            function: (Throwable?) -> Unit
+            owner_email: String
         ) {
             val db = Firebase.firestore
 
@@ -281,6 +279,7 @@ class FirebaseStorageUtil {
                 "nome" to nome,
                 "descrição" to descricao,
                 "imagemURL" to "", //imgURL / imagePath.value.toString()
+                "coordenadas" to GeoPoint(0.0, 0.0),
                 "estado" to "pendente",
                 "email" to owner_email
             )
@@ -296,8 +295,7 @@ class FirebaseStorageUtil {
             descricao: String,
             categoria: String,
             imagePath: MutableState<String?>,
-            owner_email: String,
-            function: (Throwable?) -> Unit
+            owner_email: String
         ) {
             val db = Firebase.firestore
 
@@ -326,8 +324,7 @@ class FirebaseStorageUtil {
             nome: String,
             descricao: String,
             imagePath: MutableState<String?>,
-            owner_email: String,
-            function: (Throwable?) -> Unit
+            owner_email: String
         ) {
             val db = Firebase.firestore
 
@@ -353,8 +350,7 @@ class FirebaseStorageUtil {
             descricao: String,
             imagePath: MutableState<String?>,
             owner_email: String,
-            oldName: String,
-            function: (Throwable?) -> Unit
+            oldName: String
         ) {
             val db = Firebase.firestore
 
@@ -382,8 +378,7 @@ class FirebaseStorageUtil {
             categoria: String,
             imagePath: MutableState<String?>,
             owner_email: String,
-            oldName: String,
-            function: (Throwable?) -> Unit
+            oldName: String
         ) {
             val db = Firebase.firestore
 
@@ -421,7 +416,7 @@ class FirebaseStorageUtil {
                 .document(FirebaseViewModel.currentLocation.value.toString())
                 .collection("Locais de Interesse").document(nome).collection("Classificação")
                 .document(email).set(data)
-                .addOnSuccessListener { getLocaisInteresse() }
+                .addOnSuccessListener {  } //.addOnSuccessListener { getLocaisInteresse() }
                 .addOnFailureListener { }
         }
 
@@ -467,7 +462,31 @@ class FirebaseStorageUtil {
                 .addOnSuccessListener { resultados ->
 
                     if (resultados.data?.get("emailVotosEliminar") != null) {
-                        val votos = resultados.data?.get("emailVotosEliminar") as MutableList<String>
+
+                        if((resultados.data!!.get("emailVotosEliminar") as List<Any?>).size == 2){
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .delete()
+                                .addOnSuccessListener { getLocaisInteresse() }
+                        }
+                        else {
+
+                            val votos =
+                                resultados.data?.get("emailVotosEliminar") as MutableList<String>
+                            votos.add(email)
+
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .update("emailVotosEliminar", votos)
+
+                                .addOnSuccessListener { getLocaisInteresse() }
+                                .addOnFailureListener {}
+                        }
+                    }
+                    else {
+                        val votos = mutableListOf<String>()
                         votos.add(email)
 
                         db.collection("Localidades")
@@ -477,30 +496,6 @@ class FirebaseStorageUtil {
 
                             .addOnSuccessListener { getLocaisInteresse() }
                             .addOnFailureListener {}
-                    }
-                    else {
-                        db.collection("Localidades")
-                                .document(FirebaseViewModel.currentLocation.value.toString())
-                                .collection("Locais de Interesse").document(nome).get()
-                                .addOnSuccessListener{ x ->
-                                    if((x.data!!["emailVotosEliminar"] as List<String>).size == 2){
-                                        db.collection("Localidades")
-                                            .document(FirebaseViewModel.currentLocation.value.toString())
-                                            .collection("Locais de Interesse").document(nome)
-                                            .delete()
-                                    }
-                            }
-
-                        /*val votos = mutableListOf<String>()
-                        votos.add(email)
-
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("emailVotosEliminar", votos)
-
-                            .addOnSuccessListener { getLocaisInteresse() }
-                            .addOnFailureListener {}*/
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -519,16 +514,35 @@ class FirebaseStorageUtil {
                 .addOnSuccessListener { resultados ->
 
                     if (resultados.data?.get("emailVotosAprovar") != null) {
-                        val votos = resultados.data?.get("emailVotosAprovar") as MutableList<String>
-                        votos.add(email)
+                        if((resultados.data!!.get("emailVotosAprovar") as List<Any?>).size == 1){
 
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("emailVotosAprovar", votos)
+                            // APROVAR
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .update("estado","aprovado")
+                                .addOnSuccessListener { getLocaisInteresse() }
 
-                            .addOnSuccessListener {  }
-                            .addOnFailureListener {}
+                            // APAGAR LISTA DE EMAILS DE VOTOS
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .update("emailVotosAprovar",null)
+                        }
+                        else {
+
+                            val votos =
+                                resultados.data?.get("emailVotosAprovar") as MutableList<String>
+                            votos.add(email)
+
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .update("emailVotosAprovar", votos)
+
+                                .addOnSuccessListener { getLocaisInteresse() }
+                                .addOnFailureListener {}
+                        }
                     }
                     else {
                         val votos = mutableListOf<String>()

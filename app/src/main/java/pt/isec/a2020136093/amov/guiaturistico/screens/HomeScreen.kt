@@ -159,10 +159,10 @@ fun HomeScreen(
                                     expanded = false
                                    when(filter){
                                        "A-Z" -> {
-                                           FirebaseViewModel._locations.value?.sortWith(compareBy { it.first.first })
+                                           FirebaseViewModel._locations.value?.sortWith(compareBy { it.nome })
                                        }
                                        "Z-A" -> {
-                                           FirebaseViewModel._locations.value?.sortWith(compareByDescending { it.first.first })
+                                           FirebaseViewModel._locations.value?.sortWith(compareByDescending { it.nome })
                                        }
                                    }
                                 },
@@ -199,10 +199,7 @@ fun HomeScreen(
                     }
 
 
-                    localidades.value?.forEach { (firstInfo, secondInfo) ->
-
-                        val (nome, descricao, imagemURL) = firstInfo
-                        val (coordenadas, email) = secondInfo
+                    localidades.value?.forEach { localizacao ->
 
                         Card(
                             modifier = Modifier
@@ -218,12 +215,12 @@ fun HomeScreen(
                             ) {
 
                                 AsyncImage(
-                                    model = imagemURL,
+                                    model = localizacao.imagemURL,
                                     error = painterResource(id = R.drawable.error),
                                     contentDescription = "city image",
                                 )
                                 Text(
-                                    text = nome,
+                                    text = localizacao.nome,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(0.dp, 10.dp, 0.dp, 0.dp),
@@ -235,7 +232,7 @@ fun HomeScreen(
                                 )
 
                                 Text(
-                                    text = descricao,
+                                    text = localizacao.descricao,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(15.dp),
@@ -254,18 +251,18 @@ fun HomeScreen(
                                     horizontalArrangement = Arrangement.Center
                                 ) {
                                     OutlinedButton(onClick = {
-                                        FirebaseViewModel._currentLocation.value = nome
+                                        FirebaseViewModel._currentLocation.value = localizacao.nome
                                         navController.navigate("Interests")
                                     }) {
                                         Text(text = "Locais de interesse")
                                     }
 
-                                    if(viewModel.user.value?.email == email){
+                                    if(viewModel.user.value?.email == localizacao.email){
                                         Spacer(modifier = Modifier.width(10.dp))
 
                                         Button(onClick = {
                                             viewModel.tipoEditForm.value = "Localização"
-                                            viewModel.editName = nome
+                                            viewModel.editName = localizacao.nome
                                             navController.navigate("EditForm")
                                         }) {
                                             Icon(

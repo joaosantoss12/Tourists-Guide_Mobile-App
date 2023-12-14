@@ -18,6 +18,17 @@ import kotlinx.coroutines.tasks.await
 //import pt.isec.a2020136093.amov.guiaturistico.utils.FStorageUtil
 
 
+class Localizacao(
+    val nome : String,
+    val descricao : String,
+    val imagemURL : String,
+    val coordenadas : String,
+    val email : String,
+    val estado : String,
+    val emailVotosAprovar : List<String>?,
+    val emailVotosEliminar : List<String>?,
+)
+
 class LocalInteresse(
     val nome : String,
     val descricao : String,
@@ -50,8 +61,8 @@ class FirebaseViewModel : ViewModel() {
     var editName = ""
 
     companion object {
-        val _locations = MutableLiveData<MutableList<Pair<Triple<String, String, String>, Pair<String, String>>>>()
-        val locations: LiveData<MutableList<Pair<Triple<String, String, String>, Pair<String, String>>>>
+        val _locations = MutableLiveData<MutableList<Localizacao>>()
+        val locations: LiveData<MutableList<Localizacao>>
             get() = _locations
 
         val _categorias = MutableLiveData<MutableList<Triple<String, String, String>>>()
@@ -128,38 +139,28 @@ class FirebaseViewModel : ViewModel() {
 
     fun addLocation_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!){ exception ->
-                _error.value = exception?.message
-            }
+            FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!)
         }
     }
     fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!){ exception ->
-                _error.value = exception?.message
-            }
+            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!)
         }
     }
     fun addCategoria_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addCategoria(nome,descricao,imagePath,user.value?.email!!){ exception ->
-                _error.value = exception?.message
-            }
+            FirebaseStorageUtil.addCategoria(nome,descricao,imagePath,user.value?.email!!)
         }
     }
 
     fun updateLocation_firebase(nome : String, descricao : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.updateLocation(nome,descricao,imagePath,user.value?.email!!,editName){ exception ->
-                _error.value = exception?.message
-            }
+            FirebaseStorageUtil.updateLocation(nome,descricao,imagePath,user.value?.email!!,editName)
         }
     }
     fun updateLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.updateLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,editName){ exception ->
-                _error.value = exception?.message
-            }
+            FirebaseStorageUtil.updateLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,editName)
         }
     }
 
