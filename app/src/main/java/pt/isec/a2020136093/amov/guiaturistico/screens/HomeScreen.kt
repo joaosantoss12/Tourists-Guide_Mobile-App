@@ -260,22 +260,6 @@ fun HomeScreen(
                                             Text(text = "Locais de interesse")
                                         }
 
-                                        if (localizacao.estado == "pendente:apagar" && viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosEliminar?.contains(
-                                                viewModel.user.value?.email
-                                            ) == false || localizacao.emailVotosEliminar == null)
-                                        ) {
-                                            Spacer(modifier = Modifier.width(10.dp))
-
-                                            Button(onClick = {
-                                                viewModel.voteToDelete(localizacao.nome)
-                                            }) {
-                                                Icon(
-                                                    Icons.Filled.Close,
-                                                    "voteDelete"
-                                                )
-                                            }
-                                        }
-
 
                                         if (viewModel.user.value?.email == localizacao.email) {
                                             Spacer(modifier = Modifier.width(10.dp))
@@ -292,7 +276,7 @@ fun HomeScreen(
                                             }
                                             Spacer(modifier = Modifier.width(10.dp))
                                             Button(onClick = {
-                                                viewModel.deleteLocalInteresse(localizacao.nome)
+                                                viewModel.deleteLocalizacao(localizacao.nome)
                                             }) {
                                                 Icon(
                                                     Icons.Filled.Delete,

@@ -194,6 +194,12 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
+    fun deleteLocalizacao(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.deleteLocalizacao(nome)
+        }
+    }
+
 
     /*
     fun addDataToFirestore(){

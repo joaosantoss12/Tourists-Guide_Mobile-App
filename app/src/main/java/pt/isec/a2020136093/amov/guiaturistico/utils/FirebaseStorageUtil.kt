@@ -425,6 +425,30 @@ class FirebaseStorageUtil {
                 .addOnFailureListener { }
         }
 
+        fun deleteLocalizacao(nome: String) {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(nome)
+                .collection("Locais de Interesse")
+                .get()
+                .addOnSuccessListener { resultados ->
+                    if (resultados.isEmpty) {
+
+                        db.collection("Localidades")
+                            .document(nome)
+                            .delete()
+
+                            .addOnSuccessListener { getLocations() }
+                            .addOnFailureListener {}
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
+
+        }
+
         fun deleteLocalInteresse(nome: String) {
             val db = Firebase.firestore
 
