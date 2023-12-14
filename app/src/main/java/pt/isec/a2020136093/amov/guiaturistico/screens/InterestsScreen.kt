@@ -48,10 +48,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -183,31 +186,80 @@ fun InterestsScreen(
                     LazyRow(
 
                     ) {
-                        categorias.value?.forEach { (nome, descricao, imagemURL) ->
-                            item {
+                        categorias.value?.forEach { categoria ->
 
+                            if (categoria.estado == "aprovado") {
+
+                                item {
+
+                                    Card(
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .background(color = Color.White)
+                                            .size(120.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                        ) {
+                                            AsyncImage(
+                                                model = categoria.imagemURL,
+                                                error = painterResource(id = R.drawable.error),
+                                                contentDescription = "category image",
+                                                contentScale = ContentScale.FillHeight,
+                                            )
+
+                                            Text(
+                                                text = categoria.nome,
+                                                style = TextStyle(
+                                                    color = Color.White,
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 14.sp,
+                                                    shadow = Shadow(
+                                                        color = Color.Black, offset = Offset(3.0f, 4.0f), blurRadius = 1f
+                                                    )
+                                                ),
+                                                modifier = Modifier
+                                                    .align(Alignment.BottomStart)
+                                                    .padding(8.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                            item {
                                 Card(
                                     modifier = Modifier
                                         .padding(8.dp)
-                                        .background(color = Color.White)
                                         .size(120.dp)
+                                        .clickable { navController.navigate("PendingCategories") }
                                 ) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
+                                            .background(color = Color(0, 80, 150, 255))
                                     ) {
                                         AsyncImage(
-                                            model = imagemURL,
+                                            model = R.drawable.info,
                                             error = painterResource(id = R.drawable.error),
                                             contentDescription = "category image",
                                             contentScale = ContentScale.FillHeight,
+                                            modifier = Modifier
+                                                .padding(35.dp)
                                         )
 
                                         Text(
-                                            text = nome,
-                                            color = Color.White,
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 14.sp,
+                                            text = "Pendentes",
+                                                style = TextStyle(
+                                                color = Color.White,
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 14.sp,
+                                                shadow = Shadow(
+                                                    color = Color.Black, offset = Offset(3.0f, 4.0f), blurRadius = 1f
+                                                )
+                                            ),
                                             modifier = Modifier
                                                 .align(Alignment.BottomStart)
                                                 .padding(8.dp)
@@ -215,48 +267,15 @@ fun InterestsScreen(
                                     }
                                 }
                             }
-                        }
-                        item {
-                            Card(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(120.dp)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(color = Color(0, 80, 150, 255))
-                                ) {
-                                    AsyncImage(
-                                        model = R.drawable.info,
-                                        error = painterResource(id = R.drawable.error),
-                                        contentDescription = "category image",
-                                        contentScale = ContentScale.FillHeight,
-                                        modifier = Modifier
-                                            .padding(35.dp)
-                                    )
-
-                                    Text(
-                                        text = "Pendentes",
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp,
-                                        modifier = Modifier
-                                            .align(Alignment.BottomStart)
-                                            .padding(8.dp)
-                                    )
-                                }
+                            item {
+                                AddCategoryButton(
+                                    onClick = {
+                                        navController.navigate("AddForm")
+                                        viewModel.tipoAddForm.value = "Categoria"
+                                    },
+                                )
                             }
                         }
-                        item {
-                            AddCategoryButton(
-                                onClick = {
-                                    navController.navigate("AddForm")
-                                    viewModel.tipoAddForm.value = "Categoria"
-                                },
-                            )
-                        }
-                    }
 
                     Button(
                         onClick = {

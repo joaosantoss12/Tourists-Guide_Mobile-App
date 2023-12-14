@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
 import okhttp3.internal.wait
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.Categoria
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocalInteresse
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Localizacao
@@ -185,17 +186,18 @@ class FirebaseStorageUtil {
 
             db.collection("Categorias").get()
                 .addOnSuccessListener { result ->
-                    val categorias = mutableListOf<Triple<String, String, String>>()
+                    val categorias = mutableListOf<Categoria>()
                     for (document in result) {
-                        if (document.data["estado"].toString() == "aprovado") {
-                            categorias.add(
-                                Triple(
-                                    document.data["nome"].toString(),
-                                    document.data["descrição"].toString(),
-                                    document.data["imagemURL"].toString()
-                                )
+                        categorias.add(
+                            Categoria(
+                                document.data["nome"].toString(),
+                                document.data["descrição"].toString(),
+                                document.data["imagemURL"].toString(),
+                                document.data["email"].toString(),
+                                document.data["estado"].toString(),
+                                document.data["emailVotosAprovar"] as? List<String>
                             )
-                        }
+                        )
                     }
                     FirebaseViewModel._categorias.value = categorias
                 }

@@ -42,6 +42,14 @@ class LocalInteresse(
     val emailVotosEliminar : List<String>?,
 )
 
+class Categoria(
+    val nome : String,
+    val descricao : String,
+    val imagemURL : String,
+    val email : String,
+    val estado : String,
+    val emailVotosAprovar : List<String>?,
+)
 
 
 data class User(val name : String, val email : String, val picture : String?)
@@ -65,8 +73,8 @@ class FirebaseViewModel : ViewModel() {
         val locations: LiveData<MutableList<Localizacao>>
             get() = _locations
 
-        val _categorias = MutableLiveData<MutableList<Triple<String, String, String>>>()
-        val categorias: LiveData<MutableList<Triple<String, String, String>>>
+        val _categorias = MutableLiveData<MutableList<Categoria>>()
+        val categorias: LiveData<MutableList<Categoria>>
             get() = _categorias
 
         val _locaisInteresse = MutableLiveData<MutableList<LocalInteresse>>()
