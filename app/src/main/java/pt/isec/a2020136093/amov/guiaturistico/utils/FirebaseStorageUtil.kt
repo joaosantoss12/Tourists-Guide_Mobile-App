@@ -490,38 +490,6 @@ class FirebaseStorageUtil {
                             .addOnSuccessListener {  }
                             .addOnFailureListener {}
                     }
-
-                    if(resultados.data?.get("nVotosEliminar") != null){
-                        val nVotos = resultados.data?.get("nVotosEliminar").toString().toInt() + 1
-
-                        if(nVotos == 3){
-                            db.collection("Localidades")
-                                .document(FirebaseViewModel.currentLocation.value.toString())
-                                .collection("Locais de Interesse").document(nome)
-                                .delete()
-
-                                .addOnSuccessListener {  }
-                                .addOnFailureListener {}
-                        }
-
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("nVotosEliminar", nVotos)
-
-                            .addOnSuccessListener {  }
-                            .addOnFailureListener {}
-                    }
-                    else{
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("nVotosEliminar", 1)
-
-                            .addOnSuccessListener {  }
-                            .addOnFailureListener {}
-
-                    }
                 }
                 .addOnFailureListener { exception ->
                     // Handle the failure appropriately, e.g., log an error
@@ -561,38 +529,6 @@ class FirebaseStorageUtil {
 
                             .addOnSuccessListener {  }
                             .addOnFailureListener {}
-                    }
-
-                    if(resultados.data?.get("nVotosAprovar") != null){
-                        val nVotos = resultados.data?.get("nVotosAprovar").toString().toInt() + 1
-
-                        if(nVotos == 3){
-                            db.collection("Localidades")
-                                .document(FirebaseViewModel.currentLocation.value.toString())
-                                .collection("Locais de Interesse").document(nome)
-                                .delete()
-
-                                .addOnSuccessListener {  }
-                                .addOnFailureListener {}
-                        }
-
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("nVotosAprovar", nVotos)
-
-                            .addOnSuccessListener {  }
-                            .addOnFailureListener {}
-                    }
-                    else{
-                        db.collection("Localidades")
-                            .document(FirebaseViewModel.currentLocation.value.toString())
-                            .collection("Locais de Interesse").document(nome)
-                            .update("nVotosAprovar", 1)
-
-                            .addOnSuccessListener {  }
-                            .addOnFailureListener {}
-
                     }
                 }
                 .addOnFailureListener { exception ->

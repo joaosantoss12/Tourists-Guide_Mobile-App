@@ -123,7 +123,7 @@ fun PendingInterestsScreen(
                                 color = Color.Gray
                             )
 
-                            if(viewModel.user.value?.email != localInteresse.email && localInteresse.emailVotosAprovar?.contains(viewModel.user.value?.email) == false) {
+                            if(viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosAprovar?.contains(viewModel.user.value?.email) == false || localInteresse.emailVotosAprovar == null)) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()

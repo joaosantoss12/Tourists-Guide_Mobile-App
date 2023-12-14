@@ -369,9 +369,9 @@ fun InterestsScreen(
                                             Text(text = "Comentários")
                                         }
 
-                                        if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && localInteresse.emailVotosEliminar?.contains(
+                                        if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
                                                 viewModel.user.value?.email
-                                            ) == false
+                                            ) == false || localInteresse.emailVotosEliminar == null)
                                         ) {
                                             Spacer(modifier = Modifier.width(10.dp))
 
