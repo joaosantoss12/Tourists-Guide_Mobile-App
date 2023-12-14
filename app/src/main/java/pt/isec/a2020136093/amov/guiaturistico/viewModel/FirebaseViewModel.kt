@@ -208,6 +208,12 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
+    fun voteToAproveCategories(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.voteToAproveCategories(nome,user.value?.email!!)
+        }
+    }
+
 
     /*
     fun addDataToFirestore(){

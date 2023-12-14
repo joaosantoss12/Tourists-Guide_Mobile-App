@@ -646,5 +646,56 @@ class FirebaseStorageUtil {
                 }
         }
 
+        fun voteToAproveCategories(nome: String, email: String) {
+            val db = Firebase.firestore
+
+            db.collection("Categorias")
+                .document(nome)
+                .get()
+                .addOnSuccessListener { resultados ->
+
+                    if (resultados.data?.get("emailVotosAprovar") != null) {
+                        if((resultados.data!!.get("emailVotosAprovar") as List<Any?>).size == 1){
+
+                            // APROVAR
+                            db.collection("Categorias")
+                                .document(nome)
+                                .update("estado","aprovado")
+                                .addOnSuccessListener { getCategorias() }
+
+                            // APAGAR LISTA DE EMAILS DE VOTOS
+                            db.collection("Categorias")
+                                .document(nome)
+                                .update("emailVotosAprovar",null)
+                        }
+                        else {
+                            val votos = resultados.data?.get("emailVotosAprovar") as MutableList<String>
+                            votos.add(email)
+
+                            db.collection("Categorias")
+                                .document(nome)
+                                .update("emailVotosAprovar", votos)
+
+                                .addOnSuccessListener { getCategorias() }
+                                .addOnFailureListener {}
+                        }
+                    }
+                    else {
+                        val votos = mutableListOf<String>()
+                        votos.add(email)
+
+                        db.collection("Categorias")
+                            .document(nome)
+                            .update("emailVotosAprovar", votos)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
+        }
+
     }
 }

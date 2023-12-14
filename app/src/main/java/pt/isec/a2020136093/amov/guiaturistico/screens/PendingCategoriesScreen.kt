@@ -131,7 +131,7 @@ fun PendingCategoriesScreen(
                                 ) {
                                     OutlinedButton(
                                         onClick = {
-                                            viewModel.voteToAprove(categoria.nome)
+                                            viewModel.voteToAproveCategories(categoria.nome)
                                         },
                                     ) {
                                         Text(text = "Aprovar")
