@@ -42,6 +42,7 @@ const val INTERESTS_SCREEN = "Interests"
 
 const val ADDFORM_SCREEN = "AddForm"
 const val EDITFORM_SCREEN = "EditForm"
+const val PENDING_INTERESTS= "PendingInterests"
 
 const val CREDITS_SCREEN = "Credits"
 
@@ -154,6 +155,10 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
             }
             composable(EDITFORM_SCREEN){
                 EditFormScreen(viewModel,navController,viewModel.editName)
+            }
+
+            composable(PENDING_INTERESTS){
+                PendingInterestsScreen(viewModel,navController)
             }
 
             composable(CREDITS_SCREEN){

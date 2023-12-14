@@ -260,8 +260,7 @@ fun InterestsScreen(
 
                     Button(
                         onClick = {
-                            //navController.navigate("AddForm")
-                            //viewModel.tipoAddForm.value = "Localização"
+                            navController.navigate("PendingInterests")
                         },
                         modifier = Modifier
                             .padding(16.dp)
