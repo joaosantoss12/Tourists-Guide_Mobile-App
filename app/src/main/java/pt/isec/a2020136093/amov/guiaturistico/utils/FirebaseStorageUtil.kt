@@ -688,7 +688,7 @@ class FirebaseStorageUtil {
                             .document(nome)
                             .update("emailVotosAprovar", votos)
 
-                            .addOnSuccessListener {  }
+                            .addOnSuccessListener { getCategorias() }
                             .addOnFailureListener {}
                     }
                 }
