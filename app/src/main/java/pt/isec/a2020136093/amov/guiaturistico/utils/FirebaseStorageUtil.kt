@@ -475,7 +475,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("emailVotosEliminar", votos)
 
-                            .addOnSuccessListener {  }
+                            .addOnSuccessListener { getLocaisInteresse() }
                             .addOnFailureListener {}
                     }
                     else {
@@ -487,7 +487,7 @@ class FirebaseStorageUtil {
                             .collection("Locais de Interesse").document(nome)
                             .update("emailVotosEliminar", votos)
 
-                            .addOnSuccessListener {  }
+                            .addOnSuccessListener { getLocaisInteresse() }
                             .addOnFailureListener {}
                     }
                 }
