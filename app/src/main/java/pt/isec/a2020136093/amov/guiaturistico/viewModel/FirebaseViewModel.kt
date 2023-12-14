@@ -182,11 +182,18 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
+    fun voteToAproveLocation(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.voteToAproveLocation(nome,user.value?.email!!)
+        }
+    }
+
     fun voteToAprove(nome : String) {
         viewModelScope.launch{
             FirebaseStorageUtil.voteToAprove(nome,user.value?.email!!)
         }
     }
+
 
     /*
     fun addDataToFirestore(){

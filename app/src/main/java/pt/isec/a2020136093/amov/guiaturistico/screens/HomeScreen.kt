@@ -15,6 +15,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -181,8 +183,7 @@ fun HomeScreen(
 
                     Button(
                         onClick = {
-                            //navController.navigate("AddForm")
-                            //viewModel.tipoAddForm.value = "Localização"
+                            navController.navigate("PendingLocations")
                         },
                         modifier = Modifier
                             .padding(16.dp)
@@ -200,81 +201,110 @@ fun HomeScreen(
 
 
                     localidades.value?.forEach { localizacao ->
+                        if (localizacao.estado == "aprovado" || localizacao.estado == "pendente:apagar") {
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            elevation = CardDefaults.cardElevation(10.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            )
-                        ) {
-                            Column(
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxWidth(),
+                                elevation = CardDefaults.cardElevation(10.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                )
                             ) {
-
-                                AsyncImage(
-                                    model = localizacao.imagemURL,
-                                    error = painterResource(id = R.drawable.error),
-                                    contentDescription = "city image",
-                                )
-                                Text(
-                                    text = localizacao.nome,
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                    textAlign = TextAlign.Center,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = FontFamily.Serif,
-                                    fontSize = 18.sp,
-                                    color = Color.Black
-                                )
-
-                                Text(
-                                    text = localizacao.descricao,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(15.dp),
-                                    maxLines = 3,
-                                    fontFamily = FontFamily.Serif,
-                                    fontSize = 13.sp,
-                                    color = Color.Gray
-                                )
-
-                                Spacer(modifier = Modifier.height(12.dp))
-
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                    horizontalArrangement = Arrangement.Center
+                                        .fillMaxSize()
                                 ) {
-                                    OutlinedButton(onClick = {
-                                        FirebaseViewModel._currentLocation.value = localizacao.nome
-                                        navController.navigate("Interests")
-                                    }) {
-                                        Text(text = "Locais de interesse")
-                                    }
 
-                                    if(viewModel.user.value?.email == localizacao.email){
-                                        Spacer(modifier = Modifier.width(10.dp))
+                                    AsyncImage(
+                                        model = localizacao.imagemURL,
+                                        error = painterResource(id = R.drawable.error),
+                                        contentDescription = "city image",
+                                    )
+                                    Text(
+                                        text = localizacao.nome,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 18.sp,
+                                        color = Color.Black
+                                    )
 
-                                        Button(onClick = {
-                                            viewModel.tipoEditForm.value = "Localização"
-                                            viewModel.editName = localizacao.nome
-                                            navController.navigate("EditForm")
+                                    Text(
+                                        text = localizacao.descricao,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(15.dp),
+                                        maxLines = 3,
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 13.sp,
+                                        color = Color.Gray
+                                    )
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        OutlinedButton(onClick = {
+                                            FirebaseViewModel._currentLocation.value =
+                                                localizacao.nome
+                                            navController.navigate("Interests")
                                         }) {
-                                            Icon(
-                                                Icons.Filled.Edit,
-                                                "edit"
-                                            )
+                                            Text(text = "Locais de interesse")
+                                        }
+
+                                        if (localizacao.estado == "pendente:apagar" && viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosEliminar?.contains(
+                                                viewModel.user.value?.email
+                                            ) == false || localizacao.emailVotosEliminar == null)
+                                        ) {
+                                            Spacer(modifier = Modifier.width(10.dp))
+
+                                            Button(onClick = {
+                                                viewModel.voteToDelete(localizacao.nome)
+                                            }) {
+                                                Icon(
+                                                    Icons.Filled.Close,
+                                                    "voteDelete"
+                                                )
+                                            }
+                                        }
+
+
+                                        if (viewModel.user.value?.email == localizacao.email) {
+                                            Spacer(modifier = Modifier.width(10.dp))
+
+                                            Button(onClick = {
+                                                viewModel.tipoEditForm.value = "Localização"
+                                                viewModel.editName = localizacao.nome
+                                                navController.navigate("EditForm")
+                                            }) {
+                                                Icon(
+                                                    Icons.Filled.Edit,
+                                                    "edit"
+                                                )
+                                            }
+                                            Spacer(modifier = Modifier.width(10.dp))
+                                            Button(onClick = {
+                                                viewModel.deleteLocalInteresse(localizacao.nome)
+                                            }) {
+                                                Icon(
+                                                    Icons.Filled.Delete,
+                                                    "delete"
+                                                )
+                                            }
                                         }
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.height(20.dp))
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
                     }
 
 

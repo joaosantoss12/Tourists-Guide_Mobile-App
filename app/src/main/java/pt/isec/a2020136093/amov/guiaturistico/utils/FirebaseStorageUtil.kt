@@ -158,7 +158,7 @@ class FirebaseStorageUtil {
                 .addOnSuccessListener { result ->
                     val localidades = mutableListOf<Localizacao>()
                     for (document in result) {
-                        if (document.data["estado"].toString() == "aprovado") {
+                        //if (document.data["estado"].toString() == "aprovado") {
                             localidades.add(
                                 Localizacao(
                                     document.data["nome"].toString(),
@@ -171,7 +171,7 @@ class FirebaseStorageUtil {
                                     document.data["emailVotosEliminar"] as? List<String>
                                 )
                             )
-                        }
+                        //}
                     }
                     FirebaseViewModel._locations.value = localidades
                 }
@@ -366,10 +366,11 @@ class FirebaseStorageUtil {
             )
 
 
-            db.collection("Localidades").document(oldName).set(data)
+            db.collection("Localidades").document(nome).set(data)
                 .addOnSuccessListener { getLocations() }
                 .addOnFailureListener { }
 
+            db.collection("Localidades").document(oldName).delete().addOnSuccessListener { getLocations() }
         }
 
         fun updateLocalInteresse(
@@ -399,10 +400,14 @@ class FirebaseStorageUtil {
 
             db.collection("Localidades")
                 .document(FirebaseViewModel.currentLocation.value.toString())
-                .collection("Locais de Interesse").document(oldName).set(data)
+                .collection("Locais de Interesse").document(nome).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
                 .addOnFailureListener { }
 
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(oldName).delete()
+                .addOnSuccessListener { getLocaisInteresse() }
         }
 
         fun updateClassificacao(nome: String, addClassificacao: String, email: String) {
@@ -502,6 +507,59 @@ class FirebaseStorageUtil {
                     // Handle the failure appropriately, e.g., log an error
                 }
 
+        }
+
+        fun voteToAproveLocation(nome: String, email: String) {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(nome)
+                .get()
+                .addOnSuccessListener { resultados ->
+
+                    if (resultados.data?.get("emailVotosAprovar") != null) {
+                        if((resultados.data!!.get("emailVotosAprovar") as List<Any?>).size == 1){
+
+                            // APROVAR
+                            db.collection("Localidades")
+                                .document(nome)
+                                .update("estado","aprovado")
+                                .addOnSuccessListener { getLocations() }
+
+                            // APAGAR LISTA DE EMAILS DE VOTOS
+                            db.collection("Localidades")
+                                .document(nome)
+                                .update("emailVotosAprovar",null)
+                        }
+                        else {
+
+                            val votos =
+                                resultados.data?.get("emailVotosAprovar") as MutableList<String>
+                            votos.add(email)
+
+                            db.collection("Localidades")
+                                .document(nome)
+                                .update("emailVotosAprovar", votos)
+
+                                .addOnSuccessListener { getLocaisInteresse() }
+                                .addOnFailureListener {}
+                        }
+                    }
+                    else {
+                        val votos = mutableListOf<String>()
+                        votos.add(email)
+
+                        db.collection("Localidades")
+                            .document(nome)
+                            .update("emailVotosAprovar", votos)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
         }
 
         fun voteToAprove(nome : String, email : String) {

@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
@@ -47,7 +50,8 @@ fun PendingLocationsScreen(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp, 0.dp, 16.dp, 0.dp),
+            .background(Color.White)
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(R.string.title_pending_locations),
@@ -61,72 +65,81 @@ fun PendingLocationsScreen(
                 .padding(16.dp, 0.dp, 16.dp, 20.dp)
         )
 
-        localidades.value?.forEach { localizacao ->
+        Column(
+            modifier = Modifier
+                .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            localidades.value?.forEach { localizacao ->
 
-            if (localizacao.estado == "pendente") {
+                if (localizacao.estado == "pendente") {
 
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    )
-                ) {
-                    Column(
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
                     ) {
-
-                        AsyncImage(
-                            model = localizacao.imagemURL,
-                            error = painterResource(id = R.drawable.error),
-                            contentDescription = "city image",
-                        )
-                        Text(
-                            text = localizacao.nome,
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 18.sp,
-                            color = Color.Black
-                        )
+                                .fillMaxSize()
+                        ) {
 
-                        Text(
-                            text = localizacao.descricao,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(15.dp),
-                            maxLines = 3,
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 13.sp,
-                            color = Color.Gray
-                        )
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        if(viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosAprovar?.contains(viewModel.user.value?.email) == false || localizacao.emailVotosAprovar == null)) {
-                            Row(
+                            AsyncImage(
+                                model = localizacao.imagemURL,
+                                error = painterResource(id = R.drawable.error),
+                                contentDescription = "city image",
+                            )
+                            Text(
+                                text = localizacao.nome,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                horizontalArrangement = Arrangement.Center
+                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+
+                            Text(
+                                text = localizacao.descricao,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(15.dp),
+                                maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            if (viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosAprovar?.contains(
+                                    viewModel.user.value?.email
+                                ) == false || localizacao.emailVotosAprovar == null)
                             ) {
-                                OutlinedButton(
-                                    onClick = {
-                                        viewModel.voteToAprove(localizacao.nome)
-                                    },
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
                                 ) {
-                                    Text(text = "Aprovar")
+                                    OutlinedButton(
+                                        onClick = {
+                                            viewModel.voteToAproveLocation(localizacao.nome)
+                                        },
+                                    ) {
+                                        Text(text = "Aprovar")
+                                    }
                                 }
                             }
                         }
                     }
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
-                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }

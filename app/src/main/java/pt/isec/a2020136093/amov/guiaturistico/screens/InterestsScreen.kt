@@ -370,8 +370,7 @@ fun InterestsScreen(
                                         }
 
                                         if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
-                                                viewModel.user.value?.email
-                                            ) == false || localInteresse.emailVotosEliminar == null)
+                                                viewModel.user.value?.email) == false || localInteresse.emailVotosEliminar == null)
                                         ) {
                                             Spacer(modifier = Modifier.width(10.dp))
 
