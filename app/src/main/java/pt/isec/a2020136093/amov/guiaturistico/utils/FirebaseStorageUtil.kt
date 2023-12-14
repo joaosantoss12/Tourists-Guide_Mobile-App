@@ -479,7 +479,19 @@ class FirebaseStorageUtil {
                             .addOnFailureListener {}
                     }
                     else {
-                        val votos = mutableListOf<String>()
+                        db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome).get()
+                                .addOnSuccessListener{ x ->
+                                    if((x.data!!["emailVotosEliminar"] as List<String>).size == 2){
+                                        db.collection("Localidades")
+                                            .document(FirebaseViewModel.currentLocation.value.toString())
+                                            .collection("Locais de Interesse").document(nome)
+                                            .delete()
+                                    }
+                            }
+
+                        /*val votos = mutableListOf<String>()
                         votos.add(email)
 
                         db.collection("Localidades")
@@ -488,7 +500,7 @@ class FirebaseStorageUtil {
                             .update("emailVotosEliminar", votos)
 
                             .addOnSuccessListener { getLocaisInteresse() }
-                            .addOnFailureListener {}
+                            .addOnFailureListener {}*/
                     }
                 }
                 .addOnFailureListener { exception ->
