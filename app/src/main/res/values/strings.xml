@@ -22,5 +22,6 @@
     <string name="adicionaLocalInteresse">Adicionar local de interesse</string>
     <string name="localizacoes_pendentes">Localizações Pendentes</string>
     <string name="locais_interesse_pendentes">Locais Interesse Pendentes</string>
+    <string name="title_pending_locations">Localizações Pendentes</string>
     <string name="title_pending_interests">Locais de Interesse Pendentes</string>
 </resources>

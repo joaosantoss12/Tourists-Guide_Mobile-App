@@ -14,6 +14,7 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
 import okhttp3.internal.wait
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocalInteresse
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -212,11 +213,10 @@ class FirebaseStorageUtil {
                 .collection("Locais de Interesse")
                 .get()
                 .addOnSuccessListener { result ->
-                    val locaisInteresse =
-                        mutableListOf<Triple<Triple<String, String, String>, Triple<String, String, String>, Triple<String, String, List<String>?>>>()
+                    val locaisInteresse = mutableListOf<LocalInteresse>()
 
                     for (document in result) {
-                        if (document.data["estado"].toString() == "aprovado" || document.data["estado"].toString() == "pendente:apagar") {
+                        //if (document.data["estado"].toString() == "aprovado" || document.data["estado"].toString() == "pendente:apagar") {
 
                             var media = 0.0
                             var nClassificacoes = 0
@@ -236,22 +236,17 @@ class FirebaseStorageUtil {
                                     media /= nClassificacoes
 
                                     locaisInteresse.add(
-                                        Triple(
-                                            Triple(
+                                        LocalInteresse(
                                                 document.data["nome"].toString(),
                                                 document.data["descrição"].toString(),
-                                                document.data["imagemURL"].toString()
-                                            ),
-                                            Triple(
+                                                document.data["imagemURL"].toString(),
                                                 document.data["categoria"].toString(),
                                                 media.toString(),
                                                 document.data["coordenadas"].toString(),
-                                            ),
-                                            Triple(
                                                 document.data["email"].toString(),
                                                 document.data["estado"].toString(),
+                                                document.data["emailVotosAprovar"] as? List<String>,
                                                 document.data["emailVotosEliminar"] as? List<String>
-                                            )
                                         ),
                                     )
 
@@ -261,7 +256,7 @@ class FirebaseStorageUtil {
                                 .addOnFailureListener { exception ->
                                     Log.w("TAG", "Error getting classifications.", exception)
                                 }
-                        }
+                        //}
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -532,6 +527,77 @@ class FirebaseStorageUtil {
                     // Handle the failure appropriately, e.g., log an error
                 }
 
+        }
+
+        fun voteToAprove(nome : String, email : String) {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(nome)
+                .get()
+                .addOnSuccessListener { resultados ->
+
+                    if (resultados.data?.get("emailVotosAprovar") != null) {
+                        val votos = resultados.data?.get("emailVotosAprovar") as MutableList<String>
+                        votos.add(email)
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("emailVotosAprovar", votos)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+                    }
+                    else {
+                        val votos = mutableListOf<String>()
+                        votos.add(email)
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("emailVotosAprovar", votos)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+                    }
+
+                    if(resultados.data?.get("nVotosAprovar") != null){
+                        val nVotos = resultados.data?.get("nVotosAprovar").toString().toInt() + 1
+
+                        if(nVotos == 3){
+                            db.collection("Localidades")
+                                .document(FirebaseViewModel.currentLocation.value.toString())
+                                .collection("Locais de Interesse").document(nome)
+                                .delete()
+
+                                .addOnSuccessListener {  }
+                                .addOnFailureListener {}
+                        }
+
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("nVotosAprovar", nVotos)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+                    }
+                    else{
+                        db.collection("Localidades")
+                            .document(FirebaseViewModel.currentLocation.value.toString())
+                            .collection("Locais de Interesse").document(nome)
+                            .update("nVotosAprovar", 1)
+
+                            .addOnSuccessListener {  }
+                            .addOnFailureListener {}
+
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle the failure appropriately, e.g., log an error
+                }
         }
 
     }

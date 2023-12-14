@@ -17,6 +17,22 @@ import kotlinx.coroutines.tasks.await
 
 //import pt.isec.a2020136093.amov.guiaturistico.utils.FStorageUtil
 
+
+class LocalInteresse(
+    val nome : String,
+    val descricao : String,
+    val imagemURL : String,
+    val categoria : String,
+    val classificacao : String,
+    val coordenadas : String,
+    val email : String,
+    val estado : String,
+    val emailVotosAprovar : List<String>?,
+    val emailVotosEliminar : List<String>?,
+)
+
+
+
 data class User(val name : String, val email : String, val picture : String?)
 
 fun FirebaseUser.toUser() : User {
@@ -42,8 +58,8 @@ class FirebaseViewModel : ViewModel() {
         val categorias: LiveData<MutableList<Triple<String, String, String>>>
             get() = _categorias
 
-        val _locaisInteresse = MutableLiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, Triple<String,String,List<String>?>>>>()
-        val locaisInteresse: LiveData<MutableList<Triple <Triple<String,String,String>, Triple<String,String,String>, Triple<String,String,List<String>?>>>>
+        val _locaisInteresse = MutableLiveData<MutableList<LocalInteresse>>()
+        val locaisInteresse: LiveData<MutableList<LocalInteresse>>
             get() = _locaisInteresse
 
         val _currentLocation = MutableLiveData<String>()
@@ -162,6 +178,12 @@ class FirebaseViewModel : ViewModel() {
     fun voteToDelete(nome: String) {
         viewModelScope.launch{
             FirebaseStorageUtil.voteToDelete(nome,user.value?.email!!)
+        }
+    }
+
+    fun voteToAprove(nome : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.voteToAprove(nome,user.value?.email!!)
         }
     }
 
