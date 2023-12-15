@@ -25,4 +25,5 @@
     <string name="title_pending_locations">Localizações Pendentes</string>
     <string name="title_pending_interests">Locais de Interesse Pendentes</string>
     <string name="title_categorias_pendentes">Categorias Pendentes</string>
+    <string name="comentarios">Comentários</string>
 </resources>
