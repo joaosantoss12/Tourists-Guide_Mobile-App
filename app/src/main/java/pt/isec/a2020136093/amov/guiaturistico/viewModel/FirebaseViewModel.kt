@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class Localizacao(
     val nome : String,
     val descricao : String,
     val imagemURL : String,
-    val coordenadas : String,
+    val coordenadas : GeoPoint,
     val email : String,
     val estado : String,
     val emailVotosAprovar : List<String>?,
@@ -35,7 +36,7 @@ class LocalInteresse(
     val imagemURL : String,
     val categoria : String,
     val classificacao : String,
-    val coordenadas : String,
+    val coordenadas : GeoPoint,
     val email : String,
     val estado : String,
     val emailVotosAprovar : List<String>?,
@@ -49,6 +50,12 @@ class Categoria(
     val email : String,
     val estado : String,
     val emailVotosAprovar : List<String>?,
+)
+
+class Comentario(
+    val data : Timestamp,
+    val texto : String,
+    val email : String,
 )
 
 
@@ -80,6 +87,12 @@ class FirebaseViewModel : ViewModel() {
         val _locaisInteresse = MutableLiveData<MutableList<LocalInteresse>>()
         val locaisInteresse: LiveData<MutableList<LocalInteresse>>
             get() = _locaisInteresse
+
+        val _comentarios = MutableLiveData<MutableList<Comentario>>()
+        val comentarios: LiveData<MutableList<Comentario>>
+            get() = _comentarios
+
+
 
         val _currentLocation = MutableLiveData<String>()
         val currentLocation: LiveData<String>
@@ -225,30 +238,10 @@ class FirebaseViewModel : ViewModel() {
     }
 
 
-    /*
-    fun addDataToFirestore(){
-        viewModelScope.launch{
-            FStorageUtil.addDataToFirestore{ exception ->
-                _error.value = exception?.message
-            }
-        }
-    }
 
-    fun updateDataToFirestore() {
-        viewModelScope.launch{
-            FStorageUtil.updateDataInFirestore{ exception ->
-                _error.value = exception?.message
-            }
-        }
+    fun getComentarios() {
+        FirebaseStorageUtil.getComentarios()
     }
-
-    fun startObserver(){
-        viewModelScope.launch{
-            FStorageUtil.startObserver(){games, topscore ->
-                Log.i("TESTE", "******** $games $topscore ********")
-            }
-        }
-    }*/
 
 
 }

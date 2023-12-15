@@ -4,6 +4,7 @@ import android.content.res.AssetManager
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ListenerRegistration
@@ -14,6 +15,7 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
 import okhttp3.internal.wait
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Categoria
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.Comentario
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocalInteresse
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Localizacao
@@ -165,7 +167,7 @@ class FirebaseStorageUtil {
                                     document.data["nome"].toString(),
                                     document.data["descrição"].toString(),
                                     document.data["imagemURL"].toString(),
-                                    document.data["coordenadas"].toString(),
+                                    document.data["coordenadas"] as GeoPoint,
                                     document.data["email"].toString(),
                                     document.data["estado"].toString(),
                                     document.data["emailVotosAprovar"] as? List<String>,
@@ -243,7 +245,7 @@ class FirebaseStorageUtil {
                                                 document.data["imagemURL"].toString(),
                                                 document.data["categoria"].toString(),
                                                 media.toString(),
-                                                document.data["coordenadas"].toString(),
+                                                document.data["coordenadas"] as GeoPoint,
                                                 document.data["email"].toString(),
                                                 document.data["estado"].toString(),
                                                 document.data["emailVotosAprovar"] as? List<String>,
@@ -716,6 +718,36 @@ class FirebaseStorageUtil {
                     .addOnSuccessListener { getCategorias() }
                     .addOnFailureListener { }
             }
+        }
+
+
+
+        fun getComentarios() {
+            val db = Firebase.firestore
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(FirebaseViewModel.currentLocalInteresse.value.toString())
+                .collection("Comentários")
+                .get()
+                .addOnSuccessListener { result ->
+                    val comentarios = mutableListOf<Comentario>()
+
+                    for (document in result) {
+                        comentarios.add(
+                            Comentario(
+                                document.data["data"] as Timestamp,
+                                document.data["texto"].toString(),
+                                document.data["email"].toString()
+                            )
+                        )
+                    }
+                    FirebaseViewModel._comentarios.value = comentarios
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("TAG", "Error getting documents.", exception)
+                }
+
         }
     }
 }
