@@ -697,5 +697,25 @@ class FirebaseStorageUtil {
                 }
         }
 
+        fun deleteCategoria(nome: String) {
+            val db = Firebase.firestore
+            var delete = true
+
+            db.collection("Locadidades").get()
+                .addOnSuccessListener { results ->
+                    for (document in results) {
+                        if (document.data["categoria"].toString() == nome) {
+
+                            delete = false
+                        }
+                    }
+                }
+
+            if(delete) {
+                db.collection("Categorias").document(nome).delete()
+                    .addOnSuccessListener { getCategorias() }
+                    .addOnFailureListener { }
+            }
+        }
     }
 }

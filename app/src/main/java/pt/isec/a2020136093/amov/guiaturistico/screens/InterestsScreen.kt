@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -208,6 +209,25 @@ fun InterestsScreen(
                                                 contentDescription = "category image",
                                                 contentScale = ContentScale.FillHeight,
                                             )
+
+                                            if (viewModel.user.value?.email == categoria.email) {
+                                                Button(
+                                                    onClick = {
+                                                        viewModel.deleteCategoria(categoria.nome)
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color(185, 0, 0, 255)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .align(Alignment.TopEnd)
+                                                        .scale(0.8f)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.Delete,
+                                                        contentDescription = "delete",
+                                                    )
+                                                }
+                                            }
 
                                             Text(
                                                 text = categoria.nome,
@@ -382,8 +402,8 @@ fun InterestsScreen(
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         OutlinedButton(onClick = {
-                                            //FirebaseViewModel._currentLocation.value = nome
-                                            //navController.navigate("Comentários")
+                                            FirebaseViewModel._currentLocalInteresse.value = localInteresse.nome
+                                            navController.navigate("Comments")
                                         }) {
                                             Text(text = "Comentários")
                                         }

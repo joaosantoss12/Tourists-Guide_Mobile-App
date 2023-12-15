@@ -47,6 +47,8 @@ const val PENDING_LOCATIONS = "PendingLocations"
 const val PENDING_INTERESTS = "PendingInterests"
 const val PENDING_CATEGORIES = "PendingCategories"
 
+const val COMMENTS_SCREEN = "Comments"
+
 const val CREDITS_SCREEN = "Credits"
 
 
@@ -168,6 +170,10 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
             }
             composable(PENDING_CATEGORIES){
                 PendingCategoriesScreen(viewModel,navController)
+            }
+
+            composable(COMMENTS_SCREEN){
+                CommentsScreen(viewModel,navController)
             }
 
             composable(CREDITS_SCREEN){

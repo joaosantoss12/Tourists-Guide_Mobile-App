@@ -84,6 +84,10 @@ class FirebaseViewModel : ViewModel() {
         val _currentLocation = MutableLiveData<String>()
         val currentLocation: LiveData<String>
             get() = _currentLocation
+
+        val _currentLocalInteresse = MutableLiveData<String>()
+        val currentLocalInteresse: LiveData<String>
+            get() = _currentLocalInteresse
     }
 
     private val _user = mutableStateOf(FirebaseAuthUtil.currentUser?.toUser())
@@ -211,6 +215,12 @@ class FirebaseViewModel : ViewModel() {
     fun voteToAproveCategories(nome: String) {
         viewModelScope.launch{
             FirebaseStorageUtil.voteToAproveCategories(nome,user.value?.email!!)
+        }
+    }
+
+    fun deleteCategoria(nome: String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.deleteCategoria(nome)
         }
     }
 
