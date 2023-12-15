@@ -1,5 +1,7 @@
 package pt.isec.a2020136093.amov.guiaturistico.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,7 +38,13 @@ import coil.compose.AsyncImage
 import pt.isec.a2020136093.amov.guiaturistico.R
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel.Companion.categorias
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CommentsScreen(
     viewModel: FirebaseViewModel,
@@ -99,24 +107,19 @@ fun CommentsScreen(
                             )
 
                             Row (
+                                horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(7.dp),
+                                    .padding(15.dp),
                             ){
                                 Text(
                                     text = comentario.email,
-                                    modifier = Modifier,
-                                    style = TextStyle(
-                                        textAlign = TextAlign.End
-                                    )
+                                    color = Color.Gray
                                 )
 
                                 Text(
-                                    text = comentario.data.toDate().toString(),
-                                    modifier = Modifier,
-                                    style = TextStyle(
-                                        textAlign = TextAlign.Start
-                                    )
+                                    text = comentario.dia + "/" + comentario.mes + "/" + comentario.ano,
+                                    color = Color.Gray
                                 )
                             }
 
@@ -127,4 +130,14 @@ fun CommentsScreen(
             }
         }
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatTimestampToDate(timestamp: Long): String {
+
+    val instant = Instant.ofEpochMilli(timestamp)
+    val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return localDateTime.format(formatter)
 }

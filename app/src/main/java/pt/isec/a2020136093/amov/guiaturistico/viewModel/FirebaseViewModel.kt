@@ -23,7 +23,7 @@ class Localizacao(
     val nome : String,
     val descricao : String,
     val imagemURL : String,
-    val coordenadas : GeoPoint,
+    val coordenadas : GeoPoint?,
     val email : String,
     val estado : String,
     val emailVotosAprovar : List<String>?,
@@ -36,7 +36,7 @@ class LocalInteresse(
     val imagemURL : String,
     val categoria : String,
     val classificacao : String,
-    val coordenadas : GeoPoint,
+    val coordenadas : GeoPoint?,
     val email : String,
     val estado : String,
     val emailVotosAprovar : List<String>?,
@@ -53,7 +53,9 @@ class Categoria(
 )
 
 class Comentario(
-    val data : Timestamp,
+    val ano : String,
+    val mes : String,
+    val dia : String,
     val texto : String,
     val email : String,
 )

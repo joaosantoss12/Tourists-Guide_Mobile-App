@@ -253,8 +253,7 @@ fun HomeScreen(
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         OutlinedButton(onClick = {
-                                            FirebaseViewModel._currentLocation.value =
-                                                localizacao.nome
+                                            FirebaseViewModel._currentLocation.value = localizacao.nome
                                             navController.navigate("Interests")
                                         }) {
                                             Text(text = "Locais de interesse")

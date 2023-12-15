@@ -167,7 +167,7 @@ class FirebaseStorageUtil {
                                     document.data["nome"].toString(),
                                     document.data["descrição"].toString(),
                                     document.data["imagemURL"].toString(),
-                                    document.data["coordenadas"] as GeoPoint,
+                                    document.data["coordenadas"] as? GeoPoint,
                                     document.data["email"].toString(),
                                     document.data["estado"].toString(),
                                     document.data["emailVotosAprovar"] as? List<String>,
@@ -245,7 +245,7 @@ class FirebaseStorageUtil {
                                                 document.data["imagemURL"].toString(),
                                                 document.data["categoria"].toString(),
                                                 media.toString(),
-                                                document.data["coordenadas"] as GeoPoint,
+                                                document.data["coordenadas"] as? GeoPoint,
                                                 document.data["email"].toString(),
                                                 document.data["estado"].toString(),
                                                 document.data["emailVotosAprovar"] as? List<String>,
@@ -736,7 +736,9 @@ class FirebaseStorageUtil {
                     for (document in result) {
                         comentarios.add(
                             Comentario(
-                                document.data["data"] as Timestamp,
+                                document.data["ano"].toString(),
+                                document.data["mês"].toString(),
+                                document.data["dia"].toString(),
                                 document.data["texto"].toString(),
                                 document.data["email"].toString()
                             )
