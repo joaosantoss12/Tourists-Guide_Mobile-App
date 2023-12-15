@@ -245,5 +245,11 @@ class FirebaseViewModel : ViewModel() {
         FirebaseStorageUtil.getComentarios()
     }
 
+    fun addComentario(texto : String) {
+        viewModelScope.launch{
+            FirebaseStorageUtil.addComentario(texto, user.value?.email!!)
+        }
+    }
+
 
 }

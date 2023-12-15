@@ -26,6 +26,7 @@ import java.io.InputStream
 class FirebaseStorageUtil {
 
     companion object {
+
         fun addDataToFirestore(onResult: (Throwable?) -> Unit) {
             val db = Firebase.firestore
 
@@ -701,23 +702,42 @@ class FirebaseStorageUtil {
 
         fun deleteCategoria(nome: String) {
             val db = Firebase.firestore
-            var delete = true
+            var count = 0
+            var totalDocuments = 0
 
-            db.collection("Locadidades").get()
-                .addOnSuccessListener { results ->
-                    for (document in results) {
-                        if (document.data["categoria"].toString() == nome) {
+            db.collection("Localidades")
+                .get()
+                .addOnSuccessListener { resultados ->
 
-                            delete = false
-                        }
+                    totalDocuments = resultados.size()
+
+                    for (document in resultados) {
+                        db.collection("Localidades")
+                            .document(document.data["nome"].toString())
+                            .collection("Locais de Interesse")
+                            .get()
+                            .addOnSuccessListener { resultados2 ->
+
+                                for (document2 in resultados2) {
+                                    if (document2.data["categoria"].toString() == nome) {
+                                        Log.i("-", "-")
+                                        return@addOnSuccessListener
+                                    }
+                                }
+
+                                count++
+                                if (count == totalDocuments) {
+                                    Log.i("-", "-")
+                                    db.collection("Categorias")
+                                        .document(nome)
+                                        .delete()
+
+                                        .addOnSuccessListener { getCategorias() }
+                                }
+                            }
                     }
                 }
 
-            if(delete) {
-                db.collection("Categorias").document(nome).delete()
-                    .addOnSuccessListener { getCategorias() }
-                    .addOnFailureListener { }
-            }
         }
 
 
@@ -751,5 +771,39 @@ class FirebaseStorageUtil {
                 }
 
         }
+
+        fun addComentario(texto: String, email: String) {
+            val db = Firebase.firestore
+
+            var nextCommentID = 0
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(FirebaseViewModel.currentLocalInteresse.value.toString())
+                .collection("Comentários").get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        nextCommentID = document.id.toInt() + 1
+                    }
+                }
+
+
+            val data = hashMapOf(
+                "ano" to Timestamp.now().toDate().year.toString(),
+                "mês" to Timestamp.now().toDate().month.toString(),
+                "dia" to Timestamp.now().toDate().day.toString(),
+                "texto" to texto,
+                "email" to email
+            )
+
+            db.collection("Localidades")
+                .document(FirebaseViewModel.currentLocation.value.toString())
+                .collection("Locais de Interesse").document(FirebaseViewModel.currentLocalInteresse.value.toString())
+                .collection("Comentários").document(nextCommentID.toString()).set(data)
+                .addOnSuccessListener { getComentarios() }
+                .addOnFailureListener { }
+
+        }
+
     }
 }

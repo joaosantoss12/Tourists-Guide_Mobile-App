@@ -87,19 +87,41 @@ fun CommentsScreen(
                 .padding(0.dp, 15.dp, 0.dp, 0.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            OutlinedTextField(
-                value = comentarioAtual.value,
-                onValueChange = {
-                    comentarioAtual.value = it
-                },
-                label = { Text(text = stringResource(R.string.escreva_um_comentario)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
 
+            Column(){
+                OutlinedTextField(
+                    value = comentarioAtual.value,
+                    onValueChange = {
+                        if (it.length <= 200)
+                            comentarioAtual.value = it
+                    },
+                    label = { Text(text = stringResource(R.string.escreva_um_comentario)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
 
+                Spacer(modifier = Modifier.height(10.dp))
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                    horizontalArrangement = Arrangement.Center
+                ){
+                    OutlinedButton(
+                        onClick = {
+                            viewModel.addComentario(comentarioAtual.value)
+                            comentarioAtual.value = ""
+                        },
+                    ) {
+                        Text(
+                            text = stringResource(R.string.enviar),
+                        )
+                    }
+                }
+            }
 
+            Spacer(modifier = Modifier.height(30.dp))
 
             comentarios.value?.forEach { comentario ->
 
