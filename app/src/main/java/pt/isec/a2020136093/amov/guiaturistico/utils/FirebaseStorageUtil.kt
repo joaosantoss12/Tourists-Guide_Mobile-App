@@ -1,6 +1,7 @@
 package pt.isec.a2020136093.amov.guiaturistico.utils
 
 import android.content.res.AssetManager
+import android.icu.util.Calendar
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -787,9 +788,9 @@ class FirebaseStorageUtil {
                     }
 
                     val data = hashMapOf(
-                        "ano" to Timestamp.now().toDate().year.toString(),
-                        "mês" to Timestamp.now().toDate().month.toString(),
-                        "dia" to Timestamp.now().toDate().day.toString(),
+                        "ano" to Calendar.getInstance().get(Calendar.YEAR).toString(),
+                        "mês" to (Calendar.getInstance().get(Calendar.MONTH) + 1).toString(),
+                        "dia" to Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString(),
                         "texto" to texto,
                         "email" to email
                     )
