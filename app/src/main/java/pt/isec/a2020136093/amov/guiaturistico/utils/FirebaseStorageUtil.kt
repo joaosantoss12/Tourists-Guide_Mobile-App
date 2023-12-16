@@ -785,24 +785,24 @@ class FirebaseStorageUtil {
                     for (document in it) {
                         nextCommentID = document.id.toInt() + 1
                     }
+
+                    val data = hashMapOf(
+                        "ano" to Timestamp.now().toDate().year.toString(),
+                        "mês" to Timestamp.now().toDate().month.toString(),
+                        "dia" to Timestamp.now().toDate().day.toString(),
+                        "texto" to texto,
+                        "email" to email
+                    )
+
+                    db.collection("Localidades")
+                        .document(FirebaseViewModel.currentLocation.value.toString())
+                        .collection("Locais de Interesse").document(FirebaseViewModel.currentLocalInteresse.value.toString())
+                        .collection("Comentários").document(nextCommentID.toString()).set(data)
+                        .addOnSuccessListener { getComentarios() }
+                        .addOnFailureListener { }
+
+                    getComentarios()
                 }
-
-
-            val data = hashMapOf(
-                "ano" to Timestamp.now().toDate().year.toString(),
-                "mês" to Timestamp.now().toDate().month.toString(),
-                "dia" to Timestamp.now().toDate().day.toString(),
-                "texto" to texto,
-                "email" to email
-            )
-
-            db.collection("Localidades")
-                .document(FirebaseViewModel.currentLocation.value.toString())
-                .collection("Locais de Interesse").document(FirebaseViewModel.currentLocalInteresse.value.toString())
-                .collection("Comentários").document(nextCommentID.toString()).set(data)
-                .addOnSuccessListener { getComentarios() }
-                .addOnFailureListener { }
-
         }
 
     }

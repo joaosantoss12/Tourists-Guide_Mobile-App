@@ -76,7 +76,7 @@ fun InterestsScreen(
 ) {
 
     viewModel.getCategorias()
-    val categorias = FirebaseViewModel.categorias
+    val categorias = FirebaseViewModel.categorias.observeAsState()
 
     val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState(initial = emptyList())
     LaunchedEffect(viewModel) {
