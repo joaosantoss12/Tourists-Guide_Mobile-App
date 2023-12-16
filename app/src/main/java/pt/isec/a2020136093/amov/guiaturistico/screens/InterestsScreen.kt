@@ -198,6 +198,10 @@ fun InterestsScreen(
                                             .padding(8.dp)
                                             .background(color = Color.White)
                                             .size(120.dp)
+                                            .clickable {
+                                                viewModel.selectedCategory = categoria.nome
+                                                viewModel.getLocaisInteresse()
+                                            }
                                     ) {
                                         Box(
                                             modifier = Modifier
@@ -249,53 +253,53 @@ fun InterestsScreen(
                             }
                         }
 
-                            item {
-                                Card(
+                        item {
+                            Card(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(120.dp)
+                                    .clickable { navController.navigate("PendingCategories") }
+                            ) {
+                                Box(
                                     modifier = Modifier
-                                        .padding(8.dp)
-                                        .size(120.dp)
-                                        .clickable { navController.navigate("PendingCategories") }
+                                        .fillMaxSize()
+                                        .background(color = Color(0, 80, 150, 255))
                                 ) {
-                                    Box(
+                                    AsyncImage(
+                                        model = R.drawable.info,
+                                        error = painterResource(id = R.drawable.error),
+                                        contentDescription = "category image",
+                                        contentScale = ContentScale.FillHeight,
                                         modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(color = Color(0, 80, 150, 255))
-                                    ) {
-                                        AsyncImage(
-                                            model = R.drawable.info,
-                                            error = painterResource(id = R.drawable.error),
-                                            contentDescription = "category image",
-                                            contentScale = ContentScale.FillHeight,
-                                            modifier = Modifier
-                                                .padding(35.dp)
-                                        )
+                                            .padding(35.dp)
+                                    )
 
-                                        Text(
-                                            text = "Pendentes",
-                                                style = TextStyle(
-                                                color = Color.White,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 14.sp,
-                                                shadow = Shadow(
-                                                    color = Color.Black, offset = Offset(3.0f, 4.0f), blurRadius = 1f
-                                                )
-                                            ),
-                                            modifier = Modifier
-                                                .align(Alignment.BottomStart)
-                                                .padding(8.dp)
-                                        )
-                                    }
+                                    Text(
+                                        text = "Pendentes",
+                                            style = TextStyle(
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 14.sp,
+                                            shadow = Shadow(
+                                                color = Color.Black, offset = Offset(3.0f, 4.0f), blurRadius = 1f
+                                            )
+                                        ),
+                                        modifier = Modifier
+                                            .align(Alignment.BottomStart)
+                                            .padding(8.dp)
+                                    )
                                 }
                             }
-                            item {
-                                AddCategoryButton(
-                                    onClick = {
-                                        navController.navigate("AddForm")
-                                        viewModel.tipoAddForm.value = "Categoria"
-                                    },
-                                )
-                            }
                         }
+                        item {
+                            AddCategoryButton(
+                                onClick = {
+                                    navController.navigate("AddForm")
+                                    viewModel.tipoAddForm.value = "Categoria"
+                                },
+                            )
+                        }
+                    }
 
                     Button(
                         onClick = {
@@ -320,138 +324,278 @@ fun InterestsScreen(
                     locaisInteresse.forEach { localInteresse ->
 
                         if (localInteresse.estado == "aprovado" || localInteresse.estado == "pendente:apagar") {
-
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                elevation = CardDefaults.cardElevation(10.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Color.White
-                                )
-                            ) {
-                                Column(modifier = Modifier.fillMaxSize()) {
-                                    AsyncImage(
-                                        model = localInteresse.imagemURL,
-                                        error = painterResource(id = R.drawable.error),
-                                        contentDescription = "local image",
-                                        contentScale = ContentScale.Crop,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .heightIn(0.dp, 200.dp)
+                            if(viewModel.selectedCategory == ""){
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    elevation = CardDefaults.cardElevation(10.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.White
                                     )
-                                    Text(
-                                        text = localInteresse.nome,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                        textAlign = TextAlign.Center,
-                                        fontWeight = FontWeight.Bold,
-                                        fontFamily = FontFamily.Serif,
-                                        fontSize = 18.sp,
-                                        color = Color.Black
-                                    )
+                                ) {
+                                    Column(modifier = Modifier.fillMaxSize()) {
+                                        AsyncImage(
+                                            model = localInteresse.imagemURL,
+                                            error = painterResource(id = R.drawable.error),
+                                            contentDescription = "local image",
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .heightIn(0.dp, 200.dp)
+                                        )
+                                        Text(
+                                            text = localInteresse.nome,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                            textAlign = TextAlign.Center,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 18.sp,
+                                            color = Color.Black
+                                        )
 
-                                    Text(
-                                        text = localInteresse.descricao,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(15.dp),
-                                        maxLines = 3,
-                                        fontFamily = FontFamily.Serif,
-                                        fontSize = 13.sp,
-                                        color = Color.Gray
-                                    )
+                                        Text(
+                                            text = localInteresse.descricao,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(15.dp),
+                                            maxLines = 3,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 13.sp,
+                                            color = Color.Gray
+                                        )
 
-                                    Text(
-                                        text = localInteresse.classificacao + " ★",
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Center,
-                                        fontWeight = FontWeight.Bold,
-                                        fontFamily = FontFamily.Serif,
-                                        fontSize = 15.sp,
-                                        color = Color.Black
-                                    )
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.Center,
+                                        Text(
+                                            text = localInteresse.classificacao + " ★",
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 15.sp,
+                                            color = Color.Black
+                                        )
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Center,
 
-                                        ) {
-                                        for (i in 1..4) {
-                                            OutlinedButton(
-                                                onClick = {
-                                                    viewModel.updateClassificacao_firebase(
-                                                        localInteresse.nome,
-                                                        (i - 1).toString()
-                                                    )
-                                                },
-                                                modifier = Modifier
-                                                    .padding(horizontal = 5.dp),
                                             ) {
-                                                Text(text = (i - 1).toString())
+                                            for (i in 1..4) {
+                                                OutlinedButton(
+                                                    onClick = {
+                                                        viewModel.updateClassificacao_firebase(
+                                                            localInteresse.nome,
+                                                            (i - 1).toString()
+                                                        )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 5.dp),
+                                                ) {
+                                                    Text(text = (i - 1).toString())
+                                                }
                                             }
                                         }
-                                    }
 
 
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        OutlinedButton(onClick = {
-                                            FirebaseViewModel._currentLocalInteresse.value = localInteresse.nome
-                                            navController.navigate("Comments")
-                                        }) {
-                                            Text(text = "Comentários")
-                                        }
-
-                                        if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
-                                                viewModel.user.value?.email) == false || localInteresse.emailVotosEliminar == null)
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                            horizontalArrangement = Arrangement.Center
                                         ) {
-                                            Spacer(modifier = Modifier.width(10.dp))
-
-                                            Button(onClick = {
-                                                viewModel.voteToDelete(localInteresse.nome)
+                                            OutlinedButton(onClick = {
+                                                FirebaseViewModel._currentLocalInteresse.value =
+                                                    localInteresse.nome
+                                                navController.navigate("Comments")
                                             }) {
-                                                Icon(
-                                                    Icons.Filled.Close,
-                                                    "voteDelete"
-                                                )
+                                                Text(text = "Comentários")
+                                            }
+
+                                            if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
+                                                    viewModel.user.value?.email
+                                                ) == false || localInteresse.emailVotosEliminar == null)
+                                            ) {
+                                                Spacer(modifier = Modifier.width(10.dp))
+
+                                                Button(onClick = {
+                                                    viewModel.voteToDelete(localInteresse.nome)
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Close,
+                                                        "voteDelete"
+                                                    )
+                                                }
+                                            }
+
+
+                                            if (viewModel.user.value?.email == localInteresse.email) {
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Button(onClick = {
+                                                    viewModel.tipoEditForm.value =
+                                                        "Local de Interesse"
+                                                    viewModel.editName = localInteresse.nome
+                                                    navController.navigate("EditForm")
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Edit,
+                                                        "edit"
+                                                    )
+                                                }
+
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Button(onClick = {
+                                                    viewModel.deleteLocalInteresse(localInteresse.nome)
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Delete,
+                                                        "delete"
+                                                    )
+                                                }
                                             }
                                         }
 
-
-                                        if (viewModel.user.value?.email == localInteresse.email) {
-                                            Spacer(modifier = Modifier.width(10.dp))
-                                            Button(onClick = {
-                                                viewModel.tipoEditForm.value = "Local de Interesse"
-                                                viewModel.editName = localInteresse.nome
-                                                navController.navigate("EditForm")
-                                            }) {
-                                                Icon(
-                                                    Icons.Filled.Edit,
-                                                    "edit"
-                                                )
-                                            }
-
-                                            Spacer(modifier = Modifier.width(10.dp))
-                                            Button(onClick = {
-                                                viewModel.deleteLocalInteresse(localInteresse.nome)
-                                            }) {
-                                                Icon(
-                                                    Icons.Filled.Delete,
-                                                    "delete"
-                                                )
-                                            }
-                                        }
                                     }
+                                } //CARD
+                                Spacer(modifier = Modifier.height(20.dp))
+                            }
+                            else if (localInteresse.categoria == viewModel.selectedCategory) {
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    elevation = CardDefaults.cardElevation(10.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.White
+                                    )
+                                ) {
+                                    Column(modifier = Modifier.fillMaxSize()) {
+                                        AsyncImage(
+                                            model = localInteresse.imagemURL,
+                                            error = painterResource(id = R.drawable.error),
+                                            contentDescription = "local image",
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .heightIn(0.dp, 200.dp)
+                                        )
+                                        Text(
+                                            text = localInteresse.nome,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                            textAlign = TextAlign.Center,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 18.sp,
+                                            color = Color.Black
+                                        )
 
-                                }
-                            } //CARD
-                            Spacer(modifier = Modifier.height(20.dp))
+                                        Text(
+                                            text = localInteresse.descricao,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(15.dp),
+                                            maxLines = 3,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 13.sp,
+                                            color = Color.Gray
+                                        )
+
+                                        Text(
+                                            text = localInteresse.classificacao + " ★",
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 15.sp,
+                                            color = Color.Black
+                                        )
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Center,
+
+                                            ) {
+                                            for (i in 1..4) {
+                                                OutlinedButton(
+                                                    onClick = {
+                                                        viewModel.updateClassificacao_firebase(
+                                                            localInteresse.nome,
+                                                            (i - 1).toString()
+                                                        )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 5.dp),
+                                                ) {
+                                                    Text(text = (i - 1).toString())
+                                                }
+                                            }
+                                        }
+
+
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+                                            OutlinedButton(onClick = {
+                                                FirebaseViewModel._currentLocalInteresse.value =
+                                                    localInteresse.nome
+                                                navController.navigate("Comments")
+                                            }) {
+                                                Text(text = "Comentários")
+                                            }
+
+                                            if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
+                                                    viewModel.user.value?.email
+                                                ) == false || localInteresse.emailVotosEliminar == null)
+                                            ) {
+                                                Spacer(modifier = Modifier.width(10.dp))
+
+                                                Button(onClick = {
+                                                    viewModel.voteToDelete(localInteresse.nome)
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Close,
+                                                        "voteDelete"
+                                                    )
+                                                }
+                                            }
+
+
+                                            if (viewModel.user.value?.email == localInteresse.email) {
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Button(onClick = {
+                                                    viewModel.tipoEditForm.value =
+                                                        "Local de Interesse"
+                                                    viewModel.editName = localInteresse.nome
+                                                    navController.navigate("EditForm")
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Edit,
+                                                        "edit"
+                                                    )
+                                                }
+
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Button(onClick = {
+                                                    viewModel.deleteLocalInteresse(localInteresse.nome)
+                                                }) {
+                                                    Icon(
+                                                        Icons.Filled.Delete,
+                                                        "delete"
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                } //CARD
+                                Spacer(modifier = Modifier.height(20.dp))
+                            }
                         }
                     }
 

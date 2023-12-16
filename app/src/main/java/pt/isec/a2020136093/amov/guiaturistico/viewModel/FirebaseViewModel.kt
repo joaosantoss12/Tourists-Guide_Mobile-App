@@ -76,6 +76,7 @@ class FirebaseViewModel : ViewModel() {
     val tipoAddForm : MutableState<String?> = mutableStateOf(null)
     val tipoEditForm : MutableState<String?> = mutableStateOf(null)
     var editName = ""
+    var selectedCategory = ""
 
     companion object {
         val _locations = MutableLiveData<MutableList<Localizacao>>()

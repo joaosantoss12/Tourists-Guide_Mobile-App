@@ -68,6 +68,8 @@ fun HomeScreen(
     viewModel.getLocations()
     val localidades = FirebaseViewModel.locations.observeAsState()
 
+    viewModel.selectedCategory = ""
+
     val filtersList = listOf(
         "A-Z",
         "Z-A",

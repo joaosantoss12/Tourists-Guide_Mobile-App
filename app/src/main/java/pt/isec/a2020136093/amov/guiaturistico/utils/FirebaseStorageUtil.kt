@@ -28,70 +28,6 @@ class FirebaseStorageUtil {
 
     companion object {
 
-        fun addDataToFirestore(onResult: (Throwable?) -> Unit) {
-            val db = Firebase.firestore
-
-            val scores = hashMapOf(
-                "nrgames" to 0,
-                "topscore" to 0
-            )
-            db.collection("Scores").document("Level1").set(scores)
-                .addOnCompleteListener { result ->
-                    onResult(result.exception)
-                }
-        }
-
-        fun updateDataInFirestore(onResult: (Throwable?) -> Unit) {
-            val db = Firebase.firestore
-            val v = db.collection("Scores").document("Level1")
-
-            v.get(Source.SERVER)
-                .addOnSuccessListener {
-                    val exists = it.exists()
-                    Log.i("Firestore", "updateDataInFirestore: Success? $exists")
-                    if (!exists) {
-                        onResult(Exception("Doesn't exist"))
-                        return@addOnSuccessListener
-                    }
-                    val value = it.getLong("nrgames") ?: 0
-                    v.update("nrgames", value + 1)
-                    onResult(null)
-                }
-                .addOnFailureListener { e ->
-                    onResult(e)
-                }
-        }
-
-        fun updateDataInFirestoreTrans(onResult: (Throwable?) -> Unit) {
-            val db = Firebase.firestore
-            val v = db.collection("Scores").document("Level1")
-
-            db.runTransaction { transaction ->
-                val doc = transaction.get(v)
-                if (doc.exists()) {
-                    val newnrgames = (doc.getLong("nrgames") ?: 0) + 1
-                    val newtopscore = (doc.getLong("topscore") ?: 0) + 100
-                    transaction.update(v, "nrgames", newnrgames)
-                    transaction.update(v, "topscore", newtopscore)
-                    null
-                } else
-                    throw FirebaseFirestoreException(
-                        "Doesn't exist",
-                        FirebaseFirestoreException.Code.UNAVAILABLE
-                    )
-            }.addOnCompleteListener { result ->
-                onResult(result.exception)
-            }
-        }
-
-        fun removeDataFromFirestore(onResult: (Throwable?) -> Unit) {
-            val db = Firebase.firestore
-            val v = db.collection("Scores").document("Level1")
-
-            v.delete()
-                .addOnCompleteListener { onResult(it.exception) }
-        }
-
         private var listenerRegistration: ListenerRegistration? = null
 
         fun startObserver(onNewValues: (Long, Long) -> Unit) {
@@ -130,31 +66,33 @@ class FirebaseStorageUtil {
 
 //https://firebase.google.com/docs/storage/android/upload-files
 
-        fun uploadFile(imagePath: String) {
+        fun uploadFile(imgPath: String) {
             val storage = Firebase.storage
-            val storageRef = storage.reference
-            val file = Uri.fromFile(File(imagePath))
-            val uploadTask = file?.let { storageRef.child("${it.lastPathSegment}").putFile(it) }
+            val ref1 = storage.reference
+            val ref3 = ref1.child(imgPath)
 
-            // Register observers to listen for when the download is done or if it fails
-            uploadTask?.addOnFailureListener {
+            val file = File(imgPath)
 
-            }?.addOnSuccessListener { taskSnapshot ->
-
+            val uploadTask = ref3.putFile(Uri.fromFile(file))
+            uploadTask.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                ref3.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    Log.i("goiajipgawpjgpjawjgpwajg", downloadUri.toString())
+                } else {
+                    // Handle failures
+                    // ...
+                }
             }
         }
 
-        fun getImageURL(imagePath: String): String {
-            val storage = Firebase.storage
 
-            val storageRef = storage.reference
-            val file = Uri.fromFile(File(imagePath))
-            val imageRef = storageRef.child(file.lastPathSegment.toString())
-
-            val url = imageRef.downloadUrl.result.toString()
-
-            return url
-        }
 
         fun getLocations() {
             val db = Firebase.firestore
