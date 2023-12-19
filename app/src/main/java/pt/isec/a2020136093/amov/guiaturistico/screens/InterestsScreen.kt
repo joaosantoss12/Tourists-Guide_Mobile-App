@@ -78,10 +78,8 @@ fun InterestsScreen(
     viewModel.getCategorias()
     val categorias = FirebaseViewModel.categorias.observeAsState()
 
-    val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState(initial = emptyList())
-    LaunchedEffect(viewModel) {
-        viewModel.getLocaisInteresse()
-    }
+    viewModel.getLocaisInteresse()
+    val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState()
 
 
     val filtersList = listOf(
@@ -94,6 +92,16 @@ fun InterestsScreen(
     var expanded by remember { mutableStateOf(false) }
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
+
+    when(selectedItem){
+        "A-Z" -> {
+            locaisInteresse?.sortBy { it.nome }
+        }
+        "Z-A" -> {
+            locaisInteresse?.sortByDescending { it.nome }
+        }
+        none -> {}
+    }
 
 
     Column(     // EM TELEMOVEIS DARK MODE FICAVA UMA MARGEM PRETA
@@ -171,6 +179,14 @@ fun InterestsScreen(
                                 onClick = {
                                     selectedItem = filter
                                     expanded = false
+                                    when(selectedItem){
+                                        "A-Z" -> {
+                                            FirebaseViewModel._locaisInteresse.value?.sortBy { it.nome }
+                                        }
+                                        "Z-A" -> {
+                                            FirebaseViewModel._locaisInteresse.value?.sortByDescending { it.nome }
+                                        }
+                                    }
                                 },
                             )
                         }
@@ -321,7 +337,7 @@ fun InterestsScreen(
 
 
 
-                    locaisInteresse.forEach { localInteresse ->
+                    locaisInteresse?.forEach { localInteresse ->
 
                         if (localInteresse.estado == "aprovado" || localInteresse.estado == "pendente:apagar") {
                             if(viewModel.selectedCategory == ""){

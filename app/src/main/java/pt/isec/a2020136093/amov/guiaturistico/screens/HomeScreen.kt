@@ -68,6 +68,7 @@ fun HomeScreen(
     viewModel.getLocations()
     val localidades = FirebaseViewModel.locations.observeAsState()
 
+
     viewModel.selectedCategory = ""
 
     val filtersList = listOf(
@@ -80,6 +81,18 @@ fun HomeScreen(
     var expanded by remember { mutableStateOf(false) }
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
+
+    when(selectedItem){
+        "A-Z" -> {
+            localidades.value?.sortBy { it.nome }
+        }
+        "Z-A" -> {
+            localidades.value?.sortByDescending { it.nome }
+        }
+        none -> {}
+    }
+
+
 
     val user by remember { viewModel.user }
     LaunchedEffect(key1 = user) {
@@ -161,14 +174,14 @@ fun HomeScreen(
                                 onClick = {
                                     selectedItem = filter
                                     expanded = false
-                                   when(filter){
-                                       "A-Z" -> {
-                                           FirebaseViewModel._locations.value?.sortBy { it.nome }
-                                       }
-                                       "Z-A" -> {
-                                           FirebaseViewModel._locations.value?.sortByDescending { it.nome }
-                                       }
-                                   }
+                                    when(selectedItem){
+                                        "A-Z" -> {
+                                            FirebaseViewModel._locations.value?.sortBy { it.nome }
+                                        }
+                                        "Z-A" -> {
+                                            FirebaseViewModel._locations.value?.sortByDescending { it.nome }
+                                        }
+                                    }
                                 },
                             )
                         }
