@@ -163,10 +163,10 @@ fun HomeScreen(
                                     expanded = false
                                    when(filter){
                                        "A-Z" -> {
-                                           FirebaseViewModel._locations.value?.sortWith(compareBy { it.nome })
+                                           FirebaseViewModel._locations.value?.sortBy { it.nome }
                                        }
                                        "Z-A" -> {
-                                           FirebaseViewModel._locations.value?.sortWith(compareByDescending { it.nome })
+                                           FirebaseViewModel._locations.value?.sortByDescending { it.nome }
                                        }
                                    }
                                 },
