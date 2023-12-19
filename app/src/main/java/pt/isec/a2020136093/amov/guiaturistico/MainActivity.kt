@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import pt.isec.a2020136093.amov.guiaturistico.screens.MainScreen
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.TrabalhoPráticoGuiaTuristicoTheme
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 

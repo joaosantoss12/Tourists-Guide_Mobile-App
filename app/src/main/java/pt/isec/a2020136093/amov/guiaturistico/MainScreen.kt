@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico.screens
+package pt.isec.a2020136093.amov.guiaturistico
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -29,8 +29,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pt.isec.a2020136093.amov.guiaturistico.Menu
-import pt.isec.a2020136093.amov.guiaturistico.R
+import pt.isec.a2020136093.amov.guiaturistico.screens.AddFormScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.CommentsScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.CreditsScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.EditFormScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.HomeScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.InterestsScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.LoginScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.PendingCategoriesScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.PendingInterestsScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.PendingLocationsScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.RegisterScreen
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 const val MENU_SCREEN = "Menu"

@@ -5,16 +5,11 @@ import android.icu.util.Calendar
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.MutableState
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.tasks.await
-import okhttp3.internal.wait
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Categoria
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Comentario
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
@@ -68,26 +63,24 @@ class FirebaseStorageUtil {
 
         fun uploadFile(imgPath: String) {
             val storage = Firebase.storage
-            val ref1 = storage.reference
-            val ref3 = ref1.child(imgPath)
+            val storageReference = storage.reference
 
             val file = File(imgPath)
+            val newFileNameInsideStorage = storageReference.child(file.name)
 
-            val uploadTask = ref3.putFile(Uri.fromFile(file))
+
+            val uploadTask = newFileNameInsideStorage.putFile(Uri.fromFile(file))
             uploadTask.continueWithTask { task ->
                 if (!task.isSuccessful) {
                     task.exception?.let {
                         throw it
                     }
                 }
-                ref3.downloadUrl
+                newFileNameInsideStorage.downloadUrl
             }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
-                    Log.i("goiajipgawpjgpjawjgpwajg", downloadUri.toString())
-                } else {
-                    // Handle failures
-                    // ...
+
                 }
             }
         }
@@ -208,12 +201,7 @@ class FirebaseStorageUtil {
         }
 
 
-        fun addLocation(
-            nome: String,
-            descricao: String,
-            imagePath: MutableState<String?>,
-            owner_email: String
-        ) {
+        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -234,16 +222,48 @@ class FirebaseStorageUtil {
 
         }
 
-        fun addLocalInteresse(
-            nome: String,
-            descricao: String,
-            categoria: String,
-            imagePath: MutableState<String?>,
-            owner_email: String
-        ) {
+        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String) {
             val db = Firebase.firestore
 
-            uploadFile(imagePath.value.toString())
+            val storage = Firebase.storage
+            val storageReference = storage.reference
+
+            val file = File(imagePath.value.toString())
+            val newFileNameInsideStorage = storageReference.child(file.name)
+
+
+            val uploadTask = newFileNameInsideStorage.putFile(Uri.fromFile(file))
+            uploadTask.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                newFileNameInsideStorage.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+
+                    val data = hashMapOf(
+                        "nome" to nome,
+                        "descrição" to descricao,
+                        "categoria" to categoria,
+                        "classificação" to 0,
+                        "coordenadas" to GeoPoint(0.0, 0.0),
+                        "imagemURL" to downloadUri.toString(), //imgURL / imagePath.value.toString()
+                        "estado" to "pendente",
+                        "email" to owner_email
+                    )
+
+                    db.collection("Localidades")
+                        .document(FirebaseViewModel.currentLocation.value.toString())
+                        .collection("Locais de Interesse").document(nome).set(data)
+                        .addOnSuccessListener { getLocaisInteresse() }
+                        .addOnFailureListener { }
+                }
+            }
+
+            /*uploadFile(imagePath.value.toString())
             //val imgURL = getImageURL(imagePath.value.toString())
 
             val data = hashMapOf(
@@ -261,15 +281,10 @@ class FirebaseStorageUtil {
                 .document(FirebaseViewModel.currentLocation.value.toString())
                 .collection("Locais de Interesse").document(nome).set(data)
                 .addOnSuccessListener { getLocaisInteresse() }
-                .addOnFailureListener { }
+                .addOnFailureListener { }*/
         }
 
-        fun addCategoria(
-            nome: String,
-            descricao: String,
-            imagePath: MutableState<String?>,
-            owner_email: String
-        ) {
+        fun addCategoria(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -289,13 +304,7 @@ class FirebaseStorageUtil {
         }
 
 
-        fun updateLocation(
-            nome: String,
-            descricao: String,
-            imagePath: MutableState<String?>,
-            owner_email: String,
-            oldName: String
-        ) {
+        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, oldName: String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -317,14 +326,7 @@ class FirebaseStorageUtil {
             db.collection("Localidades").document(oldName).delete().addOnSuccessListener { getLocations() }
         }
 
-        fun updateLocalInteresse(
-            nome: String,
-            descricao: String,
-            categoria: String,
-            imagePath: MutableState<String?>,
-            owner_email: String,
-            oldName: String
-        ) {
+        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, oldName: String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString())
@@ -353,6 +355,9 @@ class FirebaseStorageUtil {
                 .collection("Locais de Interesse").document(oldName).delete()
                 .addOnSuccessListener { getLocaisInteresse() }
         }
+
+
+
 
         fun updateClassificacao(nome: String, addClassificacao: String, email: String) {
             val db = Firebase.firestore

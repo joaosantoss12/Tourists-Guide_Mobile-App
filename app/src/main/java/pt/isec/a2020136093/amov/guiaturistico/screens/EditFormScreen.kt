@@ -154,7 +154,7 @@ fun EditFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> navController.navigate("Home")
-                    //"Categoria" -> navController.navigate("Interests")
+                    "Categoria" -> navController.navigate("Interests")
                     "Local de Interesse" -> navController.navigate("Interests")
                 }
             }) {

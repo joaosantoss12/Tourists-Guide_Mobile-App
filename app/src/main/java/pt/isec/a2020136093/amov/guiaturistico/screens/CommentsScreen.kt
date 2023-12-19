@@ -50,7 +50,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CommentsScreen(
     viewModel: FirebaseViewModel,
