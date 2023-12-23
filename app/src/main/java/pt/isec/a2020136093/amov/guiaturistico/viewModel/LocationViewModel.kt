@@ -33,11 +33,12 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
     val listaLocaisInteresse= FirebaseViewModel.locaisInteresse
 
     val POIs
-        get() = listaLocaisInteresse.value?.map {
-            Coordinates(it.nome,it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
-
-        } ?: emptyList()
-
+        get() = listaLocaisInteresse.value
+            ?.filter { it.estado == "aprovado" } // Adiciona o filtro aqui
+            ?.map {
+                Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+            }
+            ?: emptyList()
 
 
 
