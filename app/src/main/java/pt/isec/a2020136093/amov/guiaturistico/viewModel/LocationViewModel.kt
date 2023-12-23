@@ -30,14 +30,11 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
 
 
 
-    val listaLocaisInteresse= FirebaseViewModel.locaisInteresse
+    val listaLocaisInteresse = FirebaseViewModel.locaisInteresse
 
-    val POIs
-        get() = listaLocaisInteresse.value?.map {
-            Coordinates(it.nome,it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
-
-        } ?: emptyList()
-
+    val POIs = listaLocaisInteresse.value?.map {
+        Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+    } ?: emptyList()
 
 
 
@@ -47,10 +44,6 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
     var coarseLocationPermission = false
     var fineLocationPermission = false
     var backgroundLocationPermission = false
-
-
-
-
 
 
     companion object {
