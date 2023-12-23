@@ -43,7 +43,7 @@ class LocalInteresse(
     val estado : String,
     val emailVotosAprovar : List<String>?,
     val emailVotosEliminar : List<String>?,
-    val distance: Double?,
+    var distance: Double?,
 )
 
 class Categoria(

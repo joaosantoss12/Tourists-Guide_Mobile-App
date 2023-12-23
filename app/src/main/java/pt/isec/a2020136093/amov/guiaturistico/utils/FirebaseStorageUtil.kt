@@ -204,7 +204,7 @@ class FirebaseStorageUtil {
                                             0.0
                                         ),
                                     )
-
+                                    calculateDistancesLocaisInteresse(locaisInteresse)
                                     // Update UI or perform any other action here
                                     FirebaseViewModel._locaisInteresse.value = locaisInteresse
                                 }
@@ -217,6 +217,18 @@ class FirebaseStorageUtil {
                 .addOnFailureListener { exception ->
                     Log.w("TAG", "Error getting documents.", exception)
                 }
+        }
+
+        private fun calculateDistancesLocaisInteresse(locaisInteresse: List<LocalInteresse>) {
+            locaisInteresse.forEach {
+                it.distance = Location("").apply {
+                    latitude = it.coordenadas?.latitude ?: 0.0
+                    longitude = it.coordenadas?.longitude ?: 0.0
+                }.distanceTo(Location("").apply {
+                    latitude = LocationViewModel.currentLocation.value?.latitude ?: 0.0
+                    longitude = LocationViewModel.currentLocation.value?.longitude ?: 0.0
+                }).toDouble() / 1000
+            }
         }
 
 
