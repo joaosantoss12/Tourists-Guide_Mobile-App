@@ -89,6 +89,18 @@ fun HomeScreen(
         "Z-A" -> {
             localidades.value?.sortByDescending { it.nome }
         }
+        "Distância ▲"->{
+            FirebaseViewModel._locations.value?.sortBy { it.distance }
+        }
+        "Distância ▼"->{
+            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
+        }
+        "Distance ▲"->{
+            FirebaseViewModel._locations.value?.sortBy { it.distance }
+        }
+        "Distance ▼"->{
+            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
+        }
         none -> {}
     }
 
