@@ -80,7 +80,7 @@ fun InterestsScreen(
     val categorias = FirebaseViewModel.categorias.observeAsState()
 
     viewModel.getLocaisInteresse()
-    val locaisInteresse by FirebaseViewModel.locaisInteresse.observeAsState()
+    val locaisInteresse = FirebaseViewModel.locaisInteresse.observeAsState()
 
 
     val filtersList = listOf(
@@ -96,10 +96,10 @@ fun InterestsScreen(
 
     when(selectedItem){
         "A-Z" -> {
-            locaisInteresse?.sortBy { it.nome }
+            locaisInteresse.value?.sortBy { it.nome }
         }
         "Z-A" -> {
-            locaisInteresse?.sortByDescending { it.nome }
+            locaisInteresse.value?.sortByDescending { it.nome }
         }
         none -> {}
     }
@@ -208,6 +208,45 @@ fun InterestsScreen(
                     LazyRow(
 
                     ) {
+                        item{
+                            Card(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .background(color = Color.White)
+                                    .size(120.dp)
+                                    .clickable {
+                                        viewModel.selectedCategory = ""
+                                        viewModel.getLocaisInteresse()
+                                    }
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.all1),
+                                        contentDescription = "all categories image",
+                                        contentScale = ContentScale.FillBounds,
+                                    )
+
+                                    Text(
+                                        text = stringResource(R.string.all_categories),
+                                        style = TextStyle(
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 14.sp,
+                                            shadow = Shadow(
+                                                color = Color.Black, offset = Offset(3.0f, 4.0f), blurRadius = 1f
+                                            )
+                                        ),
+                                        modifier = Modifier
+                                            .align(Alignment.BottomStart)
+                                            .padding(8.dp)
+                                    )
+                                }
+                            }
+                        }
+
                         categorias.value?.forEach { categoria ->
 
                             if (categoria.estado == "aprovado") {
@@ -324,8 +363,7 @@ fun InterestsScreen(
 
                     Button(
                         onClick = {
-                            //navController.navigate("AddForm")
-                            //viewModel.tipoAddForm.value = "Localização"
+                            navController.navigate("PendingInterests")
                         },
                         modifier = Modifier
                             .padding(16.dp)
@@ -343,7 +381,7 @@ fun InterestsScreen(
 
 
 
-                    locaisInteresse?.forEach { localInteresse ->
+                    locaisInteresse.value?.forEach { localInteresse ->
 
                         if (localInteresse.estado == "aprovado" || localInteresse.estado == "pendente:apagar") {
                             if(viewModel.selectedCategory == ""){
@@ -355,7 +393,9 @@ fun InterestsScreen(
                                         containerColor = Color.White
                                     )
                                 ) {
-                                    Column(modifier = Modifier.fillMaxSize()) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
                                         AsyncImage(
                                             model = localInteresse.imagemURL,
                                             error = painterResource(id = R.drawable.error),
