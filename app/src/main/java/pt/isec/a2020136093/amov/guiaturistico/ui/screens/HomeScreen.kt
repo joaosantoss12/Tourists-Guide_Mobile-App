@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -69,9 +70,10 @@ fun HomeScreen(
     onLogout: () -> Unit
 ) {
 
-    viewModel.getLocations()
+    LaunchedEffect(Unit) {
+        viewModel.getLocations()
+    }
     val localidades = FirebaseViewModel.locations.observeAsState()
-
 
     viewModel.selectedCategory = ""
 
@@ -323,6 +325,7 @@ fun HomeScreen(
                                             .padding(0.dp, 10.dp, 0.dp, 20.dp),
                                         horizontalArrangement = Arrangement.Center
                                     ) {
+
                                         OutlinedButton(onClick = {
                                             FirebaseViewModel._currentLocation.value = localizacao.nome
                                             navController.navigate("Interests")
