@@ -41,7 +41,8 @@ fun AddFormScreen(
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
-    var coordenadas by remember { mutableStateOf("") }
+    var latitude by remember { mutableStateOf("") }
+    var longitude by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -86,8 +87,38 @@ fun AddFormScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+        if(viewModel.tipoAddForm.value=="Localização"){
 
-        if(viewModel.tipoAddForm.value == "Local de Interesse"){
+            Row(modifier= Modifier
+                .fillMaxWidth(),
+                horizontalArrangement= Arrangement.SpaceAround
+
+            ){
+                OutlinedTextField(
+                    value = latitude,
+                    onValueChange = {
+                        latitude = it
+                    },
+                    label = { Text(text = "Latitude") },
+
+                )
+
+
+                OutlinedTextField(
+                    value = longitude,
+                    onValueChange = {
+                        longitude = it
+                    },
+                    label = { Text(text = "Longitude") },
+
+
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        } else if(viewModel.tipoAddForm.value == "Local de Interesse"){
             OutlinedTextField(
                 value = categoria,
                 onValueChange = {
@@ -100,16 +131,33 @@ fun AddFormScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = coordenadas,
-                onValueChange = {
-                    coordenadas = it
-                },
-                label = { Text(text = "Coordenadas") },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            Row(modifier= Modifier
+                .fillMaxWidth(),
+                horizontalArrangement= Arrangement.SpaceAround
 
+            ){
+                OutlinedTextField(
+                    value = latitude,
+                    onValueChange = {
+                        latitude = it
+                    },
+                    label = { Text(text = "Latitude") },
+
+                )
+
+
+                OutlinedTextField(
+                    value = longitude,
+                    onValueChange = {
+                        longitude = it
+                    },
+                    label = { Text(text = "Longitude") },
+
+                )
+
+
+
+            }
             Spacer(modifier = Modifier.height(16.dp))
 
         }
@@ -134,7 +182,7 @@ fun AddFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> {
-                        viewModel.addLocation_firebase(nome,descricao)
+                        viewModel.addLocation_firebase(nome,descricao,latitude.toDouble(),longitude.toDouble())
                         navController.navigate("Home")
                     }
                     "Categoria" -> {
@@ -142,7 +190,7 @@ fun AddFormScreen(
                         navController.navigate("Interests")
                     }
                     "Local de Interesse" -> {
-                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria)
+                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria,latitude.toDouble(),longitude.toDouble())
                         navController.navigate("Interests")
                     }
                 }
