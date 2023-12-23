@@ -100,14 +100,26 @@ fun MapScreen(
                         setMultiTouchControls(true)
                         controller.setCenter(geoPoint)
                         controller.setZoom(18.0)
-                        for (poi in viewModel.POIs)
-                            overlays.add(
-                                Marker(this).apply {
-                                    position = GeoPoint(poi.latitude, poi.longitude)
-                                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                                    title = poi.team
-                                }
-                            )
+                        if(LocationViewModel.showLocations.value == true){
+                            for (poi in viewModel.POIs_localizacoes)
+                                overlays.add(
+                                    Marker(this).apply {
+                                        position = GeoPoint(poi.latitude, poi.longitude)
+                                        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                        title = poi.team
+                                    }
+                                )
+                        }else{
+                            for (poi in viewModel.POIs_locaisInteresse)
+                                overlays.add(
+                                    Marker(this).apply {
+                                        position = GeoPoint(poi.latitude, poi.longitude)
+                                        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                        title = poi.team
+                                    }
+                                )
+                        }
+
                     }
                 },
                 update = { view ->
@@ -121,30 +133,59 @@ fun MapScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            items(viewModel.POIs) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    elevation = CardDefaults.cardElevation(4.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(128,192,255)
-                    ),
-                    onClick = {
-                        geoPoint = GeoPoint(it.latitude, it.longitude)
-                    }
-                ) {
-                    Column(
+            if(LocationViewModel.showLocations.value == true){
+                items(viewModel.POIs_localizacoes) {
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        elevation = CardDefaults.cardElevation(4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(128,192,255)
+                        ),
+                        onClick = {
+                            geoPoint = GeoPoint(it.latitude, it.longitude)
+                        }
                     ) {
-                        Text(text = it.team, fontSize = 20.sp)
-                        Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = it.team, fontSize = 20.sp)
+                            Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
+                        }
+                    }
+                }
+
+            }else { //locais de interesse
+                items(viewModel.POIs_locaisInteresse) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        elevation = CardDefaults.cardElevation(4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(128,192,255)
+                        ),
+                        onClick = {
+                            geoPoint = GeoPoint(it.latitude, it.longitude)
+                        }
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = it.team, fontSize = 20.sp)
+                            Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
+                        }
                     }
                 }
             }
+
         }
     }
 }

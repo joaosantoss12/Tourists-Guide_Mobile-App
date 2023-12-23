@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -56,6 +57,7 @@ import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 
 import coil.compose.AsyncImage
 import pt.isec.a2020136093.amov.guiaturistico.R
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,20 +125,44 @@ fun HomeScreen(
                 .padding(16.dp, 0.dp, 16.dp, 0.dp)
                 .background(Color.White)
         ) {
-            Button(
-                onClick = { viewModel.signOut() },
-                modifier = Modifier
-                    .padding(14.dp)
-                    .align(Alignment.End),
-                colors = ButtonDefaults.buttonColors(
+            Row(
+                modifier= Modifier
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ){
+                Button(
+                    onClick = { viewModel.signOut() },
+                    modifier = Modifier
+                        .padding(14.dp),
 
-                    containerColor = Color(185, 41, 41, 255), // Cor de fundo do botão
-                    contentColor = Color.White // Cor do texto do botão
-                ),
-                shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
-            ) {
-                Text(text = "Logout")
+                    colors = ButtonDefaults.buttonColors(
+
+                        containerColor = Color(185, 41, 41, 255), // Cor de fundo do botão
+                        contentColor = Color.White // Cor do texto do botão
+                    ),
+                    shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+                ) {
+                    Text(text = "Logout")
+                }
+
+                Button(
+                    onClick = {
+                        LocationViewModel._showLocations.value = true
+                        navController.navigate("Map")
+                    },
+                    modifier = Modifier
+                        .padding(14.dp),
+                    colors = ButtonDefaults.buttonColors(
+
+                        containerColor = Color(0, 80, 150, 255), // Cor de fundo do botão
+                        contentColor = Color.White // Cor do texto do botão
+                    ),
+                    shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
+                ) {
+                    Text(text = "Mapa")
+                }
             }
+
 
             Text(
                 text = stringResource(R.string.locations),

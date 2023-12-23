@@ -67,6 +67,7 @@ import coil.compose.AsyncImage
 import pt.isec.a2020136093.amov.guiaturistico.R
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,6 +118,7 @@ fun InterestsScreen(
         ) {
             Button(
                 onClick = {
+                    LocationViewModel._showLocations.value = false
                     navController.navigate("Map")
                 },
                 modifier = Modifier
