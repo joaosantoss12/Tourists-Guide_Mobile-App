@@ -70,7 +70,13 @@ fun HomeScreen(
     onLogout: () -> Unit
 ) {
 
-    LaunchedEffect(Unit) {
+    val user by remember { viewModel.user }
+    LaunchedEffect(key1 = user) {
+        if (user == null)
+            onLogout()
+    }
+
+    LaunchedEffect(Unit){
         viewModel.getLocations()
     }
     val localidades = FirebaseViewModel.locations.observeAsState()
@@ -88,35 +94,6 @@ fun HomeScreen(
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
 
-    when(selectedItem){
-        "A-Z" -> {
-            localidades.value?.sortBy { it.nome }
-        }
-        "Z-A" -> {
-            localidades.value?.sortByDescending { it.nome }
-        }
-        "Distância ▲"->{
-            FirebaseViewModel._locations.value?.sortBy { it.distance }
-        }
-        "Distância ▼"->{
-            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
-        }
-        "Distance ▲"->{
-            FirebaseViewModel._locations.value?.sortBy { it.distance }
-        }
-        "Distance ▼"->{
-            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
-        }
-        none -> {}
-    }
-
-
-
-    val user by remember { viewModel.user }
-    LaunchedEffect(key1 = user) {
-        if (user == null)
-            onLogout()
-    }
 
     Column(     // EM TELEMOVEIS DARK MODE FICAVA UMA MARGEM PRETA
         modifier = Modifier
@@ -216,24 +193,30 @@ fun HomeScreen(
                                 onClick = {
                                     selectedItem = filter
                                     expanded = false
-                                    when(selectedItem){
+
+                                    when(selectedItem) {
                                         "A-Z" -> {
-                                            FirebaseViewModel._locations.value?.sortBy { it.nome }
+                                            localidades.value?.sortBy { it.nome }
                                         }
+
                                         "Z-A" -> {
-                                            FirebaseViewModel._locations.value?.sortByDescending { it.nome }
+                                            localidades.value?.sortByDescending { it.nome }
                                         }
-                                        "Distância ▲"->{
-                                            FirebaseViewModel._locations.value?.sortBy { it.distance }
+
+                                        "Distância ▲" -> {
+                                            localidades.value?.sortBy { it.distance }
                                         }
-                                        "Distância ▼"->{
-                                            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
+
+                                        "Distância ▼" -> {
+                                            localidades.value?.sortByDescending { it.distance }
                                         }
-                                        "Distance ▲"->{
-                                            FirebaseViewModel._locations.value?.sortBy { it.distance }
+
+                                        "Distance ▲" -> {
+                                            localidades.value?.sortBy { it.distance }
                                         }
-                                        "Distance ▼"->{
-                                            FirebaseViewModel._locations.value?.sortByDescending { it.distance }
+
+                                        "Distance ▼" -> {
+                                            localidades.value?.sortByDescending { it.distance }
                                         }
                                     }
                                 },

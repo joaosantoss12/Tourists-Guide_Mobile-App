@@ -98,15 +98,6 @@ fun InterestsScreen(
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
 
-    when(selectedItem){
-        "A-Z" -> {
-            locaisInteresse.value?.sortBy { it.nome }
-        }
-        "Z-A" -> {
-            locaisInteresse.value?.sortByDescending { it.nome }
-        }
-        none -> {}
-    }
 
 
     Column(     // EM TELEMOVEIS DARK MODE FICAVA UMA MARGEM PRETA
@@ -188,12 +179,29 @@ fun InterestsScreen(
                                 onClick = {
                                     selectedItem = filter
                                     expanded = false
-                                    when(selectedItem){
+                                    when(selectedItem) {
                                         "A-Z" -> {
-                                            FirebaseViewModel._locaisInteresse.value?.sortBy { it.nome }
+                                            locaisInteresse.value?.sortBy { it.nome }
                                         }
+
                                         "Z-A" -> {
-                                            FirebaseViewModel._locaisInteresse.value?.sortByDescending { it.nome }
+                                            locaisInteresse.value?.sortByDescending { it.nome }
+                                        }
+
+                                        "Distância ▲" -> {
+                                            locaisInteresse.value?.sortBy { it.distance }
+                                        }
+
+                                        "Distância ▼" -> {
+                                            locaisInteresse.value?.sortByDescending { it.distance }
+                                        }
+
+                                        "Distance ▲" -> {
+                                            locaisInteresse.value?.sortBy { it.distance }
+                                        }
+
+                                        "Distance ▼" -> {
+                                            locaisInteresse.value?.sortByDescending { it.distance }
                                         }
                                     }
                                 },

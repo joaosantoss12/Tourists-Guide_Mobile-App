@@ -159,22 +159,19 @@ class FirebaseViewModel : ViewModel() {
     }
 
     fun getLocations(){
-        FirebaseStorageUtil.getLocations()
-        _locations.value?.forEach{
-            it.distance= Location("").apply {
-                latitude = it.coordenadas?.latitude ?: 0.0
-                longitude = it.coordenadas?.longitude ?: 0.0
-            }.distanceTo(Location("").apply {
-                latitude = LocationViewModel.currentLocation.value?.latitude ?: 0.0
-                longitude = LocationViewModel.currentLocation.value?.longitude ?: 0.0
-            }).toDouble()/1000
+        viewModelScope.launch {
+            FirebaseStorageUtil.getLocations()
         }
     }
     fun getCategorias(){
-        FirebaseStorageUtil.getCategorias()
+        viewModelScope.launch {
+            FirebaseStorageUtil.getCategorias()
+        }
     }
     fun getLocaisInteresse(){
-        FirebaseStorageUtil.getLocaisInteresse()
+        viewModelScope.launch {
+            FirebaseStorageUtil.getLocaisInteresse()
+        }
     }
 
     fun addLocation_firebase(nome : String, descricao : String) {

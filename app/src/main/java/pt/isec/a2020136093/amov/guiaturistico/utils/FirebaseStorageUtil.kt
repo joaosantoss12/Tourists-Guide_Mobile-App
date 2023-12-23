@@ -2,6 +2,7 @@ package pt.isec.a2020136093.amov.guiaturistico.utils
 
 import android.content.res.AssetManager
 import android.icu.util.Calendar
+import android.location.Location
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -15,6 +16,7 @@ import pt.isec.a2020136093.amov.guiaturistico.viewModel.Comentario
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocalInteresse
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.Localizacao
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -99,27 +101,37 @@ class FirebaseStorageUtil {
                 .addOnSuccessListener { result ->
                     val localidades = mutableListOf<Localizacao>()
                     for (document in result) {
-                        //if (document.data["estado"].toString() == "aprovado") {
-                            localidades.add(
-                                Localizacao(
-                                    document.data["nome"].toString(),
-                                    document.data["descrição"].toString(),
-                                    document.data["imagemURL"].toString(),
-                                    document.data["coordenadas"] as? GeoPoint,
-                                    document.data["email"].toString(),
-                                    document.data["estado"].toString(),
-                                    document.data["emailVotosAprovar"] as? List<String>,
-                                    document.data["emailVotosEliminar"] as? List<String>,
-                                    0.0
-
-                                )
+                        localidades.add(
+                            Localizacao(
+                                document.data["nome"].toString(),
+                                document.data["descrição"].toString(),
+                                document.data["imagemURL"].toString(),
+                                document.data["coordenadas"] as? GeoPoint,
+                                document.data["email"].toString(),
+                                document.data["estado"].toString(),
+                                document.data["emailVotosAprovar"] as? List<String>,
+                                document.data["emailVotosEliminar"] as? List<String>,
+                                0.0
                             )
+                        )
                     }
+                    calculateDistancesLocalizacao(localidades)
                     FirebaseViewModel._locations.value = localidades
                 }
                 .addOnFailureListener { exception ->
                     Log.w("TAG", "Error getting documents.", exception)
                 }
+        }
+        private fun calculateDistancesLocalizacao(localidades: List<Localizacao>) {
+            localidades.forEach {
+                it.distance = Location("").apply {
+                    latitude = it.coordenadas?.latitude ?: 0.0
+                    longitude = it.coordenadas?.longitude ?: 0.0
+                }.distanceTo(Location("").apply {
+                    latitude = LocationViewModel.currentLocation.value?.latitude ?: 0.0
+                    longitude = LocationViewModel.currentLocation.value?.longitude ?: 0.0
+                }).toDouble() / 1000
+            }
         }
 
         fun getCategorias() {
