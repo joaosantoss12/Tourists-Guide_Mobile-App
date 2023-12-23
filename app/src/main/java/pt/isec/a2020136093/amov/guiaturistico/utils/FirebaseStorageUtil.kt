@@ -232,15 +232,17 @@ class FirebaseStorageUtil {
         }
 
 
-        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, latitude: Double, longitude: Double) {
+        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, latitude: String, longitude: String) {
+
             val db = Firebase.firestore
+
 
             uploadFile(imagePath.value.toString()).thenAccept{downloadUri ->
                 val data = hashMapOf(
                     "nome" to nome,
                     "descrição" to descricao,
                     "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
-                    "coordenadas" to GeoPoint(latitude, longitude),
+                    "coordenadas" to  GeoPoint(latitude.toDouble(), longitude.toDouble()),
                     "estado" to "pendente",
                     "email" to owner_email
                 )
@@ -252,7 +254,7 @@ class FirebaseStorageUtil {
 
         }
 
-        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, latitude: Double, longitude: Double) {
+        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, latitude: String, longitude: String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString()).thenAccept{ downloadUri ->
@@ -261,7 +263,7 @@ class FirebaseStorageUtil {
                     "descrição" to descricao,
                     "categoria" to categoria,
                     "classificação" to 0,
-                    "coordenadas" to GeoPoint(latitude, longitude),
+                    "coordenadas" to GeoPoint(latitude.toDouble(), longitude.toDouble()),
                     "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
                     "estado" to "pendente",
                     "email" to owner_email

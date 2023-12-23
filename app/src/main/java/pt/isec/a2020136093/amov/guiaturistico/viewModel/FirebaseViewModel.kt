@@ -174,12 +174,12 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
-    fun addLocation_firebase(nome : String, descricao : String, latitude : Double, longitude : Double) {
+    fun addLocation_firebase(nome : String, descricao : String, latitude : String, longitude : String) {
         viewModelScope.launch{
             FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!,latitude,longitude)
         }
     }
-    fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String, latitude : Double, longitude : Double) {
+    fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String, latitude : String, longitude : String) {
         viewModelScope.launch{
             FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,latitude,longitude)
         }
