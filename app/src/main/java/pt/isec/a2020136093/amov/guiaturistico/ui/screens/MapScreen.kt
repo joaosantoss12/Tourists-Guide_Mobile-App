@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico.screens
+package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -141,7 +141,7 @@ fun MapScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = it.team, fontSize = 20.sp)
-                        Text(text = "Latitude: ${it.latitude} ,Longitude: ${it.longitude}", fontSize = 14.sp)
+                        Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
                     }
                 }
             }

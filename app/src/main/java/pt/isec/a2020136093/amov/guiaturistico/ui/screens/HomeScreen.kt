@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico.screens
+package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -255,20 +255,7 @@ fun HomeScreen(
                                             .padding(15.dp),
                                         maxLines = 5,
                                         fontFamily = FontFamily.Serif,
-                                        fontSize = 11.sp,
-                                        color = Color.Gray
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    Text(
-                                        text = localizacao.distance.toString() + "km",
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(15.dp),
-                                        maxLines = 3,
-                                        fontFamily = FontFamily.Serif,
-                                        fontSize = 13.sp,
+                                        fontSize = 12.sp,
                                         color = Color.Gray
                                     )
 

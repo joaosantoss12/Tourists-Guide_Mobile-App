@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico.screens
+package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi

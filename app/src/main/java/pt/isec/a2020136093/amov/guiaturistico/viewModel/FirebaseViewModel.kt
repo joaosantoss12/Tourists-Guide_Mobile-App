@@ -165,8 +165,8 @@ class FirebaseViewModel : ViewModel() {
                 latitude = it.coordenadas?.latitude ?: 0.0
                 longitude = it.coordenadas?.longitude ?: 0.0
             }.distanceTo(Location("").apply {
-                latitude = _currentLocation.value?.split(",")?.get(0)?.toDouble() ?: 0.0
-                longitude = _currentLocation.value?.split(",")?.get(1)?.toDouble() ?: 0.0
+                latitude = LocationViewModel.currentLocation.value?.latitude ?: 0.0
+                longitude = LocationViewModel.currentLocation.value?.longitude ?: 0.0
             }).toDouble()/1000
         }
     }

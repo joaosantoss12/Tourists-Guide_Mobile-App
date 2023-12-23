@@ -1,4 +1,4 @@
-package pt.isec.a2020136093.amov.guiaturistico.screens
+package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
