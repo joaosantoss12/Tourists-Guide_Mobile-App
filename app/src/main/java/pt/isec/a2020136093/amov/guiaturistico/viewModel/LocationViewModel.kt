@@ -24,7 +24,12 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
         Coordinates("Manchester United",53.463056,-2.291389),
         Coordinates("Bayern Munich", 48.218775, 11.624753),
         Coordinates("Barcelona",41.38087,2.122802),
-        Coordinates("Real Madrid",40.45306,-3.68835)
+        Coordinates("Real Madrid",40.45306,-3.68835),
+        Coordinates("Juventus",45.109248,7.641602),
+        Coordinates("Paris Saint-Germain",48.841389,2.253056),
+        Coordinates("Chelsea",51.481667,-0.191111),
+        Coordinates("Arsenal",51.555,-0.108611),
+        Coordinates("Tottenham Hotspur",51.603333,-0.065833),
     )*/
 
 

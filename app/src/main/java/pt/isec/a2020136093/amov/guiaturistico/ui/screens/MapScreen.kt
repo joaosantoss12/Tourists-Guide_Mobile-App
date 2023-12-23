@@ -89,7 +89,7 @@ fun MapScreen(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f)
+                .fillMaxHeight(0.6f)
                 .clipToBounds()
                 .background(Color(255, 240, 128)),
         ) {

@@ -230,7 +230,7 @@ fun InterestsScreen(
                                                 model = categoria.imagemURL,
                                                 error = painterResource(id = R.drawable.error),
                                                 contentDescription = "category image",
-                                                contentScale = ContentScale.FillHeight,
+                                                contentScale = ContentScale.FillBounds,
                                             )
 
                                             if (viewModel.user.value?.email == categoria.email) {
