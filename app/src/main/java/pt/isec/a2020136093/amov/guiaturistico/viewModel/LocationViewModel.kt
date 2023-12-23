@@ -15,7 +15,7 @@ class LocationViewModelFactory(private val locationHandler: LocationHandler)
     }
 }
 
-data class Coordinates(val team: String,val latitude : Double, val longitude: Double)
+data class Coordinates(val team: String,val latitude : Double, val longitude: Double, val metodo : String)
 
 class LocationViewModel(private val locationHandler: LocationHandler) : ViewModel() {
 
@@ -27,7 +27,7 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
         get() = listaLocaisInteresse.value
             ?.filter { it.estado == "aprovado" } // Adiciona o filtro aqui
             ?.map {
-                Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+                Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0, it.metodo)
             }
             ?: emptyList()
 
@@ -36,7 +36,7 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
         get() = listaLocalizacoes.value
             ?.filter { it.estado == "aprovado" } // Adiciona o filtro aqui
             ?.map {
-                Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+                Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0, it.metodo)
             }
             ?: emptyList()
 

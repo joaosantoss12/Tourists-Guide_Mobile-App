@@ -30,6 +30,7 @@ class Localizacao(
     val emailVotosAprovar : List<String>?,
     val emailVotosEliminar : List<String>?,
     var distance: Double?,
+    var metodo : String
 )
 
 class LocalInteresse(
@@ -44,6 +45,7 @@ class LocalInteresse(
     val emailVotosAprovar : List<String>?,
     val emailVotosEliminar : List<String>?,
     var distance: Double?,
+    var metodo : String
 )
 
 class Categoria(
@@ -174,14 +176,14 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
-    fun addLocation_firebase(nome : String, descricao : String, latitude : String, longitude : String) {
+    fun addLocation_firebase(nome : String, descricao : String, latitude : String, longitude : String, metodo : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!,latitude,longitude)
+            FirebaseStorageUtil.addLocation(nome,descricao,imagePath,user.value?.email!!,latitude,longitude,metodo)
         }
     }
-    fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String, latitude : String, longitude : String) {
+    fun addLocalInteresse_firebase(nome : String, descricao : String, categoria : String, latitude : String, longitude : String, metodo : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,latitude,longitude)
+            FirebaseStorageUtil.addLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,latitude,longitude,metodo)
         }
     }
     fun addCategoria_firebase(nome : String, descricao : String) {

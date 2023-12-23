@@ -54,6 +54,8 @@ fun AddFormScreen(
     var latitude by remember { mutableStateOf("") }
     var longitude by remember { mutableStateOf("") }
 
+    var metodo by remember { mutableStateOf("utilizador") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -126,7 +128,6 @@ fun AddFormScreen(
                     modifier = Modifier
                         .weight(1f)
 
-
                 )
                 Spacer(modifier = Modifier.width(5.dp))
 
@@ -134,13 +135,14 @@ fun AddFormScreen(
                     onClick = {
                         latitude = LocationViewModel.currentLocation.value?.latitude.toString()
                         longitude = LocationViewModel.currentLocation.value?.longitude.toString()
+
+                        metodo = "automático"
                     },
                     shape = CircleShape,
                 ) {
                     Icon(
                         Icons.Filled.LocationOn, "localização atual",
                         tint = Color.Black,
-
                     )
 
                 }
@@ -198,14 +200,15 @@ fun AddFormScreen(
                     onClick = {
                         latitude = LocationViewModel.currentLocation.value?.latitude.toString()
                         longitude = LocationViewModel.currentLocation.value?.longitude.toString()
+
+                        metodo = "automático"
                     },
                     shape = CircleShape, // Forma circular
                 ) {
                     Icon(
                         Icons.Filled.LocationOn, "localização atual",
                         tint = Color.Black,
-
-                        )
+                    )
 
                 }
 
@@ -234,7 +237,7 @@ fun AddFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> {
-                        viewModel.addLocation_firebase(nome,descricao,latitude,longitude)
+                        viewModel.addLocation_firebase(nome,descricao,latitude,longitude,metodo)
                         navController.navigate("Home")
                     }
                     "Categoria" -> {
@@ -242,7 +245,7 @@ fun AddFormScreen(
                         navController.navigate("Interests")
                     }
                     "Local de Interesse" -> {
-                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria,latitude,longitude)
+                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria,latitude,longitude,metodo)
                         navController.navigate("Interests")
                     }
                 }

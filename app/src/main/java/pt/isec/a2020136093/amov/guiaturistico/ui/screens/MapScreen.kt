@@ -154,7 +154,9 @@ fun MapScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(text = it.team, fontSize = 20.sp)
-                            Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
+                            Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                            Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                            Text(text = "(Obtenção coordenadas: ${it.metodo})", fontSize = 14.sp)
                         }
                     }
                 }
@@ -180,7 +182,9 @@ fun MapScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(text = it.team, fontSize = 20.sp)
-                            Text(text = "Latitude: ${it.latitude}\nLongitude: ${it.longitude}", fontSize = 14.sp)
+                            Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                            Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                            Text(text = "Obtenção coordenadas: ${it.metodo}", fontSize = 14.sp)
                         }
                     }
                 }

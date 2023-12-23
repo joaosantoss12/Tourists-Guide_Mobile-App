@@ -111,7 +111,8 @@ class FirebaseStorageUtil {
                                 document.data["estado"].toString(),
                                 document.data["emailVotosAprovar"] as? List<String>,
                                 document.data["emailVotosEliminar"] as? List<String>,
-                                0.0
+                                0.0,
+                                document.data["metodo"].toString()
                             )
                         )
                     }
@@ -201,7 +202,8 @@ class FirebaseStorageUtil {
                                                 document.data["estado"].toString(),
                                                 document.data["emailVotosAprovar"] as? List<String>,
                                                 document.data["emailVotosEliminar"] as? List<String>,
-                                            0.0
+                                            0.0,
+                                                document.data["metodo"].toString()
                                         ),
                                     )
                                     calculateDistancesLocaisInteresse(locaisInteresse)
@@ -232,7 +234,8 @@ class FirebaseStorageUtil {
         }
 
 
-        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, latitude: String, longitude: String) {
+        fun addLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String,
+                        latitude: String, longitude: String, metodo : String) {
 
             val db = Firebase.firestore
 
@@ -244,7 +247,8 @@ class FirebaseStorageUtil {
                     "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
                     "coordenadas" to  GeoPoint(latitude.toDouble(), longitude.toDouble()),
                     "estado" to "pendente",
-                    "email" to owner_email
+                    "email" to owner_email,
+                    "metodo" to metodo,
                 )
 
                 db.collection("Localidades").document(nome).set(data)
@@ -254,7 +258,8 @@ class FirebaseStorageUtil {
 
         }
 
-        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, latitude: String, longitude: String) {
+        fun addLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String,
+                              latitude: String, longitude: String, metodo : String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString()).thenAccept{ downloadUri ->
@@ -266,7 +271,8 @@ class FirebaseStorageUtil {
                     "coordenadas" to GeoPoint(latitude.toDouble(), longitude.toDouble()),
                     "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
                     "estado" to "pendente",
-                    "email" to owner_email
+                    "email" to owner_email,
+                    "metodo" to metodo
                 )
 
                 db.collection("Localidades")
