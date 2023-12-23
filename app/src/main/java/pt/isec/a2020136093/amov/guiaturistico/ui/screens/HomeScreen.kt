@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -205,8 +206,6 @@ fun HomeScreen(
                                         "Distance ▼"->{
                                             FirebaseViewModel._locations.value?.sortByDescending { it.distance }
                                         }
-
-
                                     }
                                 },
                             )
@@ -261,6 +260,7 @@ fun HomeScreen(
                                         model = localizacao.imagemURL,
                                         error = painterResource(id = R.drawable.error),
                                         contentDescription = "city image",
+                                        //contentScale = ContentScale.FillWidth,
                                     )
                                     Text(
                                         text = localizacao.nome,
