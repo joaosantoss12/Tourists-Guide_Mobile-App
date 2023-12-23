@@ -20,6 +20,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.CompletableFuture
 
+
 class FirebaseStorageUtil {
 
     companion object {
@@ -111,7 +112,6 @@ class FirebaseStorageUtil {
                                     document.data["emailVotosEliminar"] as? List<String>
                                 )
                             )
-                        //}
                     }
                     FirebaseViewModel._locations.value = localidades
                 }

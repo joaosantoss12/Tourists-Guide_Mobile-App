@@ -132,6 +132,7 @@ fun InterestsScreen(
                 Text(text = "Mapa")
             }
 
+
             Text(
                 text = stringResource(R.string.points_of_interest),
                 lineHeight = 30.sp,
@@ -321,7 +322,8 @@ fun InterestsScreen(
 
                     Button(
                         onClick = {
-                            navController.navigate("PendingInterests")
+                            //navController.navigate("AddForm")
+                            //viewModel.tipoAddForm.value = "Localização"
                         },
                         modifier = Modifier
                             .padding(16.dp)

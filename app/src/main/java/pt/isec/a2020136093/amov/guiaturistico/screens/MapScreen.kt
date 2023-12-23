@@ -141,7 +141,7 @@ fun MapScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = it.team, fontSize = 20.sp)
-                        Text(text = "${it.latitude} ${it.longitude}", fontSize = 14.sp)
+                        Text(text = "Latitude: ${it.latitude} ,Longitude: ${it.longitude}", fontSize = 14.sp)
                     }
                 }
             }

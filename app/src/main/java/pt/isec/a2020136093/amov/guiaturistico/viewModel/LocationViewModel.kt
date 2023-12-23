@@ -17,14 +17,30 @@ class LocationViewModelFactory(private val locationHandler: LocationHandler)
 data class Coordinates(val team: String,val latitude : Double, val longitude: Double)
 
 class LocationViewModel(private val locationHandler: LocationHandler) : ViewModel() {
-    val POIs = listOf(
+    /*val POIs = listOf(
         Coordinates("Liverpool",53.430819,-2.960828),
         Coordinates("Manchester City",53.482989,-2.200292),
         Coordinates("Manchester United",53.463056,-2.291389),
         Coordinates("Bayern Munich", 48.218775, 11.624753),
         Coordinates("Barcelona",41.38087,2.122802),
         Coordinates("Real Madrid",40.45306,-3.68835)
-    )
+    )*/
+
+
+
+
+    val listaLocaisInteresse= FirebaseViewModel.locaisInteresse
+
+    val POIs
+        get() = listaLocaisInteresse.value?.map {
+            Coordinates(it.nome,it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+        } ?: emptyList()
+
+
+
+
+
+
     // Permissions
     var coarseLocationPermission = false
     var fineLocationPermission = false
