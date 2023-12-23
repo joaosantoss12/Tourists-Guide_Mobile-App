@@ -48,7 +48,7 @@ fun MapScreen(
 ) {
     //val context = LocalContext.current
     var autoEnabled by remember { mutableStateOf(false) }
-    val location = viewModel.currentLocation.observeAsState()
+    val location = LocationViewModel.currentLocation.observeAsState()
 
     var geoPoint by remember {
         mutableStateOf(

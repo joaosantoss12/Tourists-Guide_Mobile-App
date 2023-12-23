@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.viewModel
 
+import android.location.Location
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,7 @@ class Localizacao(
     val estado : String,
     val emailVotosAprovar : List<String>?,
     val emailVotosEliminar : List<String>?,
+    var distance: Double?,
 )
 
 class LocalInteresse(
@@ -41,6 +43,7 @@ class LocalInteresse(
     val estado : String,
     val emailVotosAprovar : List<String>?,
     val emailVotosEliminar : List<String>?,
+    val distance: Double?,
 )
 
 class Categoria(
@@ -157,6 +160,15 @@ class FirebaseViewModel : ViewModel() {
 
     fun getLocations(){
         FirebaseStorageUtil.getLocations()
+        _locations.value?.forEach{
+            it.distance= Location("").apply {
+                latitude = it.coordenadas?.latitude ?: 0.0
+                longitude = it.coordenadas?.longitude ?: 0.0
+            }.distanceTo(Location("").apply {
+                latitude = _currentLocation.value?.split(",")?.get(0)?.toDouble() ?: 0.0
+                longitude = _currentLocation.value?.split(",")?.get(1)?.toDouble() ?: 0.0
+            }).toDouble()/1000
+        }
     }
     fun getCategorias(){
         FirebaseStorageUtil.getCategorias()

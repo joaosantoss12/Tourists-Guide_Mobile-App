@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pt.isec.a2020136093.amov.guiaturistico.utils.location.LocationHandler
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel.Companion._currentLocation
 
 class LocationViewModelFactory(private val locationHandler: LocationHandler)
     : ViewModelProvider.Factory {
@@ -34,6 +35,7 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
     val POIs
         get() = listaLocaisInteresse.value?.map {
             Coordinates(it.nome,it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0)
+
         } ?: emptyList()
 
 
@@ -46,9 +48,18 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
     var fineLocationPermission = false
     var backgroundLocationPermission = false
 
-    private val _currentLocation = MutableLiveData(Location(null))
-    val currentLocation: LiveData<Location>
-        get() = _currentLocation
+
+
+
+
+
+    companion object {
+        private val _currentLocation = MutableLiveData(Location(null))
+        val currentLocation: LiveData<Location>
+            get() = _currentLocation
+    }
+
+
 
     private val locationEnabled : Boolean
         get() = locationHandler.locationEnabled

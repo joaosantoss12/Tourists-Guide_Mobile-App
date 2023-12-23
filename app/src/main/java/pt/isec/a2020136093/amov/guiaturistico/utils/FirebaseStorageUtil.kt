@@ -109,7 +109,9 @@ class FirebaseStorageUtil {
                                     document.data["email"].toString(),
                                     document.data["estado"].toString(),
                                     document.data["emailVotosAprovar"] as? List<String>,
-                                    document.data["emailVotosEliminar"] as? List<String>
+                                    document.data["emailVotosEliminar"] as? List<String>,
+                                    0.0
+
                                 )
                             )
                     }
@@ -186,7 +188,8 @@ class FirebaseStorageUtil {
                                                 document.data["email"].toString(),
                                                 document.data["estado"].toString(),
                                                 document.data["emailVotosAprovar"] as? List<String>,
-                                                document.data["emailVotosEliminar"] as? List<String>
+                                                document.data["emailVotosEliminar"] as? List<String>,
+                                            0.0
                                         ),
                                     )
 

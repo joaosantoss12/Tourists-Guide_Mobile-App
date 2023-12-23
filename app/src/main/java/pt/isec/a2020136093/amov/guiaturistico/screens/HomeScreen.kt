@@ -253,6 +253,19 @@ fun HomeScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(15.dp),
+                                        maxLines = 5,
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 11.sp,
+                                        color = Color.Gray
+                                    )
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+
+                                    Text(
+                                        text = localizacao.distance.toString() + "km",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(15.dp),
                                         maxLines = 3,
                                         fontFamily = FontFamily.Serif,
                                         fontSize = 13.sp,
