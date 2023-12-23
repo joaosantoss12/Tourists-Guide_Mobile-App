@@ -1,8 +1,5 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
-import android.media.Image
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -100,12 +97,12 @@ fun AddFormScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        if(viewModel.tipoAddForm.value=="Localização"){
+
+        if(viewModel.tipoAddForm.value == "Localização"){
 
             Row(modifier= Modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-
+                verticalAlignment = Alignment.CenterVertically
             ){
                 OutlinedTextField(
                     value = latitude,
@@ -138,27 +135,22 @@ fun AddFormScreen(
                         latitude = LocationViewModel.currentLocation.value?.latitude.toString()
                         longitude = LocationViewModel.currentLocation.value?.longitude.toString()
                     },
-                    shape = CircleShape, // Forma circular
+                    shape = CircleShape,
                 ) {
                     Icon(
                         Icons.Filled.LocationOn, "localização atual",
                         tint = Color.Black,
 
-
-
                     )
 
-
-
-
-                    //Text(text = "Localização Atual")
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
 
 
 
-        } else if(viewModel.tipoAddForm.value == "Local de Interesse"){
+        }
+        else if(viewModel.tipoAddForm.value == "Local de Interesse"){
             OutlinedTextField(
                 value = categoria,
                 onValueChange = {
@@ -173,6 +165,7 @@ fun AddFormScreen(
 
             Row(modifier= Modifier
                 .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
 
             ){
                 OutlinedTextField(
@@ -185,8 +178,8 @@ fun AddFormScreen(
                         .weight(1f)
 
                 )
-                Spacer(modifier = Modifier.width(5.dp))
 
+                Spacer(modifier = Modifier.width(5.dp))
 
                 OutlinedTextField(
                     value = longitude,
@@ -199,7 +192,22 @@ fun AddFormScreen(
 
                 )
 
+                Spacer(modifier = Modifier.width(5.dp))
 
+                OutlinedButton(
+                    onClick = {
+                        latitude = LocationViewModel.currentLocation.value?.latitude.toString()
+                        longitude = LocationViewModel.currentLocation.value?.longitude.toString()
+                    },
+                    shape = CircleShape, // Forma circular
+                ) {
+                    Icon(
+                        Icons.Filled.LocationOn, "localização atual",
+                        tint = Color.Black,
+
+                        )
+
+                }
 
             }
             Spacer(modifier = Modifier.height(16.dp))

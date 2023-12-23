@@ -107,7 +107,7 @@ fun HomeScreen(
         ) {
             Row(
                 modifier= Modifier
-                .fillMaxWidth(),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ){
                 Button(
