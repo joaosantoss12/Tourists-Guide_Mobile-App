@@ -36,11 +36,13 @@ import pt.isec.a2020136093.amov.guiaturistico.screens.EditFormScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.HomeScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.InterestsScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.LoginScreen
+import pt.isec.a2020136093.amov.guiaturistico.screens.MapScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.PendingCategoriesScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.PendingInterestsScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.PendingLocationsScreen
 import pt.isec.a2020136093.amov.guiaturistico.screens.RegisterScreen
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 
 const val MENU_SCREEN = "Menu"
 const val LOGIN_SCREEN = "Login"
@@ -56,6 +58,8 @@ const val PENDING_LOCATIONS = "PendingLocations"
 const val PENDING_INTERESTS = "PendingInterests"
 const val PENDING_CATEGORIES = "PendingCategories"
 
+const val MAP_SCREEN = "Map"
+
 const val COMMENTS_SCREEN = "Comments"
 
 const val CREDITS_SCREEN = "Credits"
@@ -63,13 +67,15 @@ const val CREDITS_SCREEN = "Credits"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController = rememberNavController()) {
+fun MainScreen(
+    viewModelFirebase : FirebaseViewModel,
+    viewModelLocation : LocationViewModel,
+    navController : NavHostController = rememberNavController()) {
 
 
-    var showAppBar by remember { mutableStateOf(false) }
+    val showAppBar by remember { mutableStateOf(false) }
     var navigateAfterRegister by remember { mutableStateOf(false) }
     var navigateAfterLogin by remember { mutableStateOf(false) }
-
 
     navController.addOnDestinationChangedListener{ controller, destination, arguments ->
         //showAppBar = (destination.route != MENU_SCREEN)
@@ -145,44 +151,48 @@ fun MainScreen(viewModel : FirebaseViewModel, navController : NavHostController 
                 )
             }
             composable(LOGIN_SCREEN) {
-                LoginScreen(viewModel, navController){
+                LoginScreen(viewModelFirebase, navController){
                     navController.navigate(HOME_SCREEN)
                 }
             }
             composable(REGISTER_SCREEN) {
-                viewModel.signOut();
-                RegisterScreen(viewModel, navController){
+                viewModelFirebase.signOut();
+                RegisterScreen(viewModelFirebase, navController){
                     navController.navigate(HOME_SCREEN)
                 }
             }
             composable(HOME_SCREEN) {
-                HomeScreen(viewModel, navController){
+                HomeScreen(viewModelFirebase, navController){
                     navController.navigate("Menu")
                 }
             }
             composable(INTERESTS_SCREEN) {
-                InterestsScreen(viewModel,navController)
+                InterestsScreen(viewModelFirebase,navController)
             }
 
             composable(ADDFORM_SCREEN){
-                AddFormScreen(viewModel,navController)
+                AddFormScreen(viewModelFirebase,navController)
             }
             composable(EDITFORM_SCREEN){
-                EditFormScreen(viewModel,navController,viewModel.editName)
+                EditFormScreen(viewModelFirebase,navController,viewModelFirebase.editName)
             }
 
             composable(PENDING_LOCATIONS){
-                PendingLocationsScreen(viewModel,navController)
+                PendingLocationsScreen(viewModelFirebase,navController)
             }
             composable(PENDING_INTERESTS){
-                PendingInterestsScreen(viewModel,navController)
+                PendingInterestsScreen(viewModelFirebase,navController)
             }
             composable(PENDING_CATEGORIES){
-                PendingCategoriesScreen(viewModel,navController)
+                PendingCategoriesScreen(viewModelFirebase,navController)
+            }
+
+            composable(MAP_SCREEN){
+                MapScreen(viewModelLocation,navController)
             }
 
             composable(COMMENTS_SCREEN){
-                CommentsScreen(viewModel,navController)
+                CommentsScreen(viewModelFirebase,navController)
             }
 
             composable(CREDITS_SCREEN){

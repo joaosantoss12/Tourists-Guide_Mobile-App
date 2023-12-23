@@ -60,10 +60,15 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation("com.google.firebase:firebase-storage:20.3.0")
-    
 
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
     implementation ("io.coil-kt:coil-compose:2.5.0")
+
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    implementation("org.osmdroid:osmdroid-android:6.1.17")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 
 
     implementation("androidx.core:core-ktx:1.9.0")

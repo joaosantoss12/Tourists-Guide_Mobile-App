@@ -116,7 +116,9 @@ fun InterestsScreen(
                 .background(Color.White)
         ) {
             Button(
-                onClick = { viewModel.signOut() },
+                onClick = {
+                    navController.navigate("Map")
+                },
                 modifier = Modifier
                     .padding(14.dp)
                     .align(Alignment.End),
