@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -73,12 +75,12 @@ fun MainScreen(
     navController : NavHostController = rememberNavController()) {
 
 
-    val showAppBar by remember { mutableStateOf(false) }
+    var showAppBar by remember { mutableStateOf(false) }
     var navigateAfterRegister by remember { mutableStateOf(false) }
     var navigateAfterLogin by remember { mutableStateOf(false) }
 
     navController.addOnDestinationChangedListener{ controller, destination, arguments ->
-        //showAppBar = (destination.route != MENU_SCREEN)
+        showAppBar = (destination.route != MENU_SCREEN && destination.route!= HOME_SCREEN )
 
         navigateAfterRegister = destination.route in arrayOf(
             REGISTER_SCREEN
@@ -102,27 +104,7 @@ fun MainScreen(
                         }
                     },
                     actions = {
-                       /* if(showAddAction)
-                            IconButton(onClick = {
-                                navController.popBackStack()    // VOLTA PARA O MENU INICIAL
-                                navController.navigate(DRAWING_SCREEN)
-                            }) {
-                                Icon(
-                                    Icons.Filled.Add,
-                                    contentDescription = "Add",
-                                )
-                            }
 
-                        if(showDoneAction)
-                            IconButton(onClick = {
-                                navController.popBackStack()    // VOLTA PARA O MENU INICIAL
-                                //navController.navigate(DRAWING_SCREEN)
-                            }) {
-                                Icon(
-                                    Icons.Filled.Done,
-                                    contentDescription = "Done",
-                                )
-                            }*/
                     },
                     colors = topAppBarColors(
                         containerColor = Color(0, 80, 150, 255),
