@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,6 +57,8 @@ fun AddFormScreen(
     var longitude by remember { mutableStateOf("") }
 
     var metodo by remember { mutableStateOf("utilizador") }
+
+    val contexto = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -235,18 +239,61 @@ fun AddFormScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             OutlinedButton(onClick = {
+
                 when(viewModel.tipoAddForm.value){
                     "Localização" -> {
-                        viewModel.addLocation_firebase(nome,descricao,latitude,longitude,metodo)
-                        navController.navigate("Home")
+                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" || viewModel.imagePath.value==null) {
+                            Toast.makeText(
+                                contexto,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else{
+                            Toast.makeText(
+                                contexto,
+                                "Localização criada com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.addLocation_firebase(nome,descricao,latitude,longitude,metodo)
+                            navController.navigate("Home")
+                        }
                     }
                     "Categoria" -> {
-                        viewModel.addCategoria_firebase(nome,descricao)
-                        navController.navigate("Interests")
+                        if(nome=="" || descricao=="" || viewModel.imagePath.value==null) {
+                            Toast.makeText(
+                                contexto,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else{
+                            Toast.makeText(
+                                contexto,
+                                "Categoria criada com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.addCategoria_firebase(nome,descricao)
+                            navController.navigate("Interests")
+                        }
+
                     }
                     "Local de Interesse" -> {
-                        viewModel.addLocalInteresse_firebase(nome,descricao,categoria,latitude,longitude,metodo)
-                        navController.navigate("Interests")
+                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" ||categoria==""|| viewModel.imagePath.value==null) {
+                            Toast.makeText(
+                                contexto,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else {
+                            Toast.makeText(
+                                contexto,
+                                "Local de interesse criado com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.addLocalInteresse_firebase(
+                                nome, descricao, categoria, latitude, longitude, metodo
+                            )
+                            navController.navigate("Interests")
+                        }
                     }
                 }
             }) {

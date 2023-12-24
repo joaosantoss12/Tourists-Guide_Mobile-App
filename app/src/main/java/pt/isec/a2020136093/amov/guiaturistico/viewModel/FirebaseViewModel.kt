@@ -192,14 +192,14 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
-    fun updateLocation_firebase(nome : String, descricao : String) {
+    fun updateLocation_firebase(nome : String, descricao : String, latitude : String, longitude : String, metodo : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.updateLocation(nome,descricao,imagePath,user.value?.email!!,editName)
+            FirebaseStorageUtil.updateLocation(nome,descricao,imagePath,user.value?.email!!,editName,latitude,longitude,metodo)
         }
     }
-    fun updateLocalInteresse_firebase(nome : String, descricao : String, categoria : String) {
+    fun updateLocalInteresse_firebase(nome : String, descricao : String, categoria : String, latitude : String, longitude : String, metodo : String) {
         viewModelScope.launch{
-            FirebaseStorageUtil.updateLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,editName)
+            FirebaseStorageUtil.updateLocalInteresse(nome,descricao,categoria,imagePath,user.value?.email!!,editName,latitude,longitude,metodo)
         }
     }
 

@@ -255,6 +255,7 @@ class FirebaseStorageUtil {
                     .addOnSuccessListener { getLocations() }
                     .addOnFailureListener { }
             }
+            imagePath.value=null
 
         }
 
@@ -281,6 +282,7 @@ class FirebaseStorageUtil {
                     .addOnSuccessListener { getLocaisInteresse() }
                     .addOnFailureListener { }
             }
+            imagePath.value=null
         }
 
         fun addCategoria(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String) {
@@ -300,13 +302,12 @@ class FirebaseStorageUtil {
                     .addOnFailureListener { }
 
             }
-
-
-
+            imagePath.value=null
         }
 
 
-        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, oldName: String) {
+        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, oldName: String,
+                           latitude: String, longitude: String, metodo : String ) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString()).thenAccept { downloadUri ->
@@ -315,7 +316,10 @@ class FirebaseStorageUtil {
                     "descrição" to descricao,
                     "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
                     "estado" to "pendente",
-                    "email" to owner_email
+                    "email" to owner_email,
+                    "coordenadas" to GeoPoint(latitude.toDouble(), longitude.toDouble()),
+                    "metodo" to metodo
+
                 )
 
 
@@ -325,9 +329,11 @@ class FirebaseStorageUtil {
 
                 db.collection("Localidades").document(oldName).delete().addOnSuccessListener { getLocations() }
             }
+            imagePath.value=null
         }
 
-        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, oldName: String) {
+        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, oldName: String,
+                                 latitude: String, longitude: String, metodo : String) {
             val db = Firebase.firestore
 
             uploadFile(imagePath.value.toString()).thenAccept { downloadUri ->
@@ -336,10 +342,11 @@ class FirebaseStorageUtil {
                     "descrição" to descricao,
                     "categoria" to categoria,
                     "classificação" to 0,
-                    "coordenadas" to GeoPoint(0.0, 0.0),
                     "imagemURL" to "", //imgURL / imagePath.value.toString()
                     "estado" to "pendente",
-                    "email" to owner_email
+                    "email" to owner_email,
+                    "coordenadas" to GeoPoint(latitude.toDouble(), longitude.toDouble()),
+                    "metodo" to metodo
                 )
 
 
@@ -354,7 +361,7 @@ class FirebaseStorageUtil {
                     .collection("Locais de Interesse").document(oldName).delete()
                     .addOnSuccessListener { getLocaisInteresse() }
             }
-
+            imagePath.value=null
         }
 
 

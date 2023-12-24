@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -12,8 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -21,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +38,7 @@ import androidx.navigation.NavController
 import pt.isec.a2020136093.amov.guiaturistico.ui.composables.SelectImage
 import pt.isec.a2020136093.amov.guiaturistico.ui.theme.RegularFont
 import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
+import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 
 @Composable
 fun EditFormScreen(
@@ -42,7 +50,12 @@ fun EditFormScreen(
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
-    var coordenadas by remember { mutableStateOf("") }
+    var latitude by remember { mutableStateOf("") }
+    var longitude by remember { mutableStateOf("") }
+
+    var metodo by remember { mutableStateOf("utilizador") }
+
+    val contexto = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -101,17 +114,55 @@ fun EditFormScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = coordenadas,
-                onValueChange = {
-                    coordenadas = it
-                },
-                label = { Text(text = "Coordenadas") },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
         }
+
+        Row(modifier= Modifier
+            .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+
+        ){
+            OutlinedTextField(
+                value = latitude,
+                onValueChange = {
+                    latitude = it
+                },
+                label = { Text(text = "Latitude") },
+                modifier = Modifier
+                    .weight(1f)
+
+            )
+
+            Spacer(modifier = Modifier.width(5.dp))
+
+            OutlinedTextField(
+                value = longitude,
+                onValueChange = {
+                    longitude = it
+                },
+                label = { Text(text = "Longitude") },
+                modifier = Modifier
+                    .weight(1f)
+
+            )
+
+            Spacer(modifier = Modifier.width(5.dp))
+
+            OutlinedButton(
+                onClick = {
+                    latitude = LocationViewModel.currentLocation.value?.latitude.toString()
+                    longitude = LocationViewModel.currentLocation.value?.longitude.toString()
+
+                    metodo = "automático"
+                },
+                shape = CircleShape, // Forma circular
+            ) {
+                Icon(
+                    Icons.Filled.LocationOn, "localização atual",
+                    tint = Color.Black,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
 
         //cria um quadrado para o preview da imagem de galeria ou camera
         Card(
@@ -133,16 +184,44 @@ fun EditFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoEditForm.value){
                     "Localização" -> {
-                        viewModel.updateLocation_firebase(nome,descricao)
-                        navController.navigate("Home")
+                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" || viewModel.imagePath.value==null) {
+                            Toast.makeText(
+                                contexto,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else{
+                            Toast.makeText(
+                                contexto,
+                                "Localização editada com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.updateLocation_firebase(nome,descricao,latitude,longitude,metodo)
+                            navController.navigate("Home")
+                        }
                     }
                     //"Categoria" -> {
                         //viewModel.addCategoria_firebase(nome,descricao)
                         //navController.navigate("Interests")
                     //}
                     "Local de Interesse" -> {
-                        viewModel.updateLocalInteresse_firebase(nome,descricao,categoria)
-                        navController.navigate("Interests")
+                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" ||categoria==""|| viewModel.imagePath.value==null) {
+                            Toast.makeText(
+                                contexto,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else {
+                            Toast.makeText(
+                                contexto,
+                                "Local de interesse editado com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.updateLocalInteresse_firebase(
+                                nome, descricao, categoria, latitude, longitude, metodo
+                            )
+                            navController.navigate("Interests")
+                        }
                     }
                 }
             }) {
