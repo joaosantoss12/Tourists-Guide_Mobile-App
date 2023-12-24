@@ -25,7 +25,7 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
 
     val POIs_locaisInteresse
         get() = listaLocaisInteresse.value
-            ?.filter { it.estado == "aprovado" } // Adiciona o filtro aqui
+            ?.filter { it.estado == "aprovado" }
             ?.map {
                 Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0, it.metodo)
             }
@@ -34,7 +34,7 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
 
     val POIs_localizacoes
         get() = listaLocalizacoes.value
-            ?.filter { it.estado == "aprovado" } // Adiciona o filtro aqui
+            ?.filter { it.estado == "aprovado" }
             ?.map {
                 Coordinates(it.nome, it.coordenadas?.latitude ?: 0.0, it.coordenadas?.longitude ?: 0.0, it.metodo)
             }

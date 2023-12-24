@@ -10,8 +10,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority.*
 
-class FusedLocationHandler(private val locationProvider: FusedLocationProviderClient) :
-    LocationHandler {
+class FusedLocationHandler(private val locationProvider: FusedLocationProviderClient) : LocationHandler {
     override var locationEnabled = false
     override var onLocation: ((Location) -> Unit)? = null
 

@@ -1,6 +1,7 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,6 +55,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -86,6 +88,7 @@ fun InterestsScreen(
     val categorias = FirebaseViewModel.categorias.observeAsState()
     val locaisInteresse = FirebaseViewModel.locaisInteresse.observeAsState()
 
+    val context = LocalContext.current
 
     val filtersList = listOf(
         "A-Z",
@@ -271,6 +274,11 @@ fun InterestsScreen(
                                             .background(color = Color.White)
                                             .size(120.dp)
                                             .clickable {
+                                                Toast.makeText(
+                                                    context,
+                                                    categoria.descricao,
+                                                    Toast.LENGTH_LONG,
+                                                ).show()
                                                 viewModel.selectedCategory = categoria.nome
                                                 viewModel.getLocaisInteresse()
                                             }
