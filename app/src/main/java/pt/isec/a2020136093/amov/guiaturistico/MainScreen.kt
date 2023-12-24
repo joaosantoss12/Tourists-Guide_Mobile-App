@@ -107,9 +107,7 @@ fun MainScreen(
 
                     },
                     colors = topAppBarColors(
-                        containerColor = Color(0, 80, 150, 255),
-                        titleContentColor = Color.White,
-                        navigationIconContentColor = Color.White,
+                        navigationIconContentColor = Color(0, 80, 150, 255),
                         actionIconContentColor = MaterialTheme.colorScheme.inversePrimary,
                     ),
                     modifier = Modifier
