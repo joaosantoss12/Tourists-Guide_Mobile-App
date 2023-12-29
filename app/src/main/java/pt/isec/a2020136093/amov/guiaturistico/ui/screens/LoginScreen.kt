@@ -2,6 +2,7 @@ package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,6 +41,8 @@ fun LoginScreen(
     modifier : Modifier = Modifier,
     onSuccess : () -> Unit
 ) {
+    BoxWithConstraints {
+        val isLandscape = maxWidth > maxHeight
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
 
@@ -56,12 +59,14 @@ fun LoginScreen(
             .background(Color.White)
     ) {
 
-        Image(
-            painter = painterResource(R.drawable.imagem1), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
-            contentDescription = null, // Descrição da imagem (opcional)
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+        if (!isLandscape) {
+            Image(
+                painter = painterResource(R.drawable.imagem1), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
+                contentDescription = null, // Descrição da imagem (opcional)
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
 
         Text(
             text = stringResource(R.string.login),
@@ -115,6 +120,7 @@ fun LoginScreen(
         {
             Text(text = stringResource(R.string.login))
         }
+    }
     }
 }
 
