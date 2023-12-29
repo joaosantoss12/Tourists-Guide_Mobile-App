@@ -178,7 +178,15 @@ fun EditFormScreen(
                                 "Preencha todos os campos",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else{
+                        }
+                        else if(latitude < "-90" || latitude > "90" || longitude < "-180" || longitude > "180"){
+                            Toast.makeText(
+                                contexto,
+                                "Valores de coordenadas inválidas",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else{
                             Toast.makeText(
                                 contexto,
                                 "Localização editada com sucesso",
@@ -199,7 +207,15 @@ fun EditFormScreen(
                                 "Preencha todos os campos",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else {
+                        }
+                        else if(latitude < "-90" || latitude > "90" || longitude < "-180" || longitude > "180"){
+                            Toast.makeText(
+                                contexto,
+                                "Valores de coordenadas inválidas",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else {
                             Toast.makeText(
                                 contexto,
                                 "Local de interesse editado com sucesso",
