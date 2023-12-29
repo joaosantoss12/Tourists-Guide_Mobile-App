@@ -179,7 +179,7 @@ fun EditFormScreen(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        else if(latitude < "-90" || latitude > "90" || longitude < "-180" || longitude > "180"){
+                        else if(latitude.toDouble() < -90 || latitude.toDouble() > 90 || longitude.toDouble() < -180 || longitude.toDouble() > 180){
                             Toast.makeText(
                                 contexto,
                                 "Valores de coordenadas inválidas",
@@ -208,7 +208,7 @@ fun EditFormScreen(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        else if(latitude < "-90" || latitude > "90" || longitude < "-180" || longitude > "180"){
+                        else if(latitude.toDouble() < -90 || latitude.toDouble() > 90 || longitude.toDouble() < -180 || longitude.toDouble() > 180){
                             Toast.makeText(
                                 contexto,
                                 "Valores de coordenadas inválidas",

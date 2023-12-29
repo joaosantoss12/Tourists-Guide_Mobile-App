@@ -248,7 +248,15 @@ fun AddFormScreen(
                                 "Preencha todos os campos",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else{
+                        }
+                        else if(latitude.toDouble() < -90 || latitude.toDouble() > 90 || longitude.toDouble() < -180 || longitude.toDouble() > 180){
+                            Toast.makeText(
+                                contexto,
+                                "Valores de coordenadas inválidas",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else{
                             Toast.makeText(
                                 contexto,
                                 "Localização criada com sucesso",
@@ -283,7 +291,15 @@ fun AddFormScreen(
                                 "Preencha todos os campos",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else {
+                        }
+                        else if(latitude.toDouble() < -90 || latitude.toDouble() > 90 || longitude.toDouble() < -180 || longitude.toDouble() > 180){
+                            Toast.makeText(
+                                contexto,
+                                "Valores de coordenadas inválidas",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else {
                             Toast.makeText(
                                 contexto,
                                 "Local de interesse criado com sucesso",
