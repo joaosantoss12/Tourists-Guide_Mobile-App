@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -47,6 +49,8 @@ fun PendingCategoriesScreen(
 
     viewModel.getCategorias()
     val categorias = FirebaseViewModel.categorias
+
+    val contexto = LocalContext.current
 
 
     Column(
@@ -132,6 +136,11 @@ fun PendingCategoriesScreen(
                                     OutlinedButton(
                                         onClick = {
                                             viewModel.voteToAproveCategories(categoria.nome)
+                                            Toast.makeText(
+                                                contexto,
+                                                "Voto para aprovar Categoria enviado",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         },
                                     ) {
                                         Text(text = "Aprovar [${categoria.emailVotosAprovar?.size ?: 0}/2]")
@@ -145,13 +154,14 @@ fun PendingCategoriesScreen(
                                         .padding(0.dp, 10.dp, 0.dp, 20.dp),
                                     horizontalArrangement = Arrangement.Center
                                 ) {
-                                    Button(
-                                        onClick = {
-                                            viewModel.voteToAproveCategories(categoria.nome)
-                                        },
-                                    ) {
-                                        Text(text = "Aprovar [${categoria.emailVotosAprovar?.size ?: 0}/2]")
-                                    }
+
+                                    Text(
+                                        text = "[${categoria.emailVotosAprovar?.size ?: 0}/2]",
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 13.sp,
+                                        color = Color.Gray
+                                    )
+
                                 }
                             }
                         }

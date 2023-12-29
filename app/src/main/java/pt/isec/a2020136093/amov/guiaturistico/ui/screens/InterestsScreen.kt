@@ -101,6 +101,8 @@ fun InterestsScreen(
     val none = stringResource(R.string.none)
     var selectedItem by remember { mutableStateOf(none) }
 
+    val contexto = LocalContext.current
+
 
 
     Column(     // EM TELEMOVEIS DARK MODE FICAVA UMA MARGEM PRETA
@@ -319,6 +321,11 @@ fun InterestsScreen(
                                                 Button(
                                                     onClick = {
                                                         viewModel.deleteCategoria(categoria.nome)
+                                                        Toast.makeText(
+                                                            contexto,
+                                                            "Categoria apagada caso não possua nenhum local de interesse",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
                                                     },
                                                     colors = ButtonDefaults.buttonColors(
                                                         containerColor = Color(185, 0, 0, 255)
@@ -524,6 +531,11 @@ fun InterestsScreen(
 
                                                 Button(onClick = {
                                                     viewModel.voteToDelete(localInteresse.nome)
+                                                    Toast.makeText(
+                                                        contexto,
+                                                        "Voto para apagar Local de Interesse enviado",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }) {
                                                     Icon(
                                                         Icons.Filled.Close,
@@ -550,6 +562,11 @@ fun InterestsScreen(
                                                 Spacer(modifier = Modifier.width(10.dp))
                                                 Button(onClick = {
                                                     viewModel.deleteLocalInteresse(localInteresse.nome)
+                                                    Toast.makeText(
+                                                        contexto,
+                                                        "Local de Interesse submetido para apagar",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }) {
                                                     Icon(
                                                         Icons.Filled.Delete,

@@ -1,6 +1,7 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -75,6 +77,8 @@ fun HomeScreen(
         if (user == null)
             onLogout()
     }
+
+    val contexto = LocalContext.current
 
     LaunchedEffect(Unit){
         viewModel.getLocations()
@@ -333,6 +337,11 @@ fun HomeScreen(
                                             Spacer(modifier = Modifier.width(10.dp))
                                             Button(onClick = {
                                                 viewModel.deleteLocalizacao(localizacao.nome)
+                                                Toast.makeText(
+                                                    contexto,
+                                                    "Localização apagada caso não possua locais de interesse!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                             }) {
                                                 Icon(
                                                     Icons.Filled.Delete,

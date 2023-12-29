@@ -1,5 +1,6 @@
 package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -48,6 +50,8 @@ fun PendingLocationsScreen(
 ) {
     viewModel.getLocations()
     val localidades = FirebaseViewModel.locations.observeAsState()
+
+    val contexto = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -155,6 +159,11 @@ fun PendingLocationsScreen(
                                     OutlinedButton(
                                         onClick = {
                                             viewModel.voteToAproveLocation(localizacao.nome)
+                                            Toast.makeText(
+                                                contexto,
+                                                "Voto para aprovar Localização enviado",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         },
                                     ) {
                                         Text(text = "Aprovar [${localizacao.emailVotosAprovar?.size ?: 0}/2]")
