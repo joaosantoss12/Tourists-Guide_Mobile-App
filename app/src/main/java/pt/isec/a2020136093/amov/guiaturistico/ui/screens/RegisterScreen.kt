@@ -73,8 +73,8 @@ fun RegisterScreen(
                 ) {
                         if (!isLandscape) {
                                 Image(
-                                        painter = painterResource(R.drawable.imagem2), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
-                                        contentDescription = null, // Descrição da imagem (opcional)
+                                        painter = painterResource(R.drawable.imagem2),
+                                        contentDescription = null,
                                         modifier = Modifier
                                                 .fillMaxWidth()
                                 )
@@ -102,11 +102,9 @@ fun RegisterScreen(
                                         userName.value = it
                                 },
                                 label = { Text(text = stringResource(R.string.name_title),
-                                        //fontSize = if (isLandscape) 15.sp else 15.sp,
                                 )},
                                 modifier = Modifier
                                         .fillMaxWidth()
-                                        //.heightIn(max = if (isLandscape) 50.dp else TextFieldDefaults.MinHeight),
 
 
 
@@ -122,7 +120,6 @@ fun RegisterScreen(
                                 label = { Text(text = stringResource(R.string.email_title)) },
                                 modifier = Modifier
                                         .fillMaxWidth()
-                                        //.heightIn(max = if (isLandscape) 56.dp else TextFieldDefaults.MinHeight)
                         )
 
                         Spacer(Modifier.height(spacerHeight))
@@ -136,7 +133,6 @@ fun RegisterScreen(
                                 visualTransformation = PasswordVisualTransformation(),
                                 modifier = Modifier
                                         .fillMaxWidth()
-                                        //.heightIn(max = if (isLandscape) 56.dp else TextFieldDefaults.MinHeight)
                         )
 
                         Spacer(Modifier.height(spacerHeight))
@@ -153,7 +149,6 @@ fun RegisterScreen(
                                 modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(vertical = 16.dp),
-                                        //.heightIn(min = 48.dp, max = if (isLandscape) 50.dp else 72.dp),
 
                         colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(0, 80, 150, 255), // Cor de fundo do botão

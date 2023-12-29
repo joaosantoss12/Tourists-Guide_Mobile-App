@@ -61,8 +61,8 @@ fun LoginScreen(
 
         if (!isLandscape) {
             Image(
-                painter = painterResource(R.drawable.imagem1), // Substitua "sua_imagem" pelo nome do seu recurso de imagem
-                contentDescription = null, // Descrição da imagem (opcional)
+                painter = painterResource(R.drawable.imagem1),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -76,9 +76,9 @@ fun LoginScreen(
             style = TextStyle(
                 color = Color(0, 80, 150, 255),
                 fontFamily = RegularFont,
-                fontSize = 30.sp, // Tamanho do texto
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center // Centraliza o texto
+                textAlign = TextAlign.Center
             )
         )
 
