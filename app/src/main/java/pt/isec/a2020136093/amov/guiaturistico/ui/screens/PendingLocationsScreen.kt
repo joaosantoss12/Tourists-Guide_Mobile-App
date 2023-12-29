@@ -115,12 +115,30 @@ fun PendingLocationsScreen(
                                 text = localizacao.descricao,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(15.dp),
+                                    .padding(15.dp, 15.dp, 0.dp, 0.dp),
                                 maxLines = 3,
                                 fontFamily = FontFamily.Serif,
                                 fontSize = 13.sp,
                                 color = Color.Gray
                             )
+
+                            Text(
+                                text = "Latitude: " + localizacao.coordenadas?.latitude.toString(),
+                                modifier = Modifier
+                                    .padding(15.dp,10.dp,0.dp,0.dp),
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = "Longitude: " + localizacao.coordenadas?.longitude.toString(),
+                                modifier = Modifier
+                                    .padding(15.dp,10.dp,0.dp,0.dp),
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
 
                             Spacer(modifier = Modifier.height(12.dp))
 
@@ -139,8 +157,24 @@ fun PendingLocationsScreen(
                                             viewModel.voteToAproveLocation(localizacao.nome)
                                         },
                                     ) {
-                                        Text(text = "Aprovar")
+                                        Text(text = "Aprovar [${localizacao.emailVotosAprovar?.size ?: 0}/2]")
                                     }
+                                }
+                            }
+                            else{
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+
+                                    Text(
+                                        text = "[${localizacao.emailVotosAprovar?.size ?: 0}/2]",
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 13.sp,
+                                        color = Color.Gray
+                                    )
                                 }
                             }
                         }

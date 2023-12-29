@@ -134,7 +134,23 @@ fun PendingCategoriesScreen(
                                             viewModel.voteToAproveCategories(categoria.nome)
                                         },
                                     ) {
-                                        Text(text = "Aprovar")
+                                        Text(text = "Aprovar [${categoria.emailVotosAprovar?.size ?: 0}/2]")
+                                    }
+                                }
+                            }
+                            else{
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Button(
+                                        onClick = {
+                                            viewModel.voteToAproveCategories(categoria.nome)
+                                        },
+                                    ) {
+                                        Text(text = "Aprovar [${categoria.emailVotosAprovar?.size ?: 0}/2]")
                                     }
                                 }
                             }

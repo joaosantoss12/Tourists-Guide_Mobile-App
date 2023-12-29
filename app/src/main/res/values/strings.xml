@@ -1,32 +1,36 @@
 <resources>
-    <string name="app_name">Trabalho Prático - Guia Turistico</string>
+    <string name="app_name">Practical Work - Tourist Guide</string>
     <string name="nameApp">JourneyBuddy</string>
-    <string name="welcome">Guia Turístico</string>
+    <string name="welcome">Tourist Guide</string>
     <string name="email_title" translatable="false">Email</string>
-    <string name="email_label">Escreve o teu email</string>
+    <string name="email_label">Write your email</string>
     <string name="password_title" translatable="false">Password</string>
-    <string name="password_label">Escreve a tua password</string>
-    <string name="name_title" translatable="false">Nome</string>
-    <string name="register">Registar</string>
-    <string name="createAccount">Criar uma Conta</string>
-    <string name="already_have_account">Já tem uma conta?</string>
-    <string name="login">Login</string>
-    <string name="filters_title">Filtros:</string>
-    <string name="distance_close_to_far">Distância ▲</string>
-    <string name="distance_far_to_close">Distância ▼</string>
-    <string name="none">Nenhum</string>
-    <string name="locations">LOCALIZAÇÕES</string>
-    <string name="credits">Créditos</string>
-    <string name="points_of_interest">LOCAIS DE INTERESSE</string>
-    <string name="adicionaLocal">Adicionar Localização</string>
-    <string name="adicionaLocalInteresse">Adicionar local de interesse</string>
-    <string name="localizacoes_pendentes">Localizações Pendentes</string>
-    <string name="locais_interesse_pendentes">Locais Interesse Pendentes</string>
-    <string name="title_pending_locations">Localizações Pendentes</string>
-    <string name="title_pending_interests">Locais de Interesse Pendentes</string>
-    <string name="title_categorias_pendentes">Categorias Pendentes</string>
-    <string name="comentarios">Comentários</string>
-    <string name="escreva_um_comentario">Escreva um comentário</string>
-    <string name="enviar">Enviar</string>
-    <string name="all_categories">Todas</string>
+    <string name="password_label">Write your password</string>
+    <string name="name_title">Name</string>
+    <string name="register">Register</string>
+    <string name="createAccount">Create an account</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="filters_title">Filters:</string>
+    <string name="distance_close_to_far">Distance ▲</string>
+    <string name="distance_far_to_close">Distance ▼</string>
+    <string name="none">None</string>
+    <string name="locations">LOCATIONS</string>
+    <string name="credits">Credits</string>
+    <string name="points_of_interest">POINTS OF INTEREST</string>
+    <string name="adicionaLocal">Add Location</string>
+    <string name="adicionaLocalInteresse">Add Point of Interest</string>
+    <string name="localizacoes_pendentes">Pending Locations</string>
+    <string name="locais_interesse_pendentes">Pending Points of Interest</string>
+    <string name="title_pending_locations">Pending Locations</string>
+    <string name="title_pending_interests">Pending Points of Interest</string>
+    <string name="title_categorias_pendentes">Pending Categories</string>
+    <string name="comentarios">Comments</string>
+    <string name="escreva_um_comentario">Write a comment</string>
+    <string name="enviar">Send</string>
+    <string name="all_categories">All</string>
+    <string name="map">Map</string>
+    <string name="locais_de_interesse">Points of Interest</string>
+    <string name="comments">Comments</string>
+    <string name="pending_categories_card">Pending</string>
 </resources>

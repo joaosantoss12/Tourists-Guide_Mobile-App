@@ -139,7 +139,7 @@ fun HomeScreen(
                     ),
                     shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
                 ) {
-                    Text(text = "Mapa")
+                    Text(text = stringResource(R.string.map))
                 }
             }
 
@@ -313,7 +313,7 @@ fun HomeScreen(
                                             FirebaseViewModel._currentLocation.value = localizacao.nome
                                             navController.navigate("Interests")
                                         }) {
-                                            Text(text = "Locais de interesse")
+                                            Text(text = stringResource(R.string.locais_de_interesse))
                                         }
 
 

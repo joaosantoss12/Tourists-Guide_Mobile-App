@@ -129,7 +129,7 @@ fun InterestsScreen(
                 ),
                 shape = RoundedCornerShape(15.dp) // Borda arredondada do botão
             ) {
-                Text(text = "Mapa")
+                Text(text =  stringResource(R.string.map))
             }
 
 
@@ -274,11 +274,13 @@ fun InterestsScreen(
                                             .background(color = Color.White)
                                             .size(120.dp)
                                             .clickable {
-                                                Toast.makeText(
-                                                    context,
-                                                    categoria.descricao,
-                                                    Toast.LENGTH_LONG,
-                                                ).show()
+                                                Toast
+                                                    .makeText(
+                                                        context,
+                                                        categoria.descricao,
+                                                        Toast.LENGTH_LONG,
+                                                    )
+                                                    .show()
                                                 viewModel.selectedCategory = categoria.nome
                                                 viewModel.getLocaisInteresse()
                                             }
@@ -355,7 +357,7 @@ fun InterestsScreen(
                                     )
 
                                     Text(
-                                        text = "Pendentes",
+                                        text = stringResource(R.string.pending_categories_card),
                                             style = TextStyle(
                                             color = Color.White,
                                             fontWeight = FontWeight.Bold,
@@ -492,7 +494,7 @@ fun InterestsScreen(
                                                     localInteresse.nome
                                                 navController.navigate("Comments")
                                             }) {
-                                                Text(text = "Comentários")
+                                                Text(text = stringResource(R.string.comments))
                                             }
 
                                             if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(

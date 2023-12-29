@@ -104,7 +104,7 @@ fun PendingInterestsScreen(
                                 text = localInteresse.nome,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                    .padding(15.dp, 10.dp, 0.dp, 0.dp),
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Serif,
@@ -116,8 +116,35 @@ fun PendingInterestsScreen(
                                 text = localInteresse.descricao,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(15.dp),
+                                    .padding(15.dp,15.dp,0.dp,0.dp),
                                 maxLines = 3,
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Text(
+                                text = "Categoria: " + localInteresse.categoria,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(15.dp, 15.dp, 0.dp, 0.dp),
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+
+                            Text(
+                                text = "Latitude: " + localInteresse.coordenadas?.latitude.toString(),
+                                modifier = Modifier
+                                    .padding(15.dp,10.dp,0.dp,0.dp),
+                                fontFamily = FontFamily.Serif,
+                                fontSize = 13.sp,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = "Longitude: " + localInteresse.coordenadas?.longitude.toString(),
+                                modifier = Modifier
+                                    .padding(15.dp,10.dp,0.dp,0.dp),
                                 fontFamily = FontFamily.Serif,
                                 fontSize = 13.sp,
                                 color = Color.Gray
@@ -135,9 +162,26 @@ fun PendingInterestsScreen(
                                             viewModel.voteToAprove(localInteresse.nome)
                                         },
                                     ) {
-                                        Text(text = "Aprovar")
+                                        Text(text = "Aprovar [${localInteresse.emailVotosAprovar?.size ?: 0}/2]")
                                     }
                                 }
+                            }
+                            else{
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+
+                                        Text(
+                                            text = "[${localInteresse.emailVotosAprovar?.size ?: 0}/2]",
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 13.sp,
+                                            color = Color.Gray
+                                        )
+                                }
+
                             }
                         }
                     }
