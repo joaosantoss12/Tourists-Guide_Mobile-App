@@ -299,6 +299,25 @@ fun InterestsScreen(
                                             if (viewModel.user.value?.email == categoria.email) {
                                                 Button(
                                                     onClick = {
+                                                        viewModel.tipoEditForm.value = "Categoria"
+                                                        viewModel.editName = categoria.nome
+                                                        navController.navigate("EditForm")
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color(185, 0, 0, 255)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .align(Alignment.TopStart)
+                                                        .scale(0.75f)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.Edit,
+                                                        "edit"
+                                                    )
+                                                }
+
+                                                Button(
+                                                    onClick = {
                                                         viewModel.deleteCategoria(categoria.nome)
                                                     },
                                                     colors = ButtonDefaults.buttonColors(
@@ -306,7 +325,7 @@ fun InterestsScreen(
                                                     ),
                                                     modifier = Modifier
                                                         .align(Alignment.TopEnd)
-                                                        .scale(0.8f)
+                                                        .scale(0.75f)
                                                 ) {
                                                     Icon(
                                                         Icons.Filled.Delete,

@@ -306,7 +306,7 @@ class FirebaseStorageUtil {
         }
 
 
-        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String, oldName: String,
+        fun updateLocation(nome: String, descricao: String, imagePath: MutableState<String?>, owner_email: String,
                            latitude: String, longitude: String, metodo : String ) {
             val db = Firebase.firestore
 
@@ -322,17 +322,14 @@ class FirebaseStorageUtil {
 
                 )
 
-
                 db.collection("Localidades").document(nome).set(data)
                     .addOnSuccessListener { getLocations() }
                     .addOnFailureListener { }
-
-                db.collection("Localidades").document(oldName).delete().addOnSuccessListener { getLocations() }
             }
             imagePath.value=null
         }
 
-        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String, oldName: String,
+        fun updateLocalInteresse(nome: String, descricao: String, categoria: String, imagePath: MutableState<String?>, owner_email: String,
                                  latitude: String, longitude: String, metodo : String) {
             val db = Firebase.firestore
 
@@ -342,7 +339,7 @@ class FirebaseStorageUtil {
                     "descrição" to descricao,
                     "categoria" to categoria,
                     "classificação" to 0,
-                    "imagemURL" to "", //imgURL / imagePath.value.toString()
+                    "imagemURL" to downloadUri,
                     "estado" to "pendente",
                     "email" to owner_email,
                     "coordenadas" to GeoPoint(latitude.toDouble(), longitude.toDouble()),
@@ -355,11 +352,6 @@ class FirebaseStorageUtil {
                     .collection("Locais de Interesse").document(nome).set(data)
                     .addOnSuccessListener { getLocaisInteresse() }
                     .addOnFailureListener { }
-
-                db.collection("Localidades")
-                    .document(FirebaseViewModel.currentLocation.value.toString())
-                    .collection("Locais de Interesse").document(oldName).delete()
-                    .addOnSuccessListener { getLocaisInteresse() }
             }
             imagePath.value=null
         }
@@ -755,6 +747,27 @@ class FirebaseStorageUtil {
 
                     getComentarios()
                 }
+        }
+
+        fun updateCategoria(editName: String, descricao: String, imagePath: MutableState<String?>, email: String) {
+            val db = Firebase.firestore
+
+            uploadFile(imagePath.value.toString()).thenAccept{downloadUri ->
+                val data = hashMapOf(
+                    "nome" to editName,
+                    "descrição" to descricao,
+                    "imagemURL" to downloadUri, //imgURL / imagePath.value.toString()
+                    "estado" to "pendente",
+                    "email" to email
+                )
+
+                db.collection("Categorias").document(editName).set(data)
+                    .addOnSuccessListener { getCategorias() }
+                    .addOnFailureListener { }
+
+            }
+            imagePath.value=null
+
         }
 
     }

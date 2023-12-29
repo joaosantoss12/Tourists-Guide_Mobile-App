@@ -47,7 +47,6 @@ fun EditFormScreen(
     nome : String,
 ){
 
-    var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
     var latitude by remember { mutableStateOf("") }
@@ -77,19 +76,6 @@ fun EditFormScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = nome,
-            onValueChange = {
-                nome = it
-            },
-            label = { Text(text = "Nome") },
-            modifier = Modifier
-                .fillMaxWidth()
-
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        OutlinedTextField(
             value = descricao,
             onValueChange = {
                 descricao = it
@@ -116,55 +102,57 @@ fun EditFormScreen(
 
         }
 
-        Row(modifier= Modifier
-            .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-
-        ){
-            OutlinedTextField(
-                value = latitude,
-                onValueChange = {
-                    latitude = it
-                },
-                label = { Text(text = "Latitude") },
+        if(viewModel.tipoEditForm.value != "Categoria") {
+            Row(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
 
-            )
-
-            Spacer(modifier = Modifier.width(5.dp))
-
-            OutlinedTextField(
-                value = longitude,
-                onValueChange = {
-                    longitude = it
-                },
-                label = { Text(text = "Longitude") },
-                modifier = Modifier
-                    .weight(1f)
-
-            )
-
-            Spacer(modifier = Modifier.width(5.dp))
-
-            OutlinedButton(
-                onClick = {
-                    latitude = LocationViewModel.currentLocation.value?.latitude.toString()
-                    longitude = LocationViewModel.currentLocation.value?.longitude.toString()
-
-                    metodo = "automático"
-                },
-                shape = CircleShape, // Forma circular
             ) {
-                Icon(
-                    Icons.Filled.LocationOn, "localização atual",
-                    tint = Color.Black,
+                OutlinedTextField(
+                    value = latitude,
+                    onValueChange = {
+                        latitude = it
+                    },
+                    label = { Text(text = "Latitude") },
+                    modifier = Modifier
+                        .weight(1f)
+
                 )
+
+                Spacer(modifier = Modifier.width(5.dp))
+
+                OutlinedTextField(
+                    value = longitude,
+                    onValueChange = {
+                        longitude = it
+                    },
+                    label = { Text(text = "Longitude") },
+                    modifier = Modifier
+                        .weight(1f)
+
+                )
+
+                Spacer(modifier = Modifier.width(5.dp))
+
+                OutlinedButton(
+                    onClick = {
+                        latitude = LocationViewModel.currentLocation.value?.latitude.toString()
+                        longitude = LocationViewModel.currentLocation.value?.longitude.toString()
+
+                        metodo = "automático"
+                    },
+                    shape = CircleShape, // Forma circular
+                ) {
+                    Icon(
+                        Icons.Filled.LocationOn, "localização atual",
+                        tint = Color.Black,
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        //cria um quadrado para o preview da imagem de galeria ou camera
         Card(
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
@@ -184,7 +172,7 @@ fun EditFormScreen(
             OutlinedButton(onClick = {
                 when(viewModel.tipoEditForm.value){
                     "Localização" -> {
-                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" || viewModel.imagePath.value==null) {
+                        if(descricao=="" || latitude=="" || longitude=="" || viewModel.imagePath.value==null) {
                             Toast.makeText(
                                 contexto,
                                 "Preencha todos os campos",
@@ -196,16 +184,16 @@ fun EditFormScreen(
                                 "Localização editada com sucesso",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            viewModel.updateLocation_firebase(nome,descricao,latitude,longitude,metodo)
+                            viewModel.updateLocation_firebase(descricao,latitude,longitude,metodo)
                             navController.navigate("Home")
                         }
                     }
-                    //"Categoria" -> {
-                        //viewModel.addCategoria_firebase(nome,descricao)
-                        //navController.navigate("Interests")
-                    //}
+                    "Categoria" -> {
+                        viewModel.updateCategoria_firebase(descricao)
+                        navController.navigate("Interests")
+                    }
                     "Local de Interesse" -> {
-                        if(nome=="" || descricao=="" || latitude=="" || longitude=="" ||categoria==""|| viewModel.imagePath.value==null) {
+                        if(descricao=="" || latitude=="" || longitude=="" ||categoria==""|| viewModel.imagePath.value==null) {
                             Toast.makeText(
                                 contexto,
                                 "Preencha todos os campos",
@@ -218,7 +206,7 @@ fun EditFormScreen(
                                 Toast.LENGTH_SHORT
                             ).show()
                             viewModel.updateLocalInteresse_firebase(
-                                nome, descricao, categoria, latitude, longitude, metodo
+                                descricao, categoria, latitude, longitude, metodo
                             )
                             navController.navigate("Interests")
                         }
