@@ -135,7 +135,25 @@ fun CreditsScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "APLICAÇÕES MÓVEIS",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.DarkGray,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = "2023/2024",
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.DarkGray,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = "Engenharia Informática",
+                    fontSize = 22.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
