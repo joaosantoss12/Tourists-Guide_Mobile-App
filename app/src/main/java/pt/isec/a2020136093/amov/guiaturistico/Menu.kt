@@ -149,9 +149,3 @@ fun GradientBackground() {
         }
     }
 }
-
-@Preview
-@Composable
-fun MenuPreview() {
-    //Menu("Sketches", null, "Solid", "Gallery", "Camera", "List")
-}

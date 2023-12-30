@@ -540,6 +540,77 @@ fun InterestsScreen(
                                                                 Text(text = (i - 1).toString())
                                                             }
                                                         }
+
+
+                                                    }
+
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                                        horizontalArrangement = Arrangement.Center
+                                                    ) {
+                                                        OutlinedButton(onClick = {
+                                                            FirebaseViewModel._currentLocalInteresse.value =
+                                                                localInteresse.nome
+                                                            navController.navigate("Comments")
+                                                        }) {
+                                                            Text(text = stringResource(R.string.comments))
+                                                        }
+
+                                                        if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
+                                                                viewModel.user.value?.email
+                                                            ) == false || localInteresse.emailVotosEliminar == null)
+                                                        ) {
+                                                            Spacer(modifier = Modifier.width(10.dp))
+
+                                                            Button(onClick = {
+                                                                viewModel.voteToDelete(localInteresse.nome)
+                                                                Toast.makeText(
+                                                                    contexto,
+                                                                    "Voto para apagar Local de Interesse enviado",
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
+                                                            }) {
+                                                                Icon(
+                                                                    Icons.Filled.Close,
+                                                                    "voteDelete"
+                                                                )
+                                                            }
+                                                        }
+
+
+                                                        if (viewModel.user.value?.email == localInteresse.email) {
+                                                            Spacer(modifier = Modifier.width(10.dp))
+                                                            Button(onClick = {
+                                                                viewModel.tipoEditForm.value =
+                                                                    "Local de Interesse"
+                                                                viewModel.editName = localInteresse.nome
+                                                                navController.navigate("EditForm")
+                                                            }) {
+                                                                Icon(
+                                                                    Icons.Filled.Edit,
+                                                                    "edit"
+                                                                )
+                                                            }
+
+                                                            Spacer(modifier = Modifier.width(10.dp))
+                                                            Button(onClick = {
+                                                                viewModel.deleteLocalInteresse(
+                                                                    localInteresse.nome
+                                                                )
+                                                                Toast.makeText(
+                                                                    contexto,
+                                                                    "Local de Interesse submetido para apagar",
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
+                                                            }) {
+                                                                Icon(
+                                                                    Icons.Filled.Delete,
+                                                                    "delete"
+                                                                )
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }

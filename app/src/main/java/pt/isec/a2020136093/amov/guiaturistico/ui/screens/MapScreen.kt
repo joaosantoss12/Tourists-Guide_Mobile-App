@@ -3,6 +3,7 @@ package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -50,145 +52,284 @@ fun MapScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    //val context = LocalContext.current
-    var autoEnabled by remember { mutableStateOf(false) }
-    val location = LocationViewModel.currentLocation.observeAsState()
+    BoxWithConstraints {
+        val isLandscape = maxWidth > maxHeight
 
-    var geoPoint by remember {
-        mutableStateOf(
-            GeoPoint(
-                location.value?.latitude ?: 0.0, location.value?.longitude ?: 0.0
-            )
-        )
-    }
+        //val context = LocalContext.current
+        var autoEnabled by remember { mutableStateOf(false) }
+        val location = LocationViewModel.currentLocation.observeAsState()
 
-    if (autoEnabled)
-        LaunchedEffect(key1 = location.value) {
-            geoPoint = GeoPoint(
-                location.value?.latitude ?: 0.0, location.value?.longitude ?: 0.0
-            )
-        }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Lat: ${location.value?.latitude ?: "--"}")
-            Switch(checked = autoEnabled, onCheckedChange = {
-                autoEnabled = it
-            })
-            Text(text = "Lon: ${location.value?.longitude ?: "--"}")
-        }
-        Spacer(Modifier.height(16.dp))
-
-        Box(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .fillMaxHeight(0.6f)
-                .clipToBounds()
-                .background(Color(255, 240, 128)),
-        ) {
-            AndroidView(
-                factory = { context ->
-                    MapView(context).apply {
-                        setTileSource(TileSourceFactory.MAPNIK);//==TileSourceFactory.DEFAULT_TILE_SOURCE
-                        setMultiTouchControls(true)
-                        controller.setCenter(geoPoint)
-                        controller.setZoom(18.0)
-                        if(LocationViewModel.showLocations.value == true){
-                            for (poi in viewModel.POIs_localizacoes)
-                                overlays.add(
-                                    Marker(this).apply {
-                                        position = GeoPoint(poi.latitude, poi.longitude)
-                                        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                                        title = poi.team
-                                    }
-                                )
-                        }else{
-                            for (poi in viewModel.POIs_locaisInteresse)
-                                overlays.add(
-                                    Marker(this).apply {
-                                        position = GeoPoint(poi.latitude, poi.longitude)
-                                        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                                        title = poi.team
-                                    }
-                                )
-                        }
-
-                    }
-                },
-                update = { view ->
-                    view.controller.setCenter(geoPoint)
-                }
+        var geoPoint by remember {
+            mutableStateOf(
+                GeoPoint(
+                    location.value?.latitude ?: 0.0, location.value?.longitude ?: 0.0
+                )
             )
         }
 
-        Spacer(Modifier.height(16.dp))
-        LazyColumn(
-            modifier = Modifier
+        if (autoEnabled)
+            LaunchedEffect(key1 = location.value) {
+                geoPoint = GeoPoint(
+                    location.value?.latitude ?: 0.0, location.value?.longitude ?: 0.0
+                )
+            }
+
+
+        Column(
+            modifier = modifier
                 .fillMaxSize()
+                .padding(if (!isLandscape) 8.dp else 0.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if(LocationViewModel.showLocations.value == true){
-                items(viewModel.POIs_localizacoes) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        elevation = CardDefaults.cardElevation(4.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color(128,192,255)
-                        ),
-                        onClick = {
-                            geoPoint = GeoPoint(it.latitude, it.longitude)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.8f),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Lat: ${location.value?.latitude ?: "--"}")
+
+                Switch(checked = autoEnabled, onCheckedChange = {
+                    autoEnabled = it
+                })
+
+                Text(text = "Lon: ${location.value?.longitude ?: "--"}")
+            }
+
+            Spacer(Modifier.height(if (!isLandscape) 16.dp else 6.dp))
+
+            if(isLandscape){
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ){
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.6f)
+                        .fillMaxHeight()
+                        .clipToBounds()
+                        .background(Color(255, 240, 128)),
+                ) {
+
+                    AndroidView(
+                        factory = { context ->
+                            MapView(context).apply {
+                                setTileSource(TileSourceFactory.MAPNIK);//==TileSourceFactory.DEFAULT_TILE_SOURCE
+                                setMultiTouchControls(true)
+                                controller.setCenter(geoPoint)
+                                controller.setZoom(18.0)
+                                if (LocationViewModel.showLocations.value == true) {
+                                    for (poi in viewModel.POIs_localizacoes)
+                                        overlays.add(
+                                            Marker(this).apply {
+                                                position = GeoPoint(poi.latitude, poi.longitude)
+                                                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                title = poi.team
+                                            }
+                                        )
+                                } else {
+                                    for (poi in viewModel.POIs_locaisInteresse)
+                                        overlays.add(
+                                            Marker(this).apply {
+                                                position = GeoPoint(poi.latitude, poi.longitude)
+                                                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                title = poi.team
+                                            }
+                                        )
+                                }
+
+                            }
+                        },
+                        update = { view ->
+                            view.controller.setCenter(geoPoint)
                         }
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(text = it.team, fontSize = 20.sp)
-                            Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
-                            Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
-                            Text(text = "(Obtenção coordenadas: ${it.metodo})", fontSize = 14.sp)
+                    )
+                }
+
+                Spacer(Modifier.width(6.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    if (LocationViewModel.showLocations.value == true) {
+                        items(viewModel.POIs_localizacoes) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(128, 192, 255)
+                                ),
+                                onClick = {
+                                    geoPoint = GeoPoint(it.latitude, it.longitude)
+                                }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = it.team, fontSize = 20.sp)
+                                    Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                                    Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                                    Text(
+                                        text = "(Obtenção coordenadas: ${it.metodo})",
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
                         }
+                    } else { //locais de interesse
+                        items(viewModel.POIs_locaisInteresse) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(128, 192, 255)
+                                ),
+                                onClick = {
+                                    geoPoint = GeoPoint(it.latitude, it.longitude)
+                                }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = it.team, fontSize = 20.sp)
+                                    Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                                    Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                                    Text(
+                                        text = "(Obtenção coordenadas: ${it.metodo})",
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
                     }
                 }
             }
-            else { //locais de interesse
-                items(viewModel.POIs_locaisInteresse) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        elevation = CardDefaults.cardElevation(4.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color(128,192,255)
-                        ),
-                        onClick = {
-                            geoPoint = GeoPoint(it.latitude, it.longitude)
+            else{
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
+                        .clipToBounds()
+                        .background(Color(255, 240, 128)),
+                ) {
+
+                    AndroidView(
+                        factory = { context ->
+                            MapView(context).apply {
+                                setTileSource(TileSourceFactory.MAPNIK);//==TileSourceFactory.DEFAULT_TILE_SOURCE
+                                setMultiTouchControls(true)
+                                controller.setCenter(geoPoint)
+                                controller.setZoom(18.0)
+                                if (LocationViewModel.showLocations.value == true) {
+                                    for (poi in viewModel.POIs_localizacoes)
+                                        overlays.add(
+                                            Marker(this).apply {
+                                                position = GeoPoint(poi.latitude, poi.longitude)
+                                                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                title = poi.team
+                                            }
+                                        )
+                                } else {
+                                    for (poi in viewModel.POIs_locaisInteresse)
+                                        overlays.add(
+                                            Marker(this).apply {
+                                                position = GeoPoint(poi.latitude, poi.longitude)
+                                                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                title = poi.team
+                                            }
+                                        )
+                                }
+
+                            }
+                        },
+                        update = { view ->
+                            view.controller.setCenter(geoPoint)
                         }
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(text = it.team, fontSize = 20.sp)
-                            Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
-                            Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
-                            Text(text = "(Obtenção coordenadas: ${it.metodo})", fontSize = 14.sp)
+                    )
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    if (LocationViewModel.showLocations.value == true) {
+                        items(viewModel.POIs_localizacoes) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(128, 192, 255)
+                                ),
+                                onClick = {
+                                    geoPoint = GeoPoint(it.latitude, it.longitude)
+                                }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = it.team, fontSize = 20.sp)
+                                    Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                                    Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                                    Text(
+                                        text = "(Obtenção coordenadas: ${it.metodo})",
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
+                        }
+                    } else { //locais de interesse
+                        items(viewModel.POIs_locaisInteresse) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(128, 192, 255)
+                                ),
+                                onClick = {
+                                    geoPoint = GeoPoint(it.latitude, it.longitude)
+                                }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = it.team, fontSize = 20.sp)
+                                    Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
+                                    Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+                                    Text(
+                                        text = "(Obtenção coordenadas: ${it.metodo})",
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
                         }
                     }
                 }
