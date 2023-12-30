@@ -3,6 +3,7 @@ package pt.isec.a2020136093.amov.guiaturistico.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,147 +49,258 @@ fun PendingLocationsScreen(
     viewModel: FirebaseViewModel,
     navController: NavController
 ) {
-    viewModel.getLocations()
-    val localidades = FirebaseViewModel.locations.observeAsState()
+    BoxWithConstraints {
+        val isLandscape = maxWidth > maxHeight
+        viewModel.getLocations()
+        val localidades = FirebaseViewModel.locations.observeAsState()
 
-    val contexto = LocalContext.current
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.title_pending_locations),
-            textAlign = TextAlign.Center,
-            fontSize = 35.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily(Font(R.font.font)),
-            color = Color(42, 54, 66, 255),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp, 16.dp, 20.dp)
-        )
+        val contexto = LocalContext.current
 
         Column(
             modifier = Modifier
-                .padding(0.dp, 15.dp, 0.dp, 0.dp)
-                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(16.dp)
         ) {
-            localidades.value?.forEach { localizacao ->
+            Text(
+                text = stringResource(R.string.title_pending_locations),
+                textAlign = TextAlign.Center,
+                fontSize = 35.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily(Font(R.font.font)),
+                color = Color(42, 54, 66, 255),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = if (isLandscape) 0.dp else 16.dp,
+                        top = 0.dp,
+                        end = if (isLandscape) 0.dp else 16.dp,
+                        bottom = if (isLandscape) 0.dp else 20.dp
+                    )
+            )
 
-                if (localizacao.estado == "pendente") {
+            Column(
+                modifier = Modifier
+                    .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                localidades.value?.forEach { localizacao ->
 
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(
+                    if (localizacao.estado == "pendente") {
+
+                        Card(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(10.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White
+                            )
                         ) {
-
-                            AsyncImage(
-                                model = localizacao.imagemURL,
-                                error = painterResource(id = R.drawable.error),
-                                contentDescription = "city image",
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightIn(0.dp, 200.dp)
-                            )
-
-                            Text(
-                                text = localizacao.nome,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-
-                            Text(
-                                text = localizacao.descricao,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(15.dp, 15.dp, 0.dp, 0.dp),
-                                maxLines = 3,
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-                            Text(
-                                text = "Latitude: " + localizacao.coordenadas?.latitude.toString(),
-                                modifier = Modifier
-                                    .padding(15.dp,10.dp,0.dp,0.dp),
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-                            Text(
-                                text = "Longitude: " + localizacao.coordenadas?.longitude.toString(),
-                                modifier = Modifier
-                                    .padding(15.dp,10.dp,0.dp,0.dp),
-                                fontFamily = FontFamily.Serif,
-                                fontSize = 13.sp,
-                                color = Color.Gray
-                            )
-
-
-                            Spacer(modifier = Modifier.height(12.dp))
-
-                            if (viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosAprovar?.contains(
-                                    viewModel.user.value?.email
-                                ) == false || localizacao.emailVotosAprovar == null)
-                            ) {
+                            if(isLandscape){
                                 Row(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                    horizontalArrangement = Arrangement.Center
+                                        .fillMaxSize()
                                 ) {
-                                    OutlinedButton(
-                                        onClick = {
-                                            viewModel.voteToAproveLocation(localizacao.nome)
-                                            Toast.makeText(
-                                                contexto,
-                                                "Voto para aprovar Localização enviado",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        },
+                                        AsyncImage(
+                                            model = localizacao.imagemURL,
+                                            error = painterResource(id = R.drawable.error),
+                                            contentDescription = "city image",
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier
+                                                .fillMaxWidth(0.5f)
+                                                .heightIn(0.dp, 200.dp)
+                                        )
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
                                     ) {
-                                        Text(text = "Aprovar [${localizacao.emailVotosAprovar?.size ?: 0}/2]")
+
+                                        Text(
+                                            text = localizacao.nome,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                            textAlign = TextAlign.Center,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 15.sp,
+                                            color = Color.Black
+                                        )
+
+                                        Text(
+                                            text = localizacao.descricao,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp, 8.dp, 0.dp, 0.dp),
+                                            maxLines = 3,
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 11.sp,
+                                            color = Color.Gray
+                                        )
+
+                                        Text(
+                                            text = "Latitude: " + localizacao.coordenadas?.latitude.toString(),
+                                            modifier = Modifier
+                                                .padding(8.dp, 8.dp, 0.dp, 0.dp),
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 11.sp,
+                                            color = Color.Gray
+                                        )
+                                        Text(
+                                            text = "Longitude: " + localizacao.coordenadas?.longitude.toString(),
+                                            modifier = Modifier
+                                                .padding(8.dp, 8.dp, 0.dp, 0.dp),
+                                            fontFamily = FontFamily.Serif,
+                                            fontSize = 11.sp,
+                                            color = Color.Gray
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        if (viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosAprovar?.contains(
+                                                viewModel.user.value?.email
+                                            ) == false || localizacao.emailVotosAprovar == null)
+                                        ) {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(0.dp, 8.dp, 0.dp, 8.dp),
+                                                horizontalArrangement = Arrangement.Center
+                                            ) {
+                                                OutlinedButton(
+                                                    onClick = {
+                                                        viewModel.voteToAproveLocation(localizacao.nome)
+                                                        Toast.makeText(
+                                                            contexto,
+                                                            "Voto para aprovar Localização enviado",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    },
+                                                ) {
+                                                    Text(text = "Aprovar [${localizacao.emailVotosAprovar?.size ?: 0}/2]")
+                                                }
+                                            }
+                                        } else {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(0.dp, 8.dp, 0.dp, 8.dp),
+                                                horizontalArrangement = Arrangement.Center
+                                            ) {
+
+                                                Text(
+                                                    text = "[${localizacao.emailVotosAprovar?.size ?: 0}/2]",
+                                                    fontFamily = FontFamily.Serif,
+                                                    fontSize = 11.sp,
+                                                    color = Color.Gray
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             }
-                            else{
-                                Row(
+                            else {
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 10.dp, 0.dp, 20.dp),
-                                    horizontalArrangement = Arrangement.Center
+                                        .fillMaxSize()
                                 ) {
 
+                                    AsyncImage(
+                                        model = localizacao.imagemURL,
+                                        error = painterResource(id = R.drawable.error),
+                                        contentDescription = "city image",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .heightIn(0.dp, 200.dp)
+                                    )
+
                                     Text(
-                                        text = "[${localizacao.emailVotosAprovar?.size ?: 0}/2]",
+                                        text = localizacao.nome,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 18.sp,
+                                        color = Color.Black
+                                    )
+
+                                    Text(
+                                        text = localizacao.descricao,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(15.dp, 15.dp, 0.dp, 0.dp),
+                                        maxLines = 3,
                                         fontFamily = FontFamily.Serif,
                                         fontSize = 13.sp,
                                         color = Color.Gray
                                     )
+
+                                    Text(
+                                        text = "Latitude: " + localizacao.coordenadas?.latitude.toString(),
+                                        modifier = Modifier
+                                            .padding(15.dp, 10.dp, 0.dp, 0.dp),
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 13.sp,
+                                        color = Color.Gray
+                                    )
+                                    Text(
+                                        text = "Longitude: " + localizacao.coordenadas?.longitude.toString(),
+                                        modifier = Modifier
+                                            .padding(15.dp, 10.dp, 0.dp, 0.dp),
+                                        fontFamily = FontFamily.Serif,
+                                        fontSize = 13.sp,
+                                        color = Color.Gray
+                                    )
+
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+
+                                    if (viewModel.user.value?.email != localizacao.email && (localizacao.emailVotosAprovar?.contains(
+                                            viewModel.user.value?.email
+                                        ) == false || localizacao.emailVotosAprovar == null)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+                                            OutlinedButton(
+                                                onClick = {
+                                                    viewModel.voteToAproveLocation(localizacao.nome)
+                                                    Toast.makeText(
+                                                        contexto,
+                                                        "Voto para aprovar Localização enviado",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                },
+                                            ) {
+                                                Text(text = "Aprovar [${localizacao.emailVotosAprovar?.size ?: 0}/2]")
+                                            }
+                                        }
+                                    } else {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+
+                                            Text(
+                                                text = "[${localizacao.emailVotosAprovar?.size ?: 0}/2]",
+                                                fontFamily = FontFamily.Serif,
+                                                fontSize = 13.sp,
+                                                color = Color.Gray
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
