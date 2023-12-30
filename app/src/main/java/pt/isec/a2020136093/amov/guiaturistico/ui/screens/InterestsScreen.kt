@@ -118,7 +118,12 @@ fun InterestsScreen(
 
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 0.dp, 16.dp, 0.dp)
+                    .padding(
+                        start = if (isLandscape) 0.dp else 16.dp,
+                        top = 0.dp,
+                        end = if (isLandscape) 0.dp else 16.dp,
+                        bottom =  0.dp
+                    )
                     .background(Color.White)
             ) {
                 Button(
@@ -149,7 +154,7 @@ fun InterestsScreen(
 
                 Text(
                     text = stringResource(R.string.points_of_interest),
-                    lineHeight = 30.sp,
+                    lineHeight = 20.sp,
                     textAlign = TextAlign.Center,
                     fontSize = if (isLandscape) 16.sp else 30.sp,
                     fontWeight = FontWeight.Bold,
@@ -480,7 +485,7 @@ fun InterestsScreen(
                                                         contentScale = ContentScale.Crop,
                                                         modifier = Modifier
                                                             .fillMaxWidth(0.5f)
-                                                            .heightIn(0.dp, 200.dp)
+                                                            .heightIn(0.dp, 220.dp)
                                                     )
 
                                                 Column(
@@ -537,7 +542,8 @@ fun InterestsScreen(
                                                                 modifier = Modifier
                                                                     .padding(horizontal = 5.dp),
                                                             ) {
-                                                                Text(text = (i - 1).toString())
+                                                                Text(text = (i - 1).toString(),
+                                                                    fontSize = 11.sp)
                                                             }
                                                         }
 
@@ -547,7 +553,7 @@ fun InterestsScreen(
                                                     Row(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
-                                                            .padding(0.dp, 10.dp, 0.dp, 20.dp),
+                                                            .padding(0.dp, 8.dp, 0.dp, 8.dp),
                                                         horizontalArrangement = Arrangement.Center
                                                     ) {
                                                         OutlinedButton(onClick = {
@@ -555,7 +561,8 @@ fun InterestsScreen(
                                                                 localInteresse.nome
                                                             navController.navigate("Comments")
                                                         }) {
-                                                            Text(text = stringResource(R.string.comments))
+                                                            Text(text = stringResource(R.string.comments),
+                                                                fontSize = 11.sp)
                                                         }
 
                                                         if (localInteresse.estado == "pendente:apagar" && viewModel.user.value?.email != localInteresse.email && (localInteresse.emailVotosEliminar?.contains(
