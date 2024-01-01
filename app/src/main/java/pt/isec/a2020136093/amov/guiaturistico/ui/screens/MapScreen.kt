@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -293,10 +294,22 @@ fun MapScreen(
                                     Text(text = it.team, fontSize = 20.sp)
                                     Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
                                     Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+
+                                    val str = when {
+                                        it.metodo == "automático" -> "${it.metodo} -> ${stringResource(R.string.high_accuracy)}"
+                                        else -> it.metodo
+                                    }
+
                                     Text(
-                                        text = "(Obtenção coordenadas: ${it.metodo})",
+                                        text = "(Obtenção coordenadas: $str)",
                                         fontSize = 14.sp
                                     )
+                                    if(it.metodo == "automático"){
+                                        Text(
+                                            text = stringResource(R.string.high_accuracy),
+                                            fontSize = 14.sp
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -327,6 +340,12 @@ fun MapScreen(
                                         text = "(Obtenção coordenadas: ${it.metodo})",
                                         fontSize = 14.sp
                                     )
+                                    if(it.metodo == "automático"){
+                                        Text(
+                                            text = stringResource(R.string.high_accuracy),
+                                            fontSize = 14.sp
+                                        )
+                                    }
                                 }
                             }
                         }

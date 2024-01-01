@@ -33,4 +33,5 @@
     <string name="locais_de_interesse">Points of Interest</string>
     <string name="comments">Comments</string>
     <string name="pending_categories_card">Pending</string>
+    <string name="high_accuracy">HIGH ACCURACY</string>
 </resources>
