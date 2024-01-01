@@ -295,18 +295,13 @@ fun MapScreen(
                                     Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
                                     Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
 
-                                    val str = when {
-                                        it.metodo == "automático" -> "${it.metodo} -> ${stringResource(R.string.high_accuracy)}"
-                                        else -> it.metodo
-                                    }
-
                                     Text(
-                                        text = "(Obtenção coordenadas: $str)",
+                                        text = "(Obtenção coordenadas: ${it.metodo})",
                                         fontSize = 14.sp
                                     )
                                     if(it.metodo == "automático"){
                                         Text(
-                                            text = stringResource(R.string.high_accuracy),
+                                            text = "["+stringResource(R.string.high_accuracy)+"]",
                                             fontSize = 14.sp
                                         )
                                     }
@@ -336,13 +331,14 @@ fun MapScreen(
                                     Text(text = it.team, fontSize = 20.sp)
                                     Text(text = "Latitude: ${it.latitude}", fontSize = 14.sp)
                                     Text(text = "Longitude: ${it.longitude}", fontSize = 14.sp)
+
                                     Text(
                                         text = "(Obtenção coordenadas: ${it.metodo})",
                                         fontSize = 14.sp
                                     )
                                     if(it.metodo == "automático"){
                                         Text(
-                                            text = stringResource(R.string.high_accuracy),
+                                            text = "["+stringResource(R.string.high_accuracy)+"]",
                                             fontSize = 14.sp
                                         )
                                     }
