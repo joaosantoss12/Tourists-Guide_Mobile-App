@@ -74,20 +74,10 @@ fun MainScreen(
     viewModelLocation : LocationViewModel,
     navController : NavHostController = rememberNavController()) {
 
-
     var showAppBar by remember { mutableStateOf(false) }
-    var navigateAfterRegister by remember { mutableStateOf(false) }
-    var navigateAfterLogin by remember { mutableStateOf(false) }
 
     navController.addOnDestinationChangedListener{ controller, destination, arguments ->
         showAppBar = (destination.route != MENU_SCREEN && destination.route!= HOME_SCREEN )
-
-        navigateAfterRegister = destination.route in arrayOf(
-            REGISTER_SCREEN
-        )
-        navigateAfterLogin = destination.route in arrayOf(
-            LOGIN_SCREEN
-        )
     }
 
     Scaffold (
@@ -154,7 +144,7 @@ fun MainScreen(
                 AddFormScreen(viewModelFirebase,navController)
             }
             composable(EDITFORM_SCREEN){
-                EditFormScreen(viewModelFirebase,navController,viewModelFirebase.editName)
+                EditFormScreen(viewModelFirebase,navController)
             }
 
             composable(PENDING_LOCATIONS){
@@ -180,11 +170,4 @@ fun MainScreen(
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun MainScreenPreview() {
-    //MainScreen()
 }

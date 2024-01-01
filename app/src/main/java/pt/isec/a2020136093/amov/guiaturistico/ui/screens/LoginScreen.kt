@@ -123,10 +123,3 @@ fun LoginScreen(
     }
     }
 }
-
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    //LoginScreen()
-}

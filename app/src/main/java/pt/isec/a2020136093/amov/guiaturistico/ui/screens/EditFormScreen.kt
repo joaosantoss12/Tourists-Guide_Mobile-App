@@ -44,7 +44,6 @@ import pt.isec.a2020136093.amov.guiaturistico.viewModel.LocationViewModel
 fun EditFormScreen(
     viewModel : FirebaseViewModel,
     navController: NavController,
-    nome : String,
 ){
 
     var descricao by remember { mutableStateOf("") }

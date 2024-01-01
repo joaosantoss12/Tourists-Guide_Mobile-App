@@ -40,6 +40,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
+
         verifyPermissions()
 
         if (
@@ -77,16 +79,19 @@ class MainActivity : ComponentActivity() {
 
     val verifyMultiplePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-        //if (it.values.contains(false))
-        //finish()
+    ) { permissions ->
+        val allGranted = permissions.entries.all { it.value }
+        if (!allGranted) {
+            Toast.makeText(this, "All permissions are required for the app to function properly.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     val verifySinglePermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) {
-        //if (!it)
-        //finish()
+    ) { isGranted ->
+        if (!isGranted) {
+            Toast.makeText(this, "Permission is required for the app to function properly.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
@@ -174,4 +179,5 @@ class MainActivity : ComponentActivity() {
         viewModelLocation.backgroundLocationPermission = result
         Toast.makeText(this, "Background location enabled: $result", Toast.LENGTH_LONG).show()
     }
+
 }

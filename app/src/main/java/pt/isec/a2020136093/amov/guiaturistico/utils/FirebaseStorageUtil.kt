@@ -356,9 +356,6 @@ class FirebaseStorageUtil {
             imagePath.value=null
         }
 
-
-
-
         fun updateClassificacao(nome: String, addClassificacao: String, email: String) {
             val db = Firebase.firestore
 

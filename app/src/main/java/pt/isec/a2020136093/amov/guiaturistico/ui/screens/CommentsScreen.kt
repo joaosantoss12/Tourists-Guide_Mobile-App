@@ -174,13 +174,3 @@ fun CommentsScreen(
         }
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun formatTimestampToDate(timestamp: Long): String {
-
-    val instant = Instant.ofEpochMilli(timestamp)
-    val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    return localDateTime.format(formatter)
-}

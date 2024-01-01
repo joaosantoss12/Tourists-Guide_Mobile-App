@@ -7,7 +7,6 @@ import pt.isec.a2020136093.amov.guiaturistico.utils.location.LocationHandler
 
 
 class LocationMapsApp : Application() {
-
     val locationHandler : LocationHandler by lazy {
         val locationProvider = LocationServices.getFusedLocationProviderClient(this)
         FusedLocationHandler(locationProvider)

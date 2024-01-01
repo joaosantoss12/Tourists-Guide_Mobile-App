@@ -164,8 +164,3 @@ fun CreditsScreen(
         }
     }
 }
-@Preview
-@Composable
-fun CreditsScreenPreview() {
-    //CreditsScreen()
-}

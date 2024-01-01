@@ -1,23 +1,17 @@
 package pt.isec.a2020136093.amov.guiaturistico.viewModel
 
-import android.location.Location
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import pt.isec.a2020136093.amov.guiaturistico.utils.FirebaseAuthUtil
 import pt.isec.a2020136093.amov.guiaturistico.utils.FirebaseStorageUtil
-import kotlinx.coroutines.tasks.await
 
-//import pt.isec.a2020136093.amov.guiaturistico.utils.FStorageUtil
 
 
 class Localizacao(
@@ -99,8 +93,6 @@ class FirebaseViewModel : ViewModel() {
         val _comentarios = MutableLiveData<MutableList<Comentario>>()
         val comentarios: LiveData<MutableList<Comentario>>
             get() = _comentarios
-
-
 
         val _currentLocation = MutableLiveData<String>()
         val currentLocation: LiveData<String>

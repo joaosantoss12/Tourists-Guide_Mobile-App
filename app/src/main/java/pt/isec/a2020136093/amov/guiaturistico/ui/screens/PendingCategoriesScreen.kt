@@ -48,7 +48,7 @@ fun PendingCategoriesScreen(
 ) {
 
     viewModel.getCategorias()
-    val categorias = FirebaseViewModel.categorias
+    val categorias = FirebaseViewModel.categorias.observeAsState()
 
     val contexto = LocalContext.current
 

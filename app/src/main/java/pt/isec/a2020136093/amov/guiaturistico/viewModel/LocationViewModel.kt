@@ -40,15 +40,10 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
             }
             ?: emptyList()
 
-
-
-
     // Permissions
     var coarseLocationPermission = false
     var fineLocationPermission = false
     var backgroundLocationPermission = false
-
-
 
 
     companion object {
@@ -63,11 +58,6 @@ class LocationViewModel(private val locationHandler: LocationHandler) : ViewMode
     }
 
 
-
-
-
-    private val locationEnabled : Boolean
-        get() = locationHandler.locationEnabled
 
     init {
         locationHandler.onLocation = {location ->

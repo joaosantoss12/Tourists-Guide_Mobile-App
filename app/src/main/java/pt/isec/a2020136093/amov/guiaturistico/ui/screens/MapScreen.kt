@@ -55,8 +55,7 @@ fun MapScreen(
     BoxWithConstraints {
         val isLandscape = maxWidth > maxHeight
 
-        //val context = LocalContext.current
-        var autoEnabled by remember { mutableStateOf(false) }
+        //var autoEnabled by remember { mutableStateOf(false) }
         val location = LocationViewModel.currentLocation.observeAsState()
 
         var geoPoint by remember {
@@ -67,12 +66,12 @@ fun MapScreen(
             )
         }
 
-        if (autoEnabled)
+        /*if (autoEnabled)
             LaunchedEffect(key1 = location.value) {
                 geoPoint = GeoPoint(
                     location.value?.latitude ?: 0.0, location.value?.longitude ?: 0.0
                 )
-            }
+            }*/
 
 
         Column(
@@ -90,9 +89,9 @@ fun MapScreen(
             ) {
                 Text(text = "Lat: ${location.value?.latitude ?: "--"}")
 
-                Switch(checked = autoEnabled, onCheckedChange = {
+                /*Switch(checked = autoEnabled, onCheckedChange = {
                     autoEnabled = it
-                })
+                })*/
 
                 Text(text = "Lon: ${location.value?.longitude ?: "--"}")
             }

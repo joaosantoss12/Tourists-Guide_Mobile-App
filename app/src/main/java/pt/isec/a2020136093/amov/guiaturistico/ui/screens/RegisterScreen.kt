@@ -101,13 +101,11 @@ fun RegisterScreen(
                                 onValueChange = {
                                         userName.value = it
                                 },
-                                label = { Text(text = stringResource(R.string.name_title),
+                                label = {
+                                        Text(text = stringResource(R.string.name_title),
                                 )},
                                 modifier = Modifier
                                         .fillMaxWidth()
-
-
-
                         )
 
                         Spacer(Modifier.height(spacerHeight))
@@ -181,11 +179,4 @@ fun RegisterScreen(
 
                 }
         }
-}
-
-
-@Preview
-@Composable
-fun RegisterScreenPreview() {
-        //RegisterScreen()
 }
