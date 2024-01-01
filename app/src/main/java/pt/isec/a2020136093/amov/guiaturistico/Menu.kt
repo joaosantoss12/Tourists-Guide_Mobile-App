@@ -62,8 +62,7 @@ fun Menu(
                 fontFamily = FontFamily(Font(R.font.font)),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 15.dp, 0.dp, 0.dp)
-                    .padding(16.dp)
+                    .padding(16.dp, 31.dp, 16.dp, 16.dp)
             )
             MenuButtons(navController, isLandscape)
         }
@@ -142,8 +141,6 @@ fun GradientBackground() {
             drawRect(
                 brush = Brush.verticalGradient(
                     colors = listOf(Color.White, Color(0, 80, 150, 255)),
-                    startY = 0f,
-                    endY = size.height * 0.99f
                 )
             )
         }
