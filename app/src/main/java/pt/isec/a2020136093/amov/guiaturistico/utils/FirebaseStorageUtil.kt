@@ -426,8 +426,7 @@ class FirebaseStorageUtil {
                         }
                         else {
 
-                            val votos =
-                                resultados.data?.get("emailVotosEliminar") as MutableList<String>
+                            val votos = resultados.data?.get("emailVotosEliminar") as MutableList<String>
                             votos.add(email)
 
                             db.collection("Localidades")
@@ -480,7 +479,7 @@ class FirebaseStorageUtil {
                                 .document(nome)
                                 .update("emailVotosAprovar",null)
                         }
-                        else {
+                        else {  // existe a lista de votos e ainda não tem votos
 
                             val votos =
                                 resultados.data?.get("emailVotosAprovar") as MutableList<String>

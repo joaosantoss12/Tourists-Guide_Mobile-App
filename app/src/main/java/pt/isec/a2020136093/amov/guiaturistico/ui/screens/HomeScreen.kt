@@ -336,6 +336,35 @@ fun HomeScreen(
                                                     }) {
                                                         Text(text = stringResource(R.string.locais_de_interesse))
                                                     }
+
+                                                    if (viewModel.user.value?.email == localizacao.email) {
+                                                        Spacer(modifier = Modifier.width(10.dp))
+
+                                                        Button(onClick = {
+                                                            viewModel.tipoEditForm.value = "Localização"
+                                                            viewModel.editName = localizacao.nome
+                                                            navController.navigate("EditForm")
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Filled.Edit,
+                                                                "edit"
+                                                            )
+                                                        }
+                                                        Spacer(modifier = Modifier.width(10.dp))
+                                                        Button(onClick = {
+                                                            viewModel.deleteLocalizacao(localizacao.nome)
+                                                            Toast.makeText(
+                                                                contexto,
+                                                                "Localização apagada caso não possua locais de interesse!",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Filled.Delete,
+                                                                "delete"
+                                                            )
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
