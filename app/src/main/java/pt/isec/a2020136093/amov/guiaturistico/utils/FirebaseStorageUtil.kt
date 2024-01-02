@@ -29,27 +29,6 @@ class FirebaseStorageUtil {
 
         private var listenerRegistration: ListenerRegistration? = null
 
-        fun startObserver(onNewValues: (Long, Long) -> Unit) {
-            stopObserver()
-            val db = Firebase.firestore
-            listenerRegistration = db.collection("Scores").document("Level1")
-                .addSnapshotListener { docSS, e ->
-                    if (e != null) {
-                        return@addSnapshotListener
-                    }
-                    if (docSS != null && docSS.exists()) {
-                        val nrgames = docSS.getLong("nrgames") ?: 0
-                        val topscore = docSS.getLong("topscore") ?: 0
-                        Log.i("Firestore", "$nrgames : $topscore")
-                        onNewValues(nrgames, topscore)
-                    }
-                }
-        }
-
-        fun stopObserver() {
-            listenerRegistration?.remove()
-        }
-
 
 // Storage
 

@@ -40,58 +40,16 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
-
-        verifyPermissions()
-
-        if (
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            verifyMultiplePermissions.launch(
-                arrayOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.CAMERA
-                )
-            )
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.READ_MEDIA_IMAGES
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+            ) != PackageManager.PERMISSION_GRANTED) {
             verifySinglePermission.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
         }
-    }
 
-    val verifyMultiplePermissions = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val allGranted = permissions.entries.all { it.value }
-        if (!allGranted) {
-            Toast.makeText(this, "All permissions are required for the app to function properly.", Toast.LENGTH_SHORT).show()
-        }
-    }
+        verifyPermissions()
 
-    val verifySinglePermission = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (!isGranted) {
-            Toast.makeText(this, "Permission is required for the app to function properly.", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onResume() {
@@ -100,6 +58,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun verifyPermissions(): Boolean {
+
         viewModelLocation.coarseLocationPermission = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -115,30 +74,46 @@ class MainActivity : ComponentActivity() {
                 this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-        } else
-            viewModelLocation.backgroundLocationPermission =
-                viewModelLocation.coarseLocationPermission || viewModelLocation.fineLocationPermission
+        }
+        else
+            viewModelLocation.backgroundLocationPermission = viewModelLocation.coarseLocationPermission || viewModelLocation.fineLocationPermission
 
         if (!viewModelLocation.coarseLocationPermission && !viewModelLocation.fineLocationPermission) {
             basicPermissionsAuthorization.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.CAMERA
                 )
             )
             return false
-        } else
+        }
+        else
             verifyBackgroundPermission()
         return true
+    }
+
+    val verifyMultiplePermissions = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        if (it.values.contains(false))
+            finish()
+    }
+
+    val verifySinglePermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (!it)
+            finish()
     }
 
     private val basicPermissionsAuthorization = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { results ->
-        viewModelLocation.coarseLocationPermission =
-            results[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
-        viewModelLocation.fineLocationPermission =
-            results[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+        viewModelLocation.coarseLocationPermission = results[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+        viewModelLocation.fineLocationPermission = results[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
         viewModelLocation.startLocationUpdates()
         verifyBackgroundPermission()
     }
@@ -177,7 +152,7 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { result ->
         viewModelLocation.backgroundLocationPermission = result
-        Toast.makeText(this, "Background location enabled: $result", Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Background location enabled: $result", Toast.LENGTH_LONG).show()
     }
 
 }

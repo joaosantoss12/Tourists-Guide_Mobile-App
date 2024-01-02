@@ -95,21 +95,6 @@ fun RegisterScreen(
                                 )
                         )
 
-
-                        OutlinedTextField(
-                                value = userName.value,
-                                onValueChange = {
-                                        userName.value = it
-                                },
-                                label = {
-                                        Text(text = stringResource(R.string.name_title),
-                                )},
-                                modifier = Modifier
-                                        .fillMaxWidth()
-                        )
-
-                        Spacer(Modifier.height(spacerHeight))
-
                         OutlinedTextField(
                                 value = userEmail.value,
                                 onValueChange = {

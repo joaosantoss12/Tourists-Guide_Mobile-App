@@ -38,6 +38,7 @@ import pt.isec.a2020136093.amov.guiaturistico.viewModel.FirebaseViewModel
 import java.io.File
 
 
+
 @Composable
 fun SelectImage(
     viewModel : FirebaseViewModel,
@@ -140,4 +141,5 @@ fun SelectImage(
     }
 
     Log.i("SelectGalleryImage", "imagePath: ${viewModel.imagePath.value}")
+
 }
